@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPRO Health — Optimize Everything.</title>
+<meta name="description" content="Science-backed health optimization for driven men and women. Peptides, hormones, longevity — elite knowledge made accessible. Founded by David Prochaska, IFBB Pro.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  section[id]{scroll-margin-top:74px}
+  .hero{padding:108px 0 92px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:54px;align-items:center}
+  @media(max-width:860px){.hero-grid{grid-template-columns:1fr;gap:40px}.hero-photo-col{order:-1}}
+  .hero-photo-box{position:relative;border-radius:18px;padding:14px;background:linear-gradient(155deg,rgba(6,182,212,.22),rgba(15,23,42,.65) 55%,rgba(8,10,12,.9));border:1px solid var(--tq-border);box-shadow:0 30px 80px -30px rgba(6,182,212,.45)}
+  .hero-photo-box::before{content:'';position:absolute;inset:0;border-radius:18px;background:radial-gradient(420px 300px at 30% 0%,rgba(34,211,238,.18),transparent 70%);pointer-events:none}
+  .hero-photo{width:100%;height:auto;display:block;border-radius:10px;position:relative;z-index:1}
+
+  .social-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+  @media(max-width:720px){.social-grid{grid-template-columns:1fr 1fr}}
+  .social-card{display:flex;flex-direction:column;gap:6px;padding:30px 28px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s}
+  .social-card:hover{background:var(--bg3);border-color:var(--tq-border);transform:translateY(-3px)}
+  .social-name{font-family:'Archivo';font-weight:700;font-size:17px;color:var(--white)}
+  .social-handle{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--tq-bright)}
+  .hero .lead{margin-top:26px;font-size:clamp(16px,1.7vw,19px)}
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px;align-items:flex-start}
+  .hero-cta-stack{display:flex;flex-direction:column;align-items:center;gap:8px}
+  .cta-soon{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright)}
+  .hero-meta{display:flex;gap:32px;flex-wrap:wrap;margin-top:50px;padding-top:28px;border-top:1px solid var(--border)}
+  .hm-num{font-family:'Archivo';font-weight:800;font-size:24px;color:var(--white);line-height:1}
+  .hm-num .tq{color:var(--tq-bright)}
+  .hm-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-top:6px}
+
+  .mission{background:var(--navy);border:1px solid rgba(6,182,212,.15);border-radius:12px;padding:52px;position:relative;overflow:hidden}
+  .mission::before{content:'';position:absolute;top:-80px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,.1),transparent 65%);border-radius:50%}
+  .mission .qm{font-family:'Archivo';font-weight:900;font-size:90px;color:var(--tq-mid);opacity:.12;line-height:.6}
+  .mission p{font-family:'Archivo';font-weight:700;font-size:clamp(20px,2.6vw,32px);line-height:1.25;letter-spacing:-.015em;color:var(--white);max-width:820px;position:relative}
+  .mission p .tq{color:var(--tq-bright)}
+
+  .about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
+  @media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:34px}}
+
+  .two-col{display:grid;grid-template-columns:1.25fr 1fr;gap:2px;align-items:stretch}
+  @media(max-width:860px){.two-col{grid-template-columns:1fr}}
+  .quote-card{background:var(--navy);border:1px solid rgba(6,182,212,.15);border-radius:12px;padding:40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+  .quote-card::before{content:'';position:absolute;top:-70px;right:-70px;width:300px;height:300px;background:radial-gradient(circle,rgba(6,182,212,.1),transparent 65%)}
+  .quote-card p{font-family:'Archivo';font-weight:700;font-size:21px;line-height:1.35;color:var(--white);position:relative}
+  .quote-card .tq{color:var(--tq-bright)}
+
+  .free-band{background:linear-gradient(135deg,var(--navy),var(--bg2));border:1px solid var(--tq-border);border-radius:12px;padding:48px;display:flex;justify-content:space-between;align-items:center;gap:36px;flex-wrap:wrap}
+  .free-band .fb-text{flex:1;min-width:280px}
+  .community-band{background:linear-gradient(135deg,var(--bg2),var(--navy));border:1px solid var(--tq-border);border-radius:12px;padding:48px;text-align:center}
+  .calendly-inline-widget{min-width:320px;height:680px}
+
+  .pillars-mini{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .pill{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--text);border:1px solid var(--border);background:var(--bg2);padding:8px 14px;border-radius:2px}
+  .pill .tq{color:var(--tq-bright)}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
+<div class="shell">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="#top" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <a href="#about">About</a>
+        <a href="peptide-calculator.html">Calculator</a>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+        <a href="#community">Community</a>
+        <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="slide from-left hero-photo-col">
+          <div class="hero-photo-box">
+            <img src="hero-headshot.jpg" alt="David Prochaska, founder of DPRO Health" class="hero-photo" loading="eager">
+          </div>
+        </div>
+        <div>
+          <div class="eyebrow reveal">Health Optimization · Peptides · Longevity</div>
+          <h1 class="display reveal">Optimize<br>Every<span class="tq">thing.</span></h1>
+          <p class="lead reveal">Science-backed strategies for driven men and women who want to perform at their peak — at any age. Elite-level knowledge in peptides, hormones, and longevity, made practical for real life. No fluff. No shortcuts. Just what works.</p>
+          <div class="hero-actions reveal">
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" class="btn btn-primary">Free Retatrutide Handbook <span class="arrow">→</span></a>
+            <div class="hero-cta-stack">
+              <a href="#" class="btn btn-ghost btn-disabled" aria-disabled="true" onclick="return false;">Work with me</a>
+              <span class="cta-soon">(Coming Soon)</span>
+            </div>
+          </div>
+          <div class="hero-meta reveal">
+            <div><div class="hm-num">IFBB <span class="tq">Pro</span></div><div class="hm-label">Founder · David Prochaska</div></div>
+            <div><div class="hm-num">10K<span class="tq">+</span></div><div class="hm-label">Newsletter Subscribers</div></div>
+            <div><div class="hm-num">3,700<span class="tq">+</span></div><div class="hm-label">Community Members</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="section">
+    <div class="wrap">
+      <div class="mission slide from-left">
+        <div class="qm">"</div>
+        <p>DPRO Health exists to help driven men and women <span class="tq">optimize their physique, energy, and longevity</span> through science-backed strategies that actually work in real life.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section alt" id="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="slide from-left">
+          <div class="eyebrow">Who's behind it</div>
+          <h2 class="heading">Meet <span class="tq">David</span></h2>
+          <p class="card-text" style="font-size:16px;margin-top:8px">I'm David Prochaska — an <strong>IFBB Professional</strong> who crossed over from competitive bodybuilding into the science of health optimization, hormones, and peptide therapy.</p>
+          <p class="card-text" style="font-size:16px;margin-top:16px">DPRO Health is the translation of that elite-level knowledge into something practical for real people with real lives. I've lived the extreme end of physical performance — now I help you apply what actually matters, without the guesswork.</p>
+          <div class="pillars-mini">
+            <span class="pill"><span class="tq">·</span> Peptides</span>
+            <span class="pill"><span class="tq">·</span> Hormones</span>
+            <span class="pill"><span class="tq">·</span> Metabolic Health</span>
+            <span class="pill"><span class="tq">·</span> Longevity</span>
+            <span class="pill"><span class="tq">·</span> Performance</span>
+          </div>
+        </div>
+        <div class="slide from-right">
+          <div class="hero-photo-box">
+            <img src="meetdavid.jpg" alt="David Prochaska, beach silhouette at sunset" class="hero-photo">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COACHING -->
+  <section class="section" id="coaching">
+    <div class="wrap">
+      <div class="slide from-left">
+        <div class="eyebrow">1:1 Peptide Coaching · Limited Spots</div>
+        <h2 class="heading">Work directly <span class="tq">with David</span></h2>
+        <p class="lead" style="margin-bottom:40px">The highest-touch way to work with DPRO Health. A fully custom plan built around your body, your labs, and your goals — with David guiding every adjustment. Not a template. A partnership.</p>
+      </div>
+      <div class="two-col slide from-right">
+        <div class="card" style="padding:42px">
+          <div class="card-label">What you get</div>
+          <ul class="checklist" style="margin-top:6px">
+            <li>Fully custom peptide protocol</li>
+            <li>Hormone optimization plan</li>
+            <li>Training &amp; nutrition strategy</li>
+            <li>Lab guidance &amp; interpretation</li>
+            <li>Phased protocol roadmap</li>
+            <li>Ongoing 1:1 support</li>
+          </ul>
+        </div>
+        <div class="quote-card">
+          <p>You've lived the extreme end of performance — or you want to. I translate it into a plan that works in <span class="tq">your</span> real life.</p>
+          <div style="margin-top:26px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--text);text-transform:uppercase">David Prochaska · IFBB Pro</div>
+        </div>
+      </div>
+      <div class="slide from-left" style="margin-top:44px;text-align:center">
+        <a href="#" class="btn btn-primary btn-disabled" style="font-size:16px;padding:17px 40px" aria-disabled="true" onclick="return false;">See coaching details <span class="arrow">→</span></a>
+        <p style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--tq-bright);text-transform:uppercase;margin-top:16px">(Coming Soon)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULTATION -->
+  <section class="section alt" id="consultation">
+    <div class="wrap">
+      <div class="slide from-right">
+        <div class="eyebrow">1:1 Consultation · 30 Minutes</div>
+        <h2 class="heading">Get expert eyes on <span class="tq">your plan</span></h2>
+        <p class="lead" style="margin-bottom:40px">A focused 30-minute call to cut through the noise. Bring your labs, your goals, and your questions — leave with clear direction on the right protocol and your next steps.</p>
+      </div>
+      <div class="two-col slide from-left" style="margin-bottom:44px">
+        <div class="card" style="padding:42px">
+          <div class="card-label">What you get</div>
+          <ul class="checklist" style="margin-top:6px">
+            <li>A direct read on your situation</li>
+            <li>Clear protocol direction</li>
+            <li>What labs to test</li>
+            <li>Your questions, answered</li>
+            <li>A clear next step</li>
+          </ul>
+        </div>
+        <div class="quote-card">
+          <p>30 minutes of the right direction can save you <span class="tq">months</span> of guessing.</p>
+          <div style="margin-top:26px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;color:var(--text);text-transform:uppercase">Book below · Instant confirmation</div>
+        </div>
+      </div>
+      <div class="slide from-right">
+        <h3 class="sub" style="margin-bottom:8px">Pick a time that works for you</h3>
+        <p class="card-text" style="margin-bottom:26px">Come prepared with any recent labs and your top questions.</p>
+        <div class="embed-frame" style="padding:0">
+          <div class="calendly-inline-widget" data-url="https://calendly.com/davidthefitbro/30-min-call?hide_gdpr_banner=1&background_color=0c0f12&text_color=f0f4f6&primary_color=06b6d4" style="min-width:320px;height:680px;"></div>
+          <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        </div>
+        <p style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-top:16px;text-align:center">Calendar not loading? <a href="https://calendly.com/davidthefitbro/30-min-call" target="_blank" rel="noopener" style="color:var(--tq-bright);text-decoration:none">Open booking in a new tab →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FREE HANDBOOK -->
+  <section class="section" id="free">
+    <div class="wrap">
+      <div class="free-band slide from-left">
+        <div class="fb-text">
+          <div class="eyebrow">Free Download</div>
+          <h2 class="heading" style="font-size:clamp(26px,3.4vw,40px)">The Retatrutide <span class="tq">Handbook</span></h2>
+          <p class="card-text" style="margin-top:10px;max-width:520px">A complete, science-backed breakdown of one of the most talked-about compounds in metabolic health. Download it free — and join the DPRO Health newsletter alongside 10,000+ readers getting weekly optimization strategies straight to their inbox.</p>
+        </div>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" class="btn btn-primary" style="white-space:nowrap">Download free handbook <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY -->
+  <section class="section alt" id="community">
+    <div class="wrap">
+      <div class="community-band slide from-right">
+        <div class="eyebrow center">Free Community</div>
+        <h2 class="heading">Join <span class="tq">Optimized Living</span></h2>
+        <p class="lead" style="margin:0 auto 30px">A free Skool community with short-form education, protocol breakdowns, and a network of driven people on the same path. Come for the knowledge, stay for the people.</p>
+        <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener" class="btn btn-primary" style="font-size:16px;padding:17px 40px">Join the community <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOLLOW -->
+  <section class="section" id="follow">
+    <div class="wrap">
+      <div class="eyebrow center slide from-left" style="text-align:center;justify-content:center">Follow Along</div>
+      <h2 class="heading slide from-left" style="text-align:center">Where to <span class="tq">find me</span></h2>
+      <p class="lead slide from-left" style="margin:0 auto 40px;text-align:center">Daily education on peptides, hormones, and optimization across every platform. Pick your favorite.</p>
+      <div class="social-grid slide from-right">
+        <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener" class="social-card">
+          <div class="social-name">YouTube</div>
+          <div class="social-handle">@davidp_ifbbpro</div>
+        </a>
+        <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener" class="social-card">
+          <div class="social-name">Instagram</div>
+          <div class="social-handle">@dprohealth_</div>
+        </a>
+        <a href="https://www.tiktok.com/@dpromethod" target="_blank" rel="noopener" class="social-card">
+          <div class="social-name">TikTok</div>
+          <div class="social-handle">@dpromethod</div>
+        </a>
+        <a href="https://x.com/dprohealth_" target="_blank" rel="noopener" class="social-card">
+          <div class="social-name">X</div>
+          <div class="social-handle">@dprohealth_</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="#top" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women — at any age.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="#about">About</a>
+            <a href="peptide-calculator.html">Calculator</a>
+            <a href="#community">Community</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dpromethod" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+<script>
+  const obs=new IntersectionObserver((e)=>{e.forEach((x,i)=>{if(x.isIntersecting){setTimeout(()=>x.target.classList.add('in'),i*60);obs.unobserve(x.target)}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  const slideObs=new IntersectionObserver((e)=>{e.forEach((x)=>{if(x.isIntersecting){x.target.classList.add('in');slideObs.unobserve(x.target)}})},{threshold:.18});
+  document.querySelectorAll('.slide').forEach(el=>slideObs.observe(el));
+  document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+</script>
+</body>
+</html>
