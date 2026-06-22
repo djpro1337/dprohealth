@@ -80,6 +80,42 @@
   .vendor:hover .v-name .arrow{transform:translateX(4px)}
   .vendor .v-sub{font-family:'Outfit';font-size:12.5px;font-weight:300;color:var(--text);margin-top:4px}
   .vendor .v-code{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;white-space:nowrap;color:var(--tq-bright);border:1px solid var(--tq-border);background:var(--tq-dim);padding:8px 13px;border-radius:3px}
+
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
@@ -100,6 +136,55 @@
       <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
       <nav class="nav-links" id="navlinks">
         <a href="index.html#about">About</a>
+        <div class="nav-dd">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptides/ara290.html">ARA-290</a>
+          <a href="peptides/bpc157.html">BPC-157</a>
+          <a href="peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="peptides/kpv.html">KPV</a>
+          <a href="peptides/tb500.html">TB-500</a>
+          <a href="peptides/aod9604.html">AOD-9604</a>
+          <a href="peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="peptides/mots-c.html">MOTS-c</a>
+          <a href="peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="peptides/epitalon.html">Epitalon</a>
+          <a href="peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="peptides/nad.html">NAD+</a>
+          <a href="peptides/selank.html">Selank</a>
+          <a href="peptides/semax.html">Semax</a>
+          <a href="peptides/ss31.html">SS-31</a>
+          <a href="peptides/thymalin.html">Thymalin</a>
+          <a href="peptides/dsip.html">DSIP</a>
+          <a href="peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="peptides/oxytocin.html">Oxytocin</a>
+          <a href="peptides/pt141.html">PT-141</a>
+          <a href="peptides/ll37.html">LL-37</a>
+          <a href="peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="peptides/vip.html">VIP</a>
+          <a href="peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="peptides/follistatin344.html">Follistatin-344</a>
+          <a href="peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="peptides/melanotan1.html">Melanotan 1</a>
+          <a href="peptides/bioregulators.html">Bioregulators</a>
+          <a href="peptides/retatrutide.html">Retatrutide</a>
+          <a href="peptides/semaglutide.html">Semaglutide</a>
+          <a href="peptides/tirzepatide.html">Tirzepatide</a>
+          </div>
+        </div>
+        <div class="nav-dd blends">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptide Blends <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="peptides/blend-glow.html">GLOW Blend</a>
+          <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="peptides/blend-klow.html">KLOW Blend</a>
+          <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+          </div>
+        </div>
         <a href="peptide-calculator.html" class="current">Calculator</a>
         <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
         <a href="index.html#community">Community</a>
@@ -175,10 +260,10 @@
           <div class="field">
             <label>Desired dose</label>
             <div class="input-row">
-              <input id="doseAmt" type="number" inputmode="decimal" min="0" step="any" value="250">
+              <input id="doseAmt" type="number" inputmode="decimal" min="0" step="any" value="1">
               <select class="unit-select" id="doseUnit">
-                <option value="mcg" selected>mcg</option>
-                <option value="mg">mg</option>
+                <option value="mcg">mcg</option>
+                <option value="mg" selected>mg</option>
               </select>
             </div>
             <div class="hint">The dose you want to inject each time.</div>
@@ -466,6 +551,22 @@
   buildTicks();
   calc();
 })();
+
+  // Nav dropdowns (tap to toggle on mobile, hover on desktop via CSS)
+  document.querySelectorAll('.nav-dd-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.nav-dd');var was=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!was){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('#navlinks a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});});
 </script>
 </body>
 </html>
