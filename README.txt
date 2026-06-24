@@ -40,3 +40,12 @@ THINGS YOU MAY WANT TO DOUBLE-CHECK
 - Stats on the home page: 10K+ newsletter, 3,700+ community. Update anytime in index.html.
 
 © 2026 DPRO Health
+
+
+--- UPDATE 2026-06-24 ---
+Added tdee-calculator.html (TDEE & Macro calculator with GLP-1 Mode + Google Analytics).
+Nav "Calculator" link replaced site-wide with a "Tools" dropdown containing:
+  - Peptide Calculator (peptide-calculator.html)
+  - TDEE / Macro Calculator (tdee-calculator.html)
+Applied to index.html, peptide-calculator.html, tdee-calculator.html, and all 39 peptides/*.html pages.
+Footers on the three root pages now link both calculators.

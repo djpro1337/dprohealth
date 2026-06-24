@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TDEE &amp; Macro Calculator — DPRO Health</title>
+<meta name="description" content="Free TDEE and macro calculator with a dedicated GLP-1 mode. Get your calorie target and protein, carb, and fat grams — tuned for muscle retention on retatrutide, tirzepatide, and semaglutide. From DPRO Health.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .page-hero{padding:104px 0 50px}
+  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;align-items:stretch}
+  @media(max-width:860px){.calc-grid{grid-template-columns:1fr}}
+  .howto{margin-bottom:40px}
+  .howto-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:24px}
+  @media(max-width:720px){.howto-steps{grid-template-columns:1fr 1fr}}
+  .howto-step{background:var(--bg2);border:1px solid var(--border);padding:24px}
+  .howto-step .hs-num{font-family:'Archivo';font-weight:800;font-size:13px;color:var(--tq-bright);margin-bottom:10px}
+  .howto-step .hs-title{font-family:'Archivo';font-weight:700;font-size:15px;color:var(--white);margin-bottom:6px}
+  .howto-step .hs-text{font-size:13px;font-weight:300;color:var(--text);line-height:1.55}
+
+  .calc-panel{background:var(--bg2);border:1px solid var(--border);padding:40px}
+  .field{margin-bottom:26px}
+  .field:last-child{margin-bottom:0}
+  .field label{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+  .field .hint{font-family:'Outfit';font-size:12px;font-weight:300;color:var(--muted);margin-top:8px;letter-spacing:0;text-transform:none}
+  .input-row{display:flex;gap:0;align-items:stretch}
+  .input-row input{
+    flex:1;width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:20px;padding:14px 16px;border-radius:3px 0 0 3px;outline:none;transition:border-color .2s;min-width:0
+  }
+  .input-row input:focus{border-color:var(--tq-mid)}
+  .input-row.single input{border-radius:3px}
+  .unit-select{
+    background:var(--bg3);border:1px solid var(--border);border-left:none;color:var(--off-white);
+    font-family:'Space Mono',monospace;font-size:13px;padding:0 14px;border-radius:0 3px 3px 0;outline:none;cursor:pointer
+  }
+  .seg{display:flex;gap:2px;background:var(--border);border-radius:4px;padding:2px}
+  .seg button{
+    flex:1;background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;padding:11px 8px;border-radius:3px;cursor:pointer;transition:.2s
+  }
+  .seg button.active{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  /* full-width stacking segmented control for longer option labels */
+  .seg.stack{flex-direction:column;gap:2px}
+  .seg.stack button{text-align:left;padding:13px 14px;letter-spacing:.06em}
+  .seg.stack button .seg-sub{display:block;font-family:'Outfit',sans-serif;text-transform:none;letter-spacing:0;font-size:11px;color:var(--muted);margin-top:3px}
+  .seg.stack button.active .seg-sub{color:var(--text)}
+
+  /* select styled like inputs */
+  .field select.full{
+    width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:16px;padding:14px 16px;border-radius:3px;outline:none;
+    transition:border-color .2s;cursor:pointer;-webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2322D3EE' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 16px center
+  }
+  .field select.full:focus{border-color:var(--tq-mid)}
+
+  /* GLP-1 toggle */
+  .glp-toggle{display:flex;align-items:center;justify-content:space-between;gap:18px;
+    background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);
+    padding:22px 26px;margin-bottom:2px;flex-wrap:wrap}
+  .glp-toggle .gt-left{min-width:0;flex:1}
+  .glp-toggle .gt-title{font-family:'Archivo';font-weight:800;font-size:16px;color:var(--white);display:flex;align-items:center;gap:10px}
+  .glp-toggle .gt-title .badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright);border:1px solid var(--tq-border);background:var(--tq-dim);padding:4px 9px;border-radius:3px}
+  .glp-toggle .gt-sub{font-family:'Outfit';font-size:13px;font-weight:300;color:var(--text);margin-top:7px;line-height:1.5;max-width:560px}
+  .switch{position:relative;width:58px;height:32px;flex-shrink:0;cursor:pointer}
+  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .switch .track{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--border);border-radius:32px;transition:.25s}
+  .switch .thumb{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#3A5060;transition:.25s}
+  .switch input:checked + .track{background:var(--tq-dim);border-color:var(--tq-border)}
+  .switch input:checked + .track .thumb{transform:translateX(26px);background:var(--tq-bright)}
+  .switch input:focus-visible + .track{box-shadow:0 0 0 2px var(--tq-mid)}
+
+  .glp-extra{display:none}
+  .glp-extra.show{display:block}
+
+  /* results */
+  .result-panel{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:40px;display:flex;flex-direction:column}
+  .result-big{margin-bottom:auto}
+  .draw-units{font-family:'Archivo';font-weight:900;font-size:clamp(46px,7vw,72px);line-height:.95;color:var(--tq-bright);letter-spacing:-.02em}
+  .draw-units small{font-family:'Outfit';font-weight:400;font-size:18px;color:var(--text);letter-spacing:0}
+  .draw-sub{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:10px}
+  .result-rows{margin-top:30px;border-top:1px solid var(--border);padding-top:24px;display:flex;flex-direction:column;gap:16px}
+  .rr{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+  .rr .k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text)}
+  .rr .v{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white)}
+  .rr .v small{font-family:'Outfit';font-weight:300;font-size:13px;color:var(--text)}
+  .err{color:#fca5a5;font-family:'Outfit';font-size:13px;font-weight:300}
+
+  /* macro bars */
+  .macro-wrap{margin-top:34px}
+  .macro-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:16px}
+  .macro-row{margin-bottom:18px}
+  .macro-row:last-child{margin-bottom:0}
+  .macro-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .macro-head .mk{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text)}
+  .macro-head .mv{font-family:'Archivo';font-weight:700;font-size:17px;color:var(--white)}
+  .macro-head .mv small{font-family:'Outfit';font-weight:300;font-size:12px;color:var(--muted)}
+  .macro-bar{height:8px;border-radius:4px;background:var(--bg);overflow:hidden}
+  .macro-fill{height:100%;border-radius:4px;width:0;transition:width .4s ease}
+  .macro-fill.protein{background:linear-gradient(90deg,#0E7490,#22D3EE)}
+  .macro-fill.carbs{background:linear-gradient(90deg,#0E7490,#38BDF8)}
+  .macro-fill.fat{background:linear-gradient(90deg,#0E7490,#7DD3FC)}
+
+  .note-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tq-mid);padding:24px 28px;margin-top:2px}
+  .note-card .nc-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+  .note-card p{font-size:14px;font-weight:300;color:var(--text);line-height:1.6}
+  .note-card p strong{color:var(--white);font-weight:500}
+  .note-card.warn{border-left-color:#f59e0b}
+  .note-card.warn .nc-label{color:#fcd34d}
+
+  /* GLP-1 flag card inside results */
+  .flag{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.35);border-radius:4px;padding:16px 18px;margin-top:24px;display:none}
+  .flag.show{display:block}
+  .flag .flag-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#fcd34d;margin-bottom:8px}
+  .flag p{font-family:'Outfit';font-size:13px;font-weight:300;color:#fde68a;line-height:1.55}
+
+  .cta-card{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:36px 40px;margin-top:2px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+  .cta-card .cc-left{min-width:0;flex:1}
+  .cta-card .cc-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+  .cta-card .cc-title{font-family:'Archivo';font-weight:800;font-size:clamp(22px,3vw,28px);color:var(--white);line-height:1.15}
+  .cta-card .cc-sub{font-family:'Outfit';font-size:14px;font-weight:300;color:var(--text);margin-top:10px;max-width:520px}
+  .cta-card .cc-btn{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--tq-bright);border:none;padding:16px 26px;border-radius:4px;text-decoration:none;white-space:nowrap;transition:transform .2s,box-shadow .2s}
+  .cta-card .cc-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(34,211,238,.6)}
+
+  .vendor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+  @media(max-width:720px){.vendor-grid{grid-template-columns:1fr}}
+  .vendor{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 28px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;flex-wrap:wrap}
+  .vendor:hover{background:var(--bg3);border-color:var(--tq-border);transform:translateY(-2px)}
+  .vendor .v-left{min-width:0}
+  .vendor .v-name{font-family:'Archivo';font-weight:700;font-size:17px;color:var(--white);display:flex;align-items:center;gap:10px}
+  .vendor .v-name .arrow{color:var(--tq-bright);font-size:14px;transition:transform .25s}
+  .vendor:hover .v-name .arrow{transform:translateX(4px)}
+  .vendor .v-sub{font-family:'Outfit';font-size:12.5px;font-weight:300;color:var(--text);margin-top:4px}
+  .vendor .v-code{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;white-space:nowrap;color:var(--tq-bright);border:1px solid var(--tq-border);background:var(--tq-dim);padding:8px 13px;border-radius:3px}
+
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
+<div class="shell">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <a href="index.html#about">About</a>
+        <div class="nav-dd">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptides/ara290.html">ARA-290</a>
+          <a href="peptides/bpc157.html">BPC-157</a>
+          <a href="peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="peptides/kpv.html">KPV</a>
+          <a href="peptides/tb500.html">TB-500</a>
+          <a href="peptides/aod9604.html">AOD-9604</a>
+          <a href="peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="peptides/mots-c.html">MOTS-c</a>
+          <a href="peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="peptides/epitalon.html">Epitalon</a>
+          <a href="peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="peptides/nad.html">NAD+</a>
+          <a href="peptides/selank.html">Selank</a>
+          <a href="peptides/semax.html">Semax</a>
+          <a href="peptides/ss31.html">SS-31</a>
+          <a href="peptides/thymalin.html">Thymalin</a>
+          <a href="peptides/dsip.html">DSIP</a>
+          <a href="peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="peptides/oxytocin.html">Oxytocin</a>
+          <a href="peptides/pt141.html">PT-141</a>
+          <a href="peptides/ll37.html">LL-37</a>
+          <a href="peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="peptides/vip.html">VIP</a>
+          <a href="peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="peptides/follistatin344.html">Follistatin-344</a>
+          <a href="peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="peptides/melanotan1.html">Melanotan 1</a>
+          <a href="peptides/bioregulators.html">Bioregulators</a>
+          <a href="peptides/retatrutide.html">Retatrutide</a>
+          <a href="peptides/semaglutide.html">Semaglutide</a>
+          <a href="peptides/tirzepatide.html">Tirzepatide</a>
+          </div>
+        </div>
+        <div class="nav-dd blends">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptide Blends <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="peptides/blend-glow.html">GLOW Blend</a>
+          <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="peptides/blend-klow.html">KLOW Blend</a>
+          <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+          </div>
+        </div>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptide-calculator.html">Peptide Calculator</a>
+          <a href="tdee-calculator.html" class="current">TDEE / Macro Calculator</a>
+          </div>
+        </div>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+        <a href="index.html#community">Community</a>
+        <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Free Tool · Nutrition</div>
+      <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">TDEE &amp; Macro <span class="tq">Calculator</span></h1>
+      <p class="lead" style="margin-top:22px">Dialing in your diet? Enter your stats below and get your daily calorie target plus exact protein, carb, and fat grams. Flip on <strong style="color:var(--white);font-weight:500">GLP-1 Mode</strong> if you're running retatrutide, tirzepatide, or semaglutide — it protects your muscle while the fat comes off.</p>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="section" style="padding-top:30px">
+    <div class="wrap">
+      <div class="howto">
+        <div class="eyebrow">How to use it</div>
+        <h2 class="heading" style="font-size:clamp(24px,3vw,34px)">Your stats, <span class="tq">your numbers</span></h2>
+        <p class="card-text" style="font-size:15px;margin-top:10px;max-width:680px">TDEE is your Total Daily Energy Expenditure — the calories you burn in a day. We calculate it from your body stats and activity, then build your calorie target and macros around your goal. On a GLP-1? Flip the toggle and the math shifts to defend your lean mass.</p>
+        <div class="howto-steps">
+          <div class="howto-step">
+            <div class="hs-num">01</div>
+            <div class="hs-title">Your stats</div>
+            <div class="hs-text">Enter age, sex, height, and weight. Switch between lb/in and kg/cm anytime.</div>
+          </div>
+          <div class="howto-step">
+            <div class="hs-num">02</div>
+            <div class="hs-title">Activity level</div>
+            <div class="hs-text">Pick how active you are day to day — this scales your burn from your baseline.</div>
+          </div>
+          <div class="howto-step">
+            <div class="hs-num">03</div>
+            <div class="hs-title">Your goal</div>
+            <div class="hs-text">Lose, maintain, or gain. This sets your calorie target above or below maintenance.</div>
+          </div>
+          <div class="howto-step">
+            <div class="hs-num">04</div>
+            <div class="hs-title">Read your macros</div>
+            <div class="hs-text">Get daily calories plus protein, carb, and fat grams to hit your target.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GLP-1 TOGGLE -->
+      <div class="glp-toggle">
+        <div class="gt-left">
+          <div class="gt-title">GLP-1 Mode <span class="badge">Reta · Tirz · Sema</span></div>
+          <div class="gt-sub">On a GLP-1, appetite drops hard and it's easy to under-eat and lose muscle. Flip this on for a muscle-protecting protein floor, a smarter deficit cap, and a warning if your target dips below your baseline burn.</div>
+        </div>
+        <label class="switch" aria-label="Toggle GLP-1 Mode">
+          <input type="checkbox" id="glpMode">
+          <span class="track"><span class="thumb"></span></span>
+        </label>
+      </div>
+
+      <div class="calc-grid">
+
+        <!-- INPUTS -->
+        <div class="calc-panel">
+
+          <div class="field">
+            <label>Units</label>
+            <div class="seg" id="unitSeg">
+              <button data-units="imperial" class="active">Imperial · lb / in</button>
+              <button data-units="metric">Metric · kg / cm</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Sex</label>
+            <div class="seg" id="sexSeg">
+              <button data-sex="male" class="active">Male</button>
+              <button data-sex="female">Female</button>
+            </div>
+            <div class="hint">Used by the BMR formula — affects baseline calorie burn.</div>
+          </div>
+
+          <div class="field">
+            <label>Age</label>
+            <div class="input-row single">
+              <input id="age" type="number" inputmode="numeric" min="0" step="1" value="35">
+            </div>
+            <div class="hint">Your age in years.</div>
+          </div>
+
+          <div class="field">
+            <label>Height</label>
+            <div class="input-row" id="heightRow">
+              <input id="heightVal" type="number" inputmode="decimal" min="0" step="any" value="70">
+              <select class="unit-select" id="heightUnit"><option value="in" selected>in</option></select>
+            </div>
+            <div class="hint" id="heightHint">Total height in inches (e.g. 5'10" = 70 in).</div>
+          </div>
+
+          <div class="field">
+            <label>Weight</label>
+            <div class="input-row" id="weightRow">
+              <input id="weightVal" type="number" inputmode="decimal" min="0" step="any" value="190">
+              <select class="unit-select" id="weightUnit"><option value="lb" selected>lb</option></select>
+            </div>
+            <div class="hint">Your current bodyweight.</div>
+          </div>
+
+          <div class="field">
+            <label>Activity level</label>
+            <select class="full" id="activity">
+              <option value="1.2">Sedentary — desk job, little exercise</option>
+              <option value="1.375">Light — light exercise 1–3 days/wk</option>
+              <option value="1.55" selected>Moderate — exercise 3–5 days/wk</option>
+              <option value="1.725">Very active — hard exercise 6–7 days/wk</option>
+              <option value="1.9">Athlete — physical job + hard training</option>
+            </select>
+            <div class="hint">Be honest — overestimating here is the #1 reason targets miss.</div>
+          </div>
+
+          <div class="field">
+            <label>Goal</label>
+            <div class="seg stack" id="goalSeg">
+              <button data-goal="lose" class="active">Lose fat<span class="seg-sub">Calorie deficit below maintenance</span></button>
+              <button data-goal="maintain">Maintain<span class="seg-sub">Eat at maintenance</span></button>
+              <button data-goal="gain">Build muscle<span class="seg-sub">Calorie surplus above maintenance</span></button>
+            </div>
+          </div>
+
+          <!-- deficit/surplus aggressiveness, hidden at maintain -->
+          <div class="field" id="rateField">
+            <label id="rateLabel">Deficit size</label>
+            <div class="seg" id="rateSeg">
+              <button data-rate="mild">Mild</button>
+              <button data-rate="moderate" class="active">Moderate</button>
+              <button data-rate="aggressive">Aggressive</button>
+            </div>
+            <div class="hint" id="rateHint">Moderate (~20%) is the sweet spot for most people.</div>
+          </div>
+
+        </div>
+
+        <!-- RESULTS -->
+        <div class="result-panel">
+          <div class="result-big">
+            <div class="syringe-label" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px">Daily target</div>
+            <div class="draw-units" id="outCals">—<small> cals</small></div>
+            <div class="draw-sub" id="outErr"></div>
+          </div>
+
+          <div class="result-rows">
+            <div class="rr"><span class="k">Maintenance (TDEE)</span><span class="v" id="outTdee">— <small>cals</small></span></div>
+            <div class="rr"><span class="k">Baseline burn (BMR)</span><span class="v" id="outBmr">— <small>cals</small></span></div>
+            <div class="rr"><span class="k">Daily adjustment</span><span class="v" id="outAdj">—</span></div>
+          </div>
+
+          <!-- GLP-1 flag -->
+          <div class="flag" id="glpFlag">
+            <div class="flag-label">⚠ GLP-1 check</div>
+            <p id="glpFlagText"></p>
+          </div>
+
+          <div class="macro-wrap">
+            <div class="macro-label">Daily macros</div>
+            <div class="macro-row">
+              <div class="macro-head"><span class="mk">Protein</span><span class="mv" id="mvProtein">— <small>g</small></span></div>
+              <div class="macro-bar"><div class="macro-fill protein" id="barProtein"></div></div>
+            </div>
+            <div class="macro-row">
+              <div class="macro-head"><span class="mk">Carbs</span><span class="mv" id="mvCarbs">— <small>g</small></span></div>
+              <div class="macro-bar"><div class="macro-fill carbs" id="barCarbs"></div></div>
+            </div>
+            <div class="macro-row">
+              <div class="macro-head"><span class="mk">Fat</span><span class="mv" id="mvFat">— <small>g</small></span></div>
+              <div class="macro-bar"><div class="macro-fill fat" id="barFat"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HOW IT WORKS / DISCLAIMER -->
+      <div class="grid g2" style="gap:2px;margin-top:2px">
+        <div class="note-card">
+          <div class="nc-label">How the math works</div>
+          <p>We calculate <strong>BMR</strong> with the Mifflin-St Jeor equation, then multiply by your activity level to get <strong>TDEE</strong> (maintenance calories). Your goal sets the adjustment: a deficit to lose, a surplus to gain. <strong>Protein</strong> is set per pound of bodyweight to protect muscle, <strong>fat</strong> to a healthy floor, and <strong>carbs</strong> fill the rest.</p>
+        </div>
+        <div class="note-card" id="glpNote">
+          <div class="nc-label">Why GLP-1 Mode is different</div>
+          <p>On retatrutide, tirzepatide, or semaglutide, appetite suppression makes severe under-eating easy — which burns muscle alongside fat. <strong>GLP-1 Mode caps your deficit, raises your protein floor to ~1 g per pound of goal weight, and flags any target that falls below your BMR.</strong> Slower, muscle-sparing fat loss beats the scale dropping fast while you lose lean mass.</p>
+        </div>
+      </div>
+
+      <!-- HANDBOOK CTA -->
+      <a class="cta-card" href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="cc-left">
+          <div class="cc-eyebrow">Free · On GLP-1?</div>
+          <div class="cc-title">The Retatrutide Handbook</div>
+          <div class="cc-sub">Your numbers are the start. The handbook covers dosing, titration, side-effect management, and how to keep muscle while the fat comes off — free.</div>
+        </div>
+        <span class="cc-btn">Get the handbook →</span>
+      </a>
+
+      <div class="grid" style="margin-top:2px">
+        <div class="note-card" style="border-left-color:#ef4444">
+          <div class="nc-label" style="color:#fca5a5">Important disclaimer</div>
+          <p>This calculator is an <strong>educational tool only</strong> and does not constitute medical, nutritional, or weight-loss advice. Calorie and macro estimates are starting points based on population averages — your real needs vary. Always work with a qualified healthcare professional before starting any diet, training, or compound protocol.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED VENDORS -->
+  <section class="section alt" id="vendors">
+    <div class="wrap">
+      <div class="eyebrow">Where to buy · Trusted Vendors</div>
+      <h2 class="heading">Sourcing <span class="tq">matters</span></h2>
+      <p class="lead" style="margin-bottom:40px">Quality and purity are everything with peptides. These are vendors I trust and personally work with. Codes below save you money — and yes, some are affiliate links that support the channel at no extra cost to you.</p>
+      <div class="vendor-grid">
+        <a href="https://alphaomegapeptide.com/ref/davidp_ifbbpro/" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Alpha Omega Peptide <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 15% off</div>
+        </a>
+        <a href="https://modernaminos.com/?ref=dpro" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Modern Aminos <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="https://glacieraminos.shop/?ref=dpro" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Glacier Aminos <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="https://atomiklabz.com/aff/344/" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Atomik Labz <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO15 · 15% off</div>
+        </a>
+        <a href="https://solutionpeptides.net/aff/334/" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Solution Peptide <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO15 · 15% off</div>
+        </a>
+        <a href="https://aminowellusa.com/?ref=DPRO" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Amino Well <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="https://www.transcendcompany.com/DPRO" target="_blank" rel="noopener" class="vendor" style="grid-column:1/-1">
+          <div class="v-left">
+            <div class="v-name">Transcend HRT <span class="arrow">→</span></div>
+            <div class="v-sub">Testosterone, peptides &amp; bloodwork</div>
+          </div>
+          <div class="v-code">DPRO · 5% off</div>
+        </a>
+      </div>
+      <p class="card-text" style="font-size:12.5px;color:var(--muted);margin-top:24px;max-width:700px">Disclosure: some links above are affiliate or referral links. Always verify a vendor's testing and purity standards yourself. Nothing here is medical advice — see the disclaimer above.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="index.html" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="index.html">Home</a>
+            <a href="peptide-calculator.html">Calculator</a>
+            <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+            <a href="#vendors">Trusted Vendors</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dpromethod" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+
+  // state
+  let units='imperial', sex='male', goal='lose', rate='moderate', glp=false;
+
+  // ---- segmented controls ----
+  function wireSeg(segId, attr, setter){
+    document.querySelectorAll('#'+segId+' button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('#'+segId+' button').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        setter(b.dataset[attr]);
+        calc();
+      });
+    });
+  }
+  wireSeg('sexSeg','sex',v=>sex=v);
+  wireSeg('rateSeg','rate',v=>rate=v);
+
+  // units toggle also swaps the unit labels + converts the numbers
+  document.querySelectorAll('#unitSeg button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const next=b.dataset.units;
+      if(next===units){return;}
+      document.querySelectorAll('#unitSeg button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      convertUnits(units,next);
+      units=next;
+      applyUnitLabels();
+      calc();
+    });
+  });
+
+  // goal toggle shows/hides + relabels the rate field
+  document.querySelectorAll('#goalSeg button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#goalSeg button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      goal=b.dataset.goal;
+      applyGoalUI();
+      calc();
+    });
+  });
+
+  // GLP-1 toggle
+  $('glpMode').addEventListener('change',e=>{
+    glp=e.target.checked;
+    applyGoalUI(); // deficit framing changes under GLP-1
+    calc();
+  });
+
+  ['age','heightVal','weightVal','activity'].forEach(id=>{
+    $(id).addEventListener('input',calc);
+    $(id).addEventListener('change',calc);
+  });
+
+  function applyUnitLabels(){
+    if(units==='imperial'){
+      $('heightUnit').innerHTML='<option value="in" selected>in</option>';
+      $('weightUnit').innerHTML='<option value="lb" selected>lb</option>';
+      $('heightHint').textContent='Total height in inches (e.g. 5\'10" = 70 in).';
+    } else {
+      $('heightUnit').innerHTML='<option value="cm" selected>cm</option>';
+      $('weightUnit').innerHTML='<option value="kg" selected>kg</option>';
+      $('heightHint').textContent='Height in centimeters (e.g. 178 cm).';
+    }
+  }
+
+  function convertUnits(from,to){
+    const h=parseFloat($('heightVal').value);
+    const w=parseFloat($('weightVal').value);
+    if(from==='imperial'&&to==='metric'){
+      if(h>0) $('heightVal').value=Math.round(h*2.54);
+      if(w>0) $('weightVal').value=Math.round(w*0.453592);
+    } else if(from==='metric'&&to==='imperial'){
+      if(h>0) $('heightVal').value=Math.round(h/2.54);
+      if(w>0) $('weightVal').value=Math.round(w/0.453592);
+    }
+  }
+
+  function applyGoalUI(){
+    const rf=$('rateField'), rl=$('rateLabel'), rh=$('rateHint');
+    if(goal==='maintain'){
+      rf.style.display='none';
+      return;
+    }
+    rf.style.display='';
+    if(goal==='lose'){
+      rl.textContent = glp ? 'Deficit size (GLP-1 capped)' : 'Deficit size';
+      document.querySelectorAll('#rateSeg button')[0].textContent='Mild';
+      document.querySelectorAll('#rateSeg button')[1].textContent='Moderate';
+      document.querySelectorAll('#rateSeg button')[2].textContent='Aggressive';
+      rh.textContent = glp
+        ? 'On a GLP-1 we cap the deficit so you keep muscle — "Aggressive" here is gentler than off-drug.'
+        : 'Moderate (~20%) is the sweet spot for most people.';
+    } else { // gain
+      rl.textContent='Surplus size';
+      document.querySelectorAll('#rateSeg button')[0].textContent='Lean';
+      document.querySelectorAll('#rateSeg button')[1].textContent='Moderate';
+      document.querySelectorAll('#rateSeg button')[2].textContent='Aggressive';
+      rh.textContent='A lean surplus (~10%) minimizes fat gain while building.';
+    }
+  }
+
+  // ---- core calc ----
+  function calc(){
+    const age=parseFloat($('age').value);
+    let h=parseFloat($('heightVal').value);
+    let w=parseFloat($('weightVal').value);
+    const act=parseFloat($('activity').value);
+    const err=$('outErr');
+
+    const reset=(msg)=>{
+      $('outCals').innerHTML='—<small> cals</small>';
+      $('outTdee').innerHTML='— <small>cals</small>';
+      $('outBmr').innerHTML='— <small>cals</small>';
+      $('outAdj').textContent='—';
+      ['mvProtein','mvCarbs','mvFat'].forEach(id=>$(id).innerHTML='— <small>g</small>');
+      ['barProtein','barCarbs','barFat'].forEach(id=>$(id).style.width='0');
+      $('glpFlag').classList.remove('show');
+      err.innerHTML = msg ? '<span class="err">'+msg+'</span>' : '';
+    };
+
+    if(!(age>0)||!(h>0)||!(w>0)){ reset(''); return; }
+
+    // normalize to metric for the formula
+    let hCm = units==='imperial' ? h*2.54 : h;
+    let wKg = units==='imperial' ? w*0.453592 : w;
+    let wLb = units==='imperial' ? w : w/0.453592;
+
+    // Mifflin-St Jeor
+    let bmr = 10*wKg + 6.25*hCm - 5*age + (sex==='male' ? 5 : -161);
+    let tdee = bmr*act;
+
+    // goal adjustment
+    let pct=0; // fraction of TDEE +/-
+    if(goal==='lose'){
+      let map = glp
+        ? {mild:0.10, moderate:0.15, aggressive:0.20}   // capped under GLP-1
+        : {mild:0.10, moderate:0.20, aggressive:0.25};
+      pct = -map[rate];
+    } else if(goal==='gain'){
+      let map = {mild:0.08, moderate:0.10, aggressive:0.15};
+      // first button is labelled "Lean" for gain but keeps key "mild"
+      pct = map[rate];
+    }
+
+    let target = tdee*(1+pct);
+
+    // GLP-1 guardrail: never program below BMR
+    let belowBmr=false;
+    if(glp && goal==='lose' && target<bmr){
+      target=bmr;
+      belowBmr=true;
+    }
+
+    target=Math.round(target/10)*10;
+    const tdeeR=Math.round(tdee/10)*10;
+    const bmrR=Math.round(bmr/10)*10;
+    const adj=target-tdeeR;
+
+    // ---- macros ----
+    // protein g/lb: GLP-1 raises floor to ~1.0; otherwise 0.8 cut / 0.7 else
+    let proteinPerLb;
+    if(glp){
+      proteinPerLb = 1.0;
+    } else {
+      proteinPerLb = goal==='lose' ? 0.9 : (goal==='gain' ? 0.8 : 0.8);
+    }
+    let protein = Math.round(wLb*proteinPerLb);
+
+    // fat: ~0.35 g/lb floor (but don't let it crowd out protein on low cals)
+    let fat = Math.round(wLb*0.35);
+
+    let proteinCals = protein*4;
+    let fatCals = fat*9;
+    let carbCals = target - proteinCals - fatCals;
+    // if cals too low for the protein+fat, trim fat first then protein
+    if(carbCals<0){
+      fat = Math.max(Math.round((target - proteinCals)/9*0.4), Math.round(wLb*0.25));
+      fatCals=fat*9;
+      carbCals=target-proteinCals-fatCals;
+      if(carbCals<0){ carbCals=0; }
+    }
+    let carbs=Math.max(Math.round(carbCals/4),0);
+
+    // ---- write outputs ----
+    $('outCals').innerHTML=target.toLocaleString()+'<small> cals</small>';
+    $('outTdee').innerHTML=tdeeR.toLocaleString()+' <small>cals</small>';
+    $('outBmr').innerHTML=bmrR.toLocaleString()+' <small>cals</small>';
+    if(goal==='maintain'){
+      $('outAdj').textContent='At maintenance';
+      err.innerHTML='Eat here to hold your weight';
+    } else {
+      const sign = adj>=0?'+':'';
+      $('outAdj').innerHTML='<span style="color:'+(adj<0?'#22D3EE':'#7DD3FC')+'">'+sign+adj.toLocaleString()+' cals/day</span>';
+      const lbPerWk = Math.abs(adj)*7/3500;
+      err.innerHTML=(goal==='lose'?'≈ '+lbPerWk.toFixed(1)+' lb/wk loss':'≈ '+lbPerWk.toFixed(1)+' lb/wk gain');
+    }
+
+    $('mvProtein').innerHTML=protein.toLocaleString()+' <small>g · '+proteinCals.toLocaleString()+' cal</small>';
+    $('mvCarbs').innerHTML=carbs.toLocaleString()+' <small>g · '+(carbs*4).toLocaleString()+' cal</small>';
+    $('mvFat').innerHTML=fat.toLocaleString()+' <small>g · '+(fat*9).toLocaleString()+' cal</small>';
+
+    // bars sized by calorie share
+    const totCals=proteinCals+(carbs*4)+(fat*9);
+    if(totCals>0){
+      $('barProtein').style.width=(proteinCals/totCals*100)+'%';
+      $('barCarbs').style.width=((carbs*4)/totCals*100)+'%';
+      $('barFat').style.width=((fat*9)/totCals*100)+'%';
+    }
+
+    // ---- GLP-1 flag ----
+    const flag=$('glpFlag'), ft=$('glpFlagText');
+    if(glp){
+      if(belowBmr){
+        flag.classList.add('show');
+        ft.innerHTML='Your selected deficit would put you below your baseline burn ('+bmrR.toLocaleString()+' cals). We raised your target to your BMR floor — going lower on a GLP-1 is where muscle loss accelerates. Hit your protein, lift heavy, and let the slow loss work.';
+      } else if(goal==='lose'){
+        flag.classList.add('show');
+        ft.innerHTML='Protein floor is set to '+protein.toLocaleString()+'g (~1 g/lb) to protect muscle while appetite is suppressed. If you struggle to eat that much, prioritize protein first and lean on a shake.';
+      } else {
+        flag.classList.remove('show');
+      }
+    } else {
+      flag.classList.remove('show');
+    }
+  }
+
+  // init
+  applyUnitLabels();
+  applyGoalUI();
+  calc();
+
+  // ---- nav dropdowns (copied from site) ----
+  document.querySelectorAll('.nav-dd-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.nav-dd');var was=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!was){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('#navlinks a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});});
+})();
+</script>
+</body>
+</html>

@@ -104,6 +104,7 @@
   .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
   /* Blends menu is smaller — single column */
   .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
 
   @media(max-width:860px){
     .nav-dd{display:block;width:100%}
@@ -185,7 +186,13 @@
           <a href="peptides/blend-triple-threat.html">Triple Threat</a>
           </div>
         </div>
-        <a href="peptide-calculator.html" class="current">Calculator</a>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptide-calculator.html" class="current">Peptide Calculator</a>
+          <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+          </div>
+        </div>
         <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
         <a href="index.html#community">Community</a>
         <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
@@ -419,6 +426,7 @@
           <p class="foot-text">
             <a href="index.html">Home</a>
             <a href="peptide-calculator.html">Calculator</a>
+            <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
             <a href="#vendors">Trusted Vendors</a>
             <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
           </p>
