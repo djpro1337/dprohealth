@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLP-1 Titration Schedule — DPRO Health</title>
+<meta name="description" content="Free GLP-1 titration schedule tool for retatrutide, tirzepatide, semaglutide, and cagrilintide. See a week-by-week dose-escalation timeline and table, with a standard protocol or your own custom start dose and step pace. From DPRO Health.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .page-hero{padding:104px 0 50px}
+  .howto{margin-bottom:40px}
+  .howto-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:24px}
+  @media(max-width:720px){.howto-steps{grid-template-columns:1fr 1fr}}
+  .howto-step{background:var(--bg2);border:1px solid var(--border);padding:24px}
+  .howto-step .hs-num{font-family:'Archivo';font-weight:800;font-size:13px;color:var(--tq-bright);margin-bottom:10px}
+  .howto-step .hs-title{font-family:'Archivo';font-weight:700;font-size:15px;color:var(--white);margin-bottom:6px}
+  .howto-step .hs-text{font-size:13px;font-weight:300;color:var(--text);line-height:1.55}
+
+  /* control panel */
+  .ctrl-panel{background:var(--bg2);border:1px solid var(--border);padding:40px;margin-bottom:2px}
+  .field{margin-bottom:26px}
+  .field:last-child{margin-bottom:0}
+  .field label{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+  .field .hint{font-family:'Outfit';font-size:12px;font-weight:300;color:var(--muted);margin-top:8px;letter-spacing:0;text-transform:none}
+  .input-row{display:flex;gap:0;align-items:stretch}
+  .input-row input{flex:1;width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:20px;padding:14px 16px;border-radius:3px 0 0 3px;outline:none;transition:border-color .2s;min-width:0}
+  .input-row input:focus{border-color:var(--tq-mid)}
+  .input-row.single input{border-radius:3px}
+  .unit-select{background:var(--bg3);border:1px solid var(--border);border-left:none;color:var(--off-white);
+    font-family:'Space Mono',monospace;font-size:13px;padding:0 14px;border-radius:0 3px 3px 0;outline:none;cursor:pointer}
+
+  .ctrl-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  @media(max-width:720px){.ctrl-grid{grid-template-columns:1fr;gap:0}}
+
+  .seg{display:flex;gap:2px;background:var(--border);border-radius:4px;padding:2px;flex-wrap:wrap}
+  .seg button{flex:1;background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:11px;
+    letter-spacing:.08em;text-transform:uppercase;padding:11px 8px;border-radius:3px;cursor:pointer;transition:.2s;min-width:60px}
+  .seg button.active{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .compound-seg button{flex:1 1 45%}
+
+  .field select.full{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:16px;padding:14px 16px;border-radius:3px;outline:none;
+    transition:border-color .2s;cursor:pointer;-webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2322D3EE' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 16px center}
+  .field select.full:focus{border-color:var(--tq-mid)}
+
+  .custom-block{display:none}
+  .custom-block.show{display:block}
+
+  /* MODE TOGGLE */
+  .mode-toggle{display:flex;align-items:center;justify-content:space-between;gap:18px;
+    background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);
+    padding:22px 26px;margin-bottom:2px;flex-wrap:wrap}
+  .mode-toggle .mt-left{min-width:0;flex:1}
+  .mode-toggle .mt-title{font-family:'Archivo';font-weight:800;font-size:16px;color:var(--white)}
+  .mode-toggle .mt-sub{font-family:'Outfit';font-size:13px;font-weight:300;color:var(--text);margin-top:7px;line-height:1.5;max-width:560px}
+  .switch{position:relative;width:58px;height:32px;flex-shrink:0;cursor:pointer}
+  .switch input{opacity:0;width:0;height:0;position:absolute}
+  .switch .track{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--border);border-radius:32px;transition:.25s}
+  .switch .thumb{position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#3A5060;transition:.25s}
+  .switch input:checked + .track{background:var(--tq-dim);border-color:var(--tq-border)}
+  .switch input:checked + .track .thumb{transform:translateX(26px);background:var(--tq-bright)}
+  .switch input:focus-visible + .track{box-shadow:0 0 0 2px var(--tq-mid)}
+
+  /* SUMMARY STRIP */
+  .summary{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:32px 40px;margin-bottom:2px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  @media(max-width:720px){.summary{grid-template-columns:1fr 1fr;gap:20px}}
+  .summary .s-item .s-k{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:8px}
+  .summary .s-item .s-v{font-family:'Archivo';font-weight:800;font-size:clamp(22px,3vw,30px);color:var(--white);line-height:1}
+  .summary .s-item .s-v small{font-family:'Outfit';font-weight:300;font-size:13px;color:var(--text)}
+
+  /* TIMELINE */
+  .timeline-wrap{background:var(--bg2);border:1px solid var(--border);padding:40px;margin-bottom:2px}
+  .block-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:26px}
+  .timeline{display:flex;align-items:flex-end;gap:2px;min-height:220px}
+  .tl-step{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:0;position:relative}
+  .tl-bar{width:100%;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#22D3EE,#0E7490);transition:height .5s ease;position:relative;min-height:8px}
+  .tl-step.maint .tl-bar{background:linear-gradient(180deg,#7DD3FC,#0E7490);box-shadow:inset 0 0 0 1px rgba(125,211,252,.4)}
+  .tl-dose{font-family:'Archivo';font-weight:800;font-size:15px;color:var(--white);margin-bottom:8px}
+  .tl-dose small{font-family:'Outfit';font-weight:300;font-size:10px;color:var(--muted);display:block;letter-spacing:0}
+  .tl-weeks{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.04em;color:var(--text);margin-top:10px;text-align:center;white-space:nowrap}
+  .tl-phase{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px;text-align:center}
+  .tl-step.maint .tl-phase{color:var(--tq-bright)}
+  @media(max-width:720px){
+    .timeline{overflow-x:auto;padding-bottom:8px}
+    .tl-step{min-width:78px}
+  }
+
+  /* TABLE */
+  .table-wrap{background:var(--bg2);border:1px solid var(--border);padding:40px;margin-bottom:2px;overflow-x:auto}
+  table.sched{width:100%;border-collapse:collapse;font-family:'Outfit',sans-serif}
+  table.sched th{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);
+    text-align:left;padding:0 18px 16px;border-bottom:1px solid var(--tq-border);white-space:nowrap}
+  table.sched td{padding:16px 18px;border-bottom:1px solid var(--border);font-size:14px;font-weight:300;color:var(--text);vertical-align:middle}
+  table.sched tr:last-child td{border-bottom:none}
+  table.sched tr.maint-row td{background:rgba(34,211,238,.04)}
+  table.sched .td-phase{font-family:'Archivo';font-weight:700;color:var(--white);font-size:14px}
+  table.sched .td-dose{font-family:'Archivo';font-weight:800;color:var(--tq-bright);font-size:17px;white-space:nowrap}
+  table.sched .pill{display:inline-block;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--tq-bright);border:1px solid var(--tq-border);background:var(--tq-dim);padding:4px 9px;border-radius:3px;white-space:nowrap}
+
+  .note-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tq-mid);padding:24px 28px;margin-top:2px}
+  .note-card .nc-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+  .note-card p{font-size:14px;font-weight:300;color:var(--text);line-height:1.6}
+  .note-card p strong{color:var(--white);font-weight:500}
+
+  .cta-card{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:36px 40px;margin-top:2px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+  .cta-card .cc-left{min-width:0;flex:1}
+  .cta-card .cc-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+  .cta-card .cc-title{font-family:'Archivo';font-weight:800;font-size:clamp(22px,3vw,28px);color:var(--white);line-height:1.15}
+  .cta-card .cc-sub{font-family:'Outfit';font-size:14px;font-weight:300;color:var(--text);margin-top:10px;max-width:520px}
+  .cta-card .cc-btn{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--tq-bright);border:none;padding:16px 26px;border-radius:4px;text-decoration:none;white-space:nowrap;transition:transform .2s,box-shadow .2s}
+  .cta-card .cc-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(34,211,238,.6)}
+
+  .vendor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+  @media(max-width:720px){.vendor-grid{grid-template-columns:1fr}}
+  .vendor{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 28px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;flex-wrap:wrap}
+  .vendor:hover{background:var(--bg3);border-color:var(--tq-border);transform:translateY(-2px)}
+  .vendor .v-left{min-width:0}
+  .vendor .v-name{font-family:'Archivo';font-weight:700;font-size:17px;color:var(--white);display:flex;align-items:center;gap:10px}
+  .vendor .v-name .arrow{color:var(--tq-bright);font-size:14px;transition:transform .25s}
+  .vendor:hover .v-name .arrow{transform:translateX(4px)}
+  .vendor .v-sub{font-family:'Outfit';font-size:12.5px;font-weight:300;color:var(--text);margin-top:4px}
+  .vendor .v-code{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;white-space:nowrap;color:var(--tq-bright);border:1px solid var(--tq-border);background:var(--tq-dim);padding:8px 13px;border-radius:3px}
+
+  /* ===== NAV DROPDOWNS ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script></head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
+<div class="shell">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <a href="index.html#about">About</a>
+        <div class="nav-dd">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptides/ara290.html">ARA-290</a>
+          <a href="peptides/bpc157.html">BPC-157</a>
+          <a href="peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="peptides/kpv.html">KPV</a>
+          <a href="peptides/tb500.html">TB-500</a>
+          <a href="peptides/aod9604.html">AOD-9604</a>
+          <a href="peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="peptides/mots-c.html">MOTS-c</a>
+          <a href="peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="peptides/epitalon.html">Epitalon</a>
+          <a href="peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="peptides/nad.html">NAD+</a>
+          <a href="peptides/selank.html">Selank</a>
+          <a href="peptides/semax.html">Semax</a>
+          <a href="peptides/ss31.html">SS-31</a>
+          <a href="peptides/thymalin.html">Thymalin</a>
+          <a href="peptides/dsip.html">DSIP</a>
+          <a href="peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="peptides/oxytocin.html">Oxytocin</a>
+          <a href="peptides/pt141.html">PT-141</a>
+          <a href="peptides/ll37.html">LL-37</a>
+          <a href="peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="peptides/vip.html">VIP</a>
+          <a href="peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="peptides/follistatin344.html">Follistatin-344</a>
+          <a href="peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="peptides/melanotan1.html">Melanotan 1</a>
+          <a href="peptides/bioregulators.html">Bioregulators</a>
+          <a href="peptides/retatrutide.html">Retatrutide</a>
+          <a href="peptides/semaglutide.html">Semaglutide</a>
+          <a href="peptides/tirzepatide.html">Tirzepatide</a>
+          </div>
+        </div>
+        <div class="nav-dd blends">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptide Blends <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="peptides/blend-glow.html">GLOW Blend</a>
+          <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="peptides/blend-klow.html">KLOW Blend</a>
+          <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+          </div>
+        </div>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptide-calculator.html">Peptide Calculator</a>
+          <a href="tdee-calculator.html" class="current">TDEE / Macro Calculator</a>
+          <a href="glp1-titration.html" class="current">GLP-1 Titration Schedule</a>
+          </div>
+        </div>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+        <a href="index.html#community">Community</a>
+        <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Free Tool · Dosing</div>
+      <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">GLP-1 Titration <span class="tq">Schedule</span></h1>
+      <p class="lead" style="margin-top:22px">Starting a GLP-1? These compounds are titrated — you ramp the dose up slowly so your body adapts and side effects stay manageable. Pick your compound below for a week-by-week schedule, or customize the start dose and step pace to match your protocol.</p>
+    </div>
+  </section>
+
+  <!-- TOOL -->
+  <section class="section" style="padding-top:30px">
+    <div class="wrap">
+      <div class="howto">
+        <div class="eyebrow">How to use it</div>
+        <h2 class="heading" style="font-size:clamp(24px,3vw,34px)">Pick it, <span class="tq">plan it</span></h2>
+        <p class="card-text" style="font-size:15px;margin-top:10px;max-width:680px">Titration means starting low and stepping up on a fixed schedule — it's how you avoid the worst of the nausea and GI side effects. Choose a compound for its standard ramp, then flip on Custom to set your own starting dose, step size, and how many weeks you hold at each step.</p>
+        <div class="howto-steps">
+          <div class="howto-step">
+            <div class="hs-num">01</div>
+            <div class="hs-title">Pick compound</div>
+            <div class="hs-text">Retatrutide, tirzepatide, semaglutide, or cagrilintide — each loads its standard ramp.</div>
+          </div>
+          <div class="howto-step">
+            <div class="hs-num">02</div>
+            <div class="hs-title">Standard or custom</div>
+            <div class="hs-text">Use the trial-based default, or flip Custom to set your own start, step, and hold length.</div>
+          </div>
+          <div class="howto-step">
+            <div class="hs-num">03</div>
+            <div class="hs-title">Read the timeline</div>
+            <div class="hs-text">See each dose step as a bar, with the weeks it covers and where maintenance begins.</div>
+          </div>
+          <div class="howto-step">
+            <div class="hs-num">04</div>
+            <div class="hs-title">Use the table</div>
+            <div class="hs-text">A clean phase-by-phase table you can screenshot, print, or follow week to week.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="ctrl-panel">
+        <div class="field">
+          <label>Compound</label>
+          <div class="seg compound-seg" id="compoundSeg">
+            <button data-c="reta" class="active">Retatrutide</button>
+            <button data-c="tirz">Tirzepatide</button>
+            <button data-c="sema">Semaglutide</button>
+            <button data-c="cagri">Cagrilintide</button>
+          </div>
+          <div class="hint" id="compoundHint"></div>
+        </div>
+      </div>
+
+      <!-- CUSTOM TOGGLE -->
+      <div class="mode-toggle">
+        <div class="mt-left">
+          <div class="mt-title">Custom protocol</div>
+          <div class="mt-sub">Off = the standard, trial-based ramp for your compound. On = set your own starting dose, step increment, target dose, and how many weeks you hold at each step.</div>
+        </div>
+        <label class="switch" aria-label="Toggle custom protocol">
+          <input type="checkbox" id="customMode">
+          <span class="track"><span class="thumb"></span></span>
+        </label>
+      </div>
+
+      <!-- CUSTOM CONTROLS -->
+      <div class="ctrl-panel custom-block" id="customBlock">
+        <div class="ctrl-grid">
+          <div class="field">
+            <label>Starting dose (mg/week)</label>
+            <div class="input-row single"><input id="cStart" type="number" inputmode="decimal" min="0" step="any" value="2"></div>
+            <div class="hint">Your first weekly dose.</div>
+          </div>
+          <div class="field">
+            <label>Step increment (mg)</label>
+            <div class="input-row single"><input id="cStep" type="number" inputmode="decimal" min="0" step="any" value="2"></div>
+            <div class="hint">How much you add at each step up.</div>
+          </div>
+          <div class="field">
+            <label>Target / max dose (mg/week)</label>
+            <div class="input-row single"><input id="cTarget" type="number" inputmode="decimal" min="0" step="any" value="12"></div>
+            <div class="hint">Where you stop escalating and hold.</div>
+          </div>
+          <div class="field">
+            <label>Weeks at each step</label>
+            <div class="seg" id="cHoldSeg">
+              <button data-h="2">2 wk</button>
+              <button data-h="4" class="active">4 wk</button>
+              <button data-h="6">6 wk</button>
+            </div>
+            <div class="hint">Most protocols hold 4 weeks per step.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="summary" id="summary">
+        <div class="s-item"><div class="s-k">Starting dose</div><div class="s-v" id="sStart">—</div></div>
+        <div class="s-item"><div class="s-k">Maintenance</div><div class="s-v" id="sMaint">—</div></div>
+        <div class="s-item"><div class="s-k">Steps to target</div><div class="s-v" id="sSteps">—</div></div>
+        <div class="s-item"><div class="s-k">Time to maintenance</div><div class="s-v" id="sTime">—</div></div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div class="timeline-wrap">
+        <div class="block-label">Week-by-week timeline</div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+
+      <!-- TABLE -->
+      <div class="table-wrap">
+        <div class="block-label">Schedule table</div>
+        <table class="sched">
+          <thead><tr><th>Phase</th><th>Weeks</th><th>Weekly dose</th><th>Status</th></tr></thead>
+          <tbody id="schedBody"></tbody>
+        </table>
+      </div>
+
+      <!-- NOTES / DISCLAIMER -->
+      <div class="grid g2" style="gap:2px;margin-top:2px">
+        <div class="note-card">
+          <div class="nc-label">How titration works</div>
+          <p>Every GLP-1 (and the amylin analog cagrilintide) is started low and stepped up on a schedule. The low starting dose isn't therapeutic — it's there to let your body adapt and blunt nausea, vomiting, and other GI effects. <strong>If a step hits you hard, holding it longer before moving up is normal and smart</strong> — the schedule is a guide, not a race.</p>
+        </div>
+        <div class="note-card" style="border-left-color:#ef4444">
+          <div class="nc-label" style="color:#fca5a5">Important disclaimer</div>
+          <p>This is an <strong>educational tool only</strong> and is not medical advice. Retatrutide is investigational and not FDA-approved; schedules shown reflect clinical-trial and community protocols, not a prescription. Dose, pace, and target must be set with a qualified healthcare professional. Compounds may be subject to legal and regulatory restrictions in your region.</p>
+        </div>
+      </div>
+
+      <!-- HANDBOOK CTA -->
+      <a class="cta-card" href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" style="text-decoration:none">
+        <div class="cc-left">
+          <div class="cc-eyebrow">Free · Go deeper</div>
+          <div class="cc-title">The Retatrutide Handbook</div>
+          <div class="cc-sub">The schedule is step one. The handbook covers titration strategy, side-effect management, what to do when you plateau, and how to hold muscle while the fat comes off — free.</div>
+        </div>
+        <span class="cc-btn">Get the handbook →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- TRUSTED VENDORS -->
+  <section class="section alt" id="vendors">
+    <div class="wrap">
+      <div class="eyebrow">Where to buy · Trusted Vendors</div>
+      <h2 class="heading">Sourcing <span class="tq">matters</span></h2>
+      <p class="lead" style="margin-bottom:40px">Quality and purity are everything with peptides. These are vendors I trust and personally work with. Codes below save you money — and yes, some are affiliate links that support the channel at no extra cost to you.</p>
+      <div class="vendor-grid">
+        <a href="https://alphaomegapeptide.com/ref/davidp_ifbbpro/" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Alpha Omega Peptide <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 15% off</div>
+        </a>
+        <a href="https://modernaminos.com/?ref=dpro" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Modern Aminos <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="https://glacieraminos.shop/?ref=dpro" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Glacier Aminos <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="https://atomiklabz.com/aff/344/" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Atomik Labz <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO15 · 15% off</div>
+        </a>
+        <a href="https://solutionpeptides.net/aff/334/" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Solution Peptide <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO15 · 15% off</div>
+        </a>
+        <a href="https://aminowellusa.com/?ref=DPRO" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Amino Well <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="https://www.transcendcompany.com/DPRO" target="_blank" rel="noopener" class="vendor" style="grid-column:1/-1">
+          <div class="v-left">
+            <div class="v-name">Transcend HRT <span class="arrow">→</span></div>
+            <div class="v-sub">Testosterone, peptides &amp; bloodwork</div>
+          </div>
+          <div class="v-code">DPRO · 5% off</div>
+        </a>
+      </div>
+      <p class="card-text" style="font-size:12.5px;color:var(--muted);margin-top:24px;max-width:700px">Disclosure: some links above are affiliate or referral links. Always verify a vendor's testing and purity standards yourself. Nothing here is medical advice — see the disclaimer above.</p>
+    </div>
+  </section>
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="index.html" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="index.html">Home</a>
+            <a href="peptide-calculator.html">Calculator</a>
+            <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+            <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+            <a href="#vendors">Trusted Vendors</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dpromethod" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+
+  // ===== standard schedules (once weekly, mg) =====
+  // step = mg per dose level; hold = weeks per step; doses = explicit ladder
+  const SCHED = {
+    reta:  {name:'Retatrutide', doses:[2,4,8,12], hold:4,
+            hint:'Investigational triple agonist. Standard community/trial ramp: 2 → 4 → 8 → 12 mg, 4 weeks per step.'},
+    tirz:  {name:'Tirzepatide', doses:[2.5,5,7.5,10,12.5,15], hold:4,
+            hint:'GIP/GLP-1 dual agonist. FDA ramp: 2.5 mg start, +2.5 mg every 4 weeks, 15 mg max.'},
+    sema:  {name:'Semaglutide', doses:[0.25,0.5,1.0,1.7,2.4], hold:4,
+            hint:'GLP-1 agonist. Wegovy ramp: 0.25 → 0.5 → 1.0 → 1.7 → 2.4 mg, 4 weeks per step.'},
+    cagri: {name:'Cagrilintide', doses:[0.25,0.5,1.0,1.7,2.4], hold:4,
+            hint:'Long-acting amylin analog. Common ramp: 0.25 → 0.5 → 1.0 → 1.7 → 2.4 mg, 4 weeks per step.'},
+  };
+
+  let compound='reta', custom=false, cHold=4;
+
+  // compound segmented control
+  document.querySelectorAll('#compoundSeg button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#compoundSeg button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      compound=b.dataset.c;
+      // when switching compound, prefill custom inputs from its standard so custom starts sane
+      const s=SCHED[compound];
+      $('cStart').value=s.doses[0];
+      $('cTarget').value=s.doses[s.doses.length-1];
+      $('cStep').value=+(s.doses[1]-s.doses[0]).toFixed(3);
+      render();
+    });
+  });
+
+  // custom toggle
+  $('customMode').addEventListener('change',e=>{
+    custom=e.target.checked;
+    $('customBlock').classList.toggle('show',custom);
+    render();
+  });
+
+  // hold segmented control
+  document.querySelectorAll('#cHoldSeg button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#cHoldSeg button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      cHold=parseInt(b.dataset.h,10);
+      render();
+    });
+  });
+
+  ['cStart','cStep','cTarget'].forEach(id=>{
+    $(id).addEventListener('input',()=>{ if(custom) render(); });
+  });
+
+  function buildCustomLadder(){
+    let start=parseFloat($('cStart').value);
+    let step=parseFloat($('cStep').value);
+    let target=parseFloat($('cTarget').value);
+    if(!(start>0)||!(step>0)||!(target>0)||target<start){ return null; }
+    let doses=[start];
+    let d=start, guard=0;
+    while(d+step<=target+1e-9 && guard<40){
+      d=+(d+step).toFixed(4);
+      doses.push(d);
+      guard++;
+    }
+    // ensure target represented if step didn't land exactly
+    if(doses[doses.length-1] < target-1e-9){ doses.push(target); }
+    return {doses, hold:cHold};
+  }
+
+  function fmt(n){ return (Math.round(n*1000)/1000).toString(); }
+
+  function render(){
+    const s=SCHED[compound];
+    $('compoundHint').textContent=s.hint;
+
+    let ladder;
+    if(custom){
+      ladder=buildCustomLadder();
+      if(!ladder){ // invalid custom input -> blank
+        $('timeline').innerHTML='<div style="font-family:Outfit;font-weight:300;color:#fca5a5;font-size:14px">Enter a valid start, step, and target (target must be ≥ start).</div>';
+        $('schedBody').innerHTML='';
+        ['sStart','sMaint','sSteps','sTime'].forEach(id=>$(id).textContent='—');
+        return;
+      }
+    } else {
+      ladder={doses:s.doses.slice(), hold:s.hold};
+    }
+
+    const doses=ladder.doses, hold=ladder.hold;
+    const n=doses.length;
+    const maintIdx=n-1;
+
+    // summary
+    $('sStart').innerHTML=fmt(doses[0])+'<small> mg</small>';
+    $('sMaint').innerHTML=fmt(doses[maintIdx])+'<small> mg</small>';
+    $('sSteps').innerHTML=(n-1)+'<small> step'+((n-1)===1?'':'s')+'</small>';
+    const weeksToMaint=maintIdx*hold; // weeks elapsed before maintenance begins
+    $('sTime').innerHTML='~'+(weeksToMaint)+'<small> wks</small>';
+
+    // timeline bars (height scaled to max dose)
+    const maxDose=doses[maintIdx];
+    const tl=$('timeline'); tl.innerHTML='';
+    let wk=1;
+    doses.forEach((dose,i)=>{
+      const isMaint=(i===maintIdx);
+      const wkStart=wk;
+      const wkEnd= isMaint ? null : wk+hold-1;
+      const step=document.createElement('div');
+      step.className='tl-step'+(isMaint?' maint':'');
+      const h=Math.max(8, Math.round(dose/maxDose*170));
+      step.innerHTML=
+        '<div class="tl-dose">'+fmt(dose)+'<small>mg</small></div>'+
+        '<div class="tl-bar" style="height:'+h+'px"></div>'+
+        '<div class="tl-weeks">'+(isMaint?('Wk '+wkStart+'+'):('Wk '+wkStart+'–'+wkEnd))+'</div>'+
+        '<div class="tl-phase">'+(isMaint?'Maintenance':('Step '+(i+1)))+'</div>';
+      tl.appendChild(step);
+      wk+=hold;
+    });
+
+    // table
+    const tb=$('schedBody'); tb.innerHTML='';
+    wk=1;
+    doses.forEach((dose,i)=>{
+      const isMaint=(i===maintIdx);
+      const wkStart=wk;
+      const wkEnd=wk+hold-1;
+      const tr=document.createElement('tr');
+      if(isMaint) tr.className='maint-row';
+      const phase = isMaint ? 'Maintenance' : (i===0 ? 'Start' : 'Step '+(i+1));
+      const weeks = isMaint ? ('Week '+wkStart+' onward') : ('Weeks '+wkStart+'–'+wkEnd);
+      const status = isMaint
+        ? '<span class="pill">Hold here</span>'
+        : (i===0 ? '<span class="pill">Acclimate</span>' : 'Step up as tolerated');
+      tr.innerHTML='<td class="td-phase">'+phase+'</td><td>'+weeks+'</td><td class="td-dose">'+fmt(dose)+' mg</td><td>'+status+'</td>';
+      tb.appendChild(tr);
+      wk+=hold;
+    });
+  }
+
+  // init: prefill custom inputs from reta standard
+  (function initCustom(){
+    const s=SCHED[compound];
+    $('cStart').value=s.doses[0];
+    $('cTarget').value=s.doses[s.doses.length-1];
+    $('cStep').value=+(s.doses[1]-s.doses[0]).toFixed(3);
+  })();
+  render();
+
+  // ---- nav dropdowns ----
+  document.querySelectorAll('.nav-dd-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.nav-dd');var was=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!was){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('#navlinks a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});});
+})();
+</script>
+</body>
+</html>
