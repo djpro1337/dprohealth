@@ -110,6 +110,16 @@
   .note-card p{font-size:14px;font-weight:300;color:var(--text);line-height:1.6}
   .note-card p strong{color:var(--white);font-weight:500}
 
+  /* retatrutide-specific callout (shows only for reta) */
+  .reta-note{display:none;background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);border-left:3px solid var(--tq-bright);padding:26px 30px;margin-bottom:2px}
+  .reta-note.show{display:block}
+  .reta-note .rn-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px}
+  .reta-note .rn-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+  .reta-note .rn-row:last-child{margin-bottom:0}
+  .reta-note .rn-ico{flex-shrink:0;width:26px;height:26px;border-radius:6px;background:var(--tq-dim);border:1px solid var(--tq-border);display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:800;font-size:13px;color:var(--tq-bright);margin-top:2px}
+  .reta-note p{font-family:'Outfit';font-size:14px;font-weight:300;color:var(--text);line-height:1.6;margin:0}
+  .reta-note p strong{color:var(--white);font-weight:500}
+
   .cta-card{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:36px 40px;margin-top:2px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
   .cta-card .cc-left{min-width:0;flex:1}
   .cta-card .cc-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
@@ -241,6 +251,7 @@
         </div>
         <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
         <a href="index.html#community">Community</a>
+        <a href="suggestions.html">Suggestions</a>
         <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
       </nav>
     </div>
@@ -348,6 +359,23 @@
         <div class="s-item"><div class="s-k">Maintenance</div><div class="s-v" id="sMaint">—</div></div>
         <div class="s-item"><div class="s-k">Steps to target</div><div class="s-v" id="sSteps">—</div></div>
         <div class="s-item"><div class="s-k">Time to maintenance</div><div class="s-v" id="sTime">—</div></div>
+      </div>
+
+      <!-- RETATRUTIDE-SPECIFIC NOTE -->
+      <div class="reta-note" id="retaNote">
+        <div class="rn-label">Retatrutide — worth knowing</div>
+        <div class="rn-row">
+          <div class="rn-ico">1</div>
+          <p><strong>Starting at 1 mg can ease you in.</strong> The standard ramp starts at 2 mg, but a lot of people do better opening with 1 mg/week for the first few weeks — it gives your body a gentler on-ramp and tends to minimize the early nausea and GI side effects before you step up to 2 mg and beyond.</p>
+        </div>
+        <div class="rn-row">
+          <div class="rn-ico">8</div>
+          <p><strong>Diminishing returns past 8 mg.</strong> In the trial data, most of the fat-loss benefit is already captured by 8 mg/week — the jump from 8 to 12 mg added relatively little while side effects kept climbing. 12 mg isn't a finish line you have to reach; for many people 8 mg is the sweet spot for results vs. tolerability.</p>
+        </div>
+        <div class="rn-row">
+          <div class="rn-ico">!</div>
+          <p>These schedules reflect <strong>clinical-trial protocols</strong>, not a prescription. Retatrutide is investigational and not FDA-approved — set your dose and pace with a qualified provider.</p>
+        </div>
       </div>
 
       <!-- TIMELINE -->
@@ -465,6 +493,7 @@
             <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
             <a href="#vendors">Trusted Vendors</a>
             <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+            <a href="suggestions.html">Suggestions</a>
           </p>
         </div>
         <div>
@@ -564,6 +593,7 @@
   function render(){
     const s=SCHED[compound];
     $('compoundHint').textContent=s.hint;
+    $('retaNote').classList.toggle('show', compound==='reta');
 
     let ladder;
     if(custom){
