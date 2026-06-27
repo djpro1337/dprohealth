@@ -93,6 +93,46 @@
     .nav-dd-menu::before{display:none}
     .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
   }
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
@@ -113,9 +153,12 @@
       <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
       <nav class="nav-links" id="navlinks">
         <a href="#about">About</a>
-        <div class="nav-dd">
+        <div class="nav-dd peptides-parent">
           <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
           <div class="nav-dd-menu" role="menu">
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptides <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu" role="menu">
           <a href="peptides/ara290.html">ARA-290</a>
           <a href="peptides/bpc157.html">BPC-157</a>
           <a href="peptides/ghk-cu.html">GHK-Cu</a>
@@ -149,17 +192,26 @@
           <a href="peptides/retatrutide.html">Retatrutide</a>
           <a href="peptides/semaglutide.html">Semaglutide</a>
           <a href="peptides/tirzepatide.html">Tirzepatide</a>
-          </div>
-        </div>
-        <div class="nav-dd blends">
-          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptide Blends <span class="dd-caret">▾</span></button>
-          <div class="nav-dd-menu" role="menu">
+              </div>
+            </div>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu blends-sub" role="menu">
           <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
           <a href="peptides/blend-glow.html">GLOW Blend</a>
           <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
           <a href="peptides/blend-klow.html">KLOW Blend</a>
           <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
           <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd coaching">
+          <a href="coaching.html" class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Coaching <span class="dd-caret">▾</span></a>
+          <div class="nav-dd-menu" role="menu">
+          <a href="https://tally.so/r/mJPbdr" target="_blank" rel="noopener">Custom Peptide Protocol</a>
+          <a href="consultation.html">1:1 Consultation</a>
           </div>
         </div>
         <div class="nav-dd tools">
@@ -170,8 +222,13 @@
           <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
           </div>
         </div>
-        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
-        <a href="#community">Community</a>
+        <div class="nav-dd resources">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Resources <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Free Community</a>
+          <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
+          </div>
+        </div>
         <a href="suggestions.html">Suggestions</a>
         <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
       </nav>
@@ -426,6 +483,16 @@
     if(!e.target.closest('.nav-dd')){
       document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
     }
+  });
+
+  // nested flyout: tap-to-open on mobile
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
   });
 </script>
 </body>

@@ -237,6 +237,46 @@
   a.vendor:hover{border-color:var(--tq);background:var(--tint)}
   a.vendor:hover .v-name{color:var(--tq-bright)}
   a.vendor .v-name{display:block}
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
 </style>
 </head><body>
 <header class="dpro-nav">
@@ -245,53 +285,65 @@
     <button class="dpro-toggle" aria-label="Menu">&#9776;</button>
     <nav class="dpro-links">
       <a href="../index.html#about">About</a>
-      <div class="dpro-dd">
+      <div class="dpro-dd peptides-parent">
         <button class="dpro-dd-btn">Peptides <span class="dpro-dd-cv">&#9662;</span></button>
         <div class="dpro-dd-menu">
-          <a href="ara290.html">ARA-290</a>
-          <a href="bpc157.html">BPC-157</a>
-          <a href="ghk-cu.html">GHK-Cu</a>
-          <a href="kpv.html">KPV</a>
-          <a href="tb500.html">TB-500</a>
-          <a href="aod9604.html">AOD-9604</a>
-          <a href="cagrilintide.html">Cagrilintide</a>
-          <a href="cjc1295.html">CJC-1295 (No DAC)</a>
-          <a href="ipamorelin.html">Ipamorelin</a>
-          <a href="mots-c.html">MOTS-c</a>
-          <a href="tesamorelin.html">Tesamorelin</a>
-          <a href="epitalon.html">Epitalon</a>
-          <a href="foxo4-dri.html">FOXO4-DRI</a>
-          <a href="nad.html">NAD+</a>
-          <a href="selank.html">Selank</a>
-          <a href="semax.html">Semax</a>
-          <a href="ss31.html">SS-31</a>
-          <a href="thymalin.html">Thymalin</a>
-          <a href="dsip.html">DSIP</a>
-          <a href="kisspeptin.html">Kisspeptin</a>
-          <a href="oxytocin.html">Oxytocin</a>
-          <a href="pt141.html">PT-141</a>
-          <a href="ll37.html">LL-37</a>
-          <a href="thymosin-alpha1.html">Thymosin Alpha-1</a>
-          <a href="vip.html">VIP</a>
-          <a href="5-amino-1mq.html">5-Amino-1MQ</a>
-          <a href="follistatin344.html">Follistatin-344</a>
-          <a href="igf1-lr3.html">IGF-1 LR3</a>
-          <a href="melanotan1.html">Melanotan 1</a>
-          <a href="bioregulators.html">Bioregulators</a>
-          <a href="retatrutide.html">Retatrutide</a>
-          <a href="semaglutide.html">Semaglutide</a>
-          <a href="tirzepatide.html">Tirzepatide</a>
+          <div class="nav-sub">
+            <div class="nav-sub-btn">Peptides <span class="fly-caret">&#9656;</span></div>
+            <div class="nav-sub-menu">
+          <a href="../peptides/ara290.html">ARA-290</a>
+          <a href="../peptides/bpc157.html">BPC-157</a>
+          <a href="../peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="../peptides/kpv.html">KPV</a>
+          <a href="../peptides/tb500.html">TB-500</a>
+          <a href="../peptides/aod9604.html">AOD-9604</a>
+          <a href="../peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="../peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="../peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="../peptides/mots-c.html">MOTS-c</a>
+          <a href="../peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="../peptides/epitalon.html">Epitalon</a>
+          <a href="../peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="../peptides/nad.html">NAD+</a>
+          <a href="../peptides/selank.html">Selank</a>
+          <a href="../peptides/semax.html">Semax</a>
+          <a href="../peptides/ss31.html">SS-31</a>
+          <a href="../peptides/thymalin.html">Thymalin</a>
+          <a href="../peptides/dsip.html">DSIP</a>
+          <a href="../peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="../peptides/oxytocin.html">Oxytocin</a>
+          <a href="../peptides/pt141.html">PT-141</a>
+          <a href="../peptides/ll37.html">LL-37</a>
+          <a href="../peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="../peptides/vip.html">VIP</a>
+          <a href="../peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="../peptides/follistatin344.html">Follistatin-344</a>
+          <a href="../peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="../peptides/melanotan1.html">Melanotan 1</a>
+          <a href="../peptides/bioregulators.html">Bioregulators</a>
+          <a href="../peptides/retatrutide.html">Retatrutide</a>
+          <a href="../peptides/semaglutide.html">Semaglutide</a>
+          <a href="../peptides/tirzepatide.html">Tirzepatide</a>
+            </div>
+          </div>
+          <div class="nav-sub">
+            <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">&#9656;</span></div>
+            <div class="nav-sub-menu blends-sub">
+          <a href="../peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="../peptides/blend-glow.html">GLOW Blend</a>
+          <a href="../peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="../peptides/blend-klow.html">KLOW Blend</a>
+          <a href="../peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="../peptides/blend-triple-threat.html">Triple Threat</a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="dpro-dd blends">
-        <button class="dpro-dd-btn">Peptide Blends <span class="dpro-dd-cv">&#9662;</span></button>
+      <div class="dpro-dd coaching">
+        <a href="../coaching.html" class="dpro-dd-btn">Coaching <span class="dpro-dd-cv">&#9662;</span></a>
         <div class="dpro-dd-menu">
-          <a href="blend-bpc-tb500.html">BPC-157 / TB-500</a>
-          <a href="blend-glow.html" class="cur">GLOW Blend</a>
-          <a href="blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
-          <a href="blend-klow.html">KLOW Blend</a>
-          <a href="blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
-          <a href="blend-triple-threat.html">Triple Threat</a>
+          <a href="https://tally.so/r/mJPbdr" target="_blank" rel="noopener">Custom Peptide Protocol</a>
+          <a href="../consultation.html">1:1 Consultation</a>
         </div>
       </div>
       <div class="dpro-dd tools">
@@ -302,8 +354,13 @@
           <a href="../glp1-titration.html">GLP-1 Titration Schedule</a>
         </div>
       </div>
-      <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
-      <a href="../index.html#community">Community</a>
+      <div class="dpro-dd resources">
+        <button class="dpro-dd-btn">Resources <span class="dpro-dd-cv">&#9662;</span></button>
+        <div class="dpro-dd-menu">
+          <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Free Community</a>
+          <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
+        </div>
+      </div>
       <a href="../suggestions.html">Suggestions</a>
       <a href="#" class="dpro-cta disabled" aria-disabled="true" onclick="return false;">Work With Me</a>
     </nav>
@@ -437,6 +494,16 @@
       if(!e.target.closest('.dpro-dd')){document.querySelectorAll('.dpro-dd').forEach(function(d){d.classList.remove('open');});}
     });
   })();
+
+  // nested flyout: tap-to-open on mobile
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
+  });
 </script>
 
 </body>

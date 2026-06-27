@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thank You — DPRO Health</title>
-<meta name="description" content="Free TDEE and macro calculator with a dedicated GLP-1 mode. Get your calorie target and protein, carb, and fat grams — tuned for muscle retention on retatrutide, tirzepatide, and semaglutide. From DPRO Health.">
+<title>Coaching — DPRO Health</title>
+<meta name="description" content="Work with David Prochaska, IFBB Pro. Custom peptide protocol design or a 1:1 consultation call — science-backed, personalized coaching from DPRO Health.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -316,16 +316,98 @@
     </div>
   </header>
 
-  <section class="sg-thanks" style="padding:120px 0">
-    <div class="wrap" style="max-width:600px;margin:0 auto;text-align:center">
-      <div style="font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:18px">Submission received</div>
-      <h1 style="font-family:'Archivo';font-weight:800;font-size:clamp(30px,5vw,46px);color:var(--white);margin-bottom:16px">Got it — thank you.</h1>
-      <p style="font-family:'Outfit';font-weight:300;font-size:17px;color:var(--text);line-height:1.6;margin-bottom:32px">Your suggestion landed in my inbox. I read every single one, and the best ideas become videos, tools, and guides.</p>
-      <a href="index.html" style="font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--tq-bright);padding:15px 28px;border-radius:4px;text-decoration:none;display:inline-block">Back to home</a>
+<style>
+  .pg-hero{padding:96px 0 26px}
+  .pg-hero .wrap{max-width:880px;margin:0 auto;text-align:center}
+  .pg-eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:18px}
+  .pg-hero h1{font-family:'Archivo';font-weight:800;font-size:clamp(34px,6vw,56px);line-height:1.05;letter-spacing:-.02em;color:var(--white);margin-bottom:18px}
+  .pg-hero h1 .ac{color:var(--tq-bright)}
+  .pg-hero p{font-family:'Outfit';font-weight:300;font-size:clamp(16px,2.2vw,19px);color:var(--text);max-width:620px;margin:0 auto;line-height:1.6}
+
+  .split{max-width:1080px;margin:0 auto;padding:36px 26px 90px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  @media(max-width:860px){.split{grid-template-columns:1fr;gap:24px}}
+  .offer{background:var(--bg2);border:1px solid var(--border);position:relative;padding:42px 38px;display:flex;flex-direction:column;overflow:hidden}
+  .offer::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0E7490,#22D3EE)}
+  .offer .o-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px}
+  .offer h2{font-family:'Archivo';font-weight:800;font-size:clamp(24px,3vw,30px);letter-spacing:-.01em;color:var(--white);margin-bottom:10px;line-height:1.1}
+  .offer .o-lead{font-family:'Outfit';font-weight:300;font-size:15px;color:var(--text);line-height:1.6;margin-bottom:26px}
+  .o-benefits{list-style:none;padding:0;margin:0 0 30px}
+  .o-benefits li{position:relative;padding:11px 0 11px 30px;font-family:'Outfit';font-weight:300;font-size:15px;color:var(--off-white);line-height:1.5;border-bottom:1px solid var(--border2)}
+  .o-benefits li:last-child{border-bottom:none}
+  .o-benefits li::before{content:"";position:absolute;left:2px;top:17px;width:9px;height:9px;border-radius:50%;background:var(--tq-bright);box-shadow:0 0 12px rgba(34,211,238,.5)}
+  .o-meta{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:28px}
+  .o-meta div{font-family:'Outfit'}
+  .o-meta .om-k{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:5px}
+  .o-meta .om-v{font-size:15px;color:var(--white);font-weight:500}
+  .o-cta{margin-top:auto}
+  .o-btn{display:block;text-align:center;font-family:'Space Mono',monospace;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--bg);background:var(--tq-bright);padding:17px 24px;border-radius:4px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+  .o-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px -12px rgba(34,211,238,.6)}
+  .o-note{font-family:'Outfit';font-size:12.5px;font-weight:300;color:var(--muted);text-align:center;margin-top:12px}
+
+  /* consultation embed */
+  .embed-wrap{max-width:1000px;margin:0 auto;padding:10px 26px 90px}
+  .embed-card{background:var(--bg2);border:1px solid var(--border);position:relative;overflow:hidden}
+  .embed-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0E7490,#22D3EE);z-index:2}
+  .calendly-inline-widget{min-width:320px;height:760px}
+  .info-grid{max-width:1000px;margin:0 auto;padding:30px 26px 10px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  @media(max-width:760px){.info-grid{grid-template-columns:1fr}}
+  .info-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tq-mid);padding:24px 26px}
+  .info-card .ic-k{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:9px}
+  .info-card h3{font-family:'Archivo';font-weight:700;font-size:17px;color:var(--white);margin-bottom:8px}
+  .info-card p{font-family:'Outfit';font-weight:300;font-size:14px;color:var(--text);line-height:1.55}
+</style>
+
+  <section class="pg-hero">
+    <div class="wrap">
+      <div class="pg-eyebrow">Work with me</div>
+      <h1>Coaching <span class="ac">built around you.</span></h1>
+      <p>Two ways to work together — a fully custom peptide protocol designed for your goals, or a 1:1 consultation to get your questions answered and a clear plan in hand.</p>
     </div>
   </section>
 
-  <footer class="foot">
+  <section class="split">
+
+    <!-- Custom Peptide Protocol -->
+    <div class="offer">
+      <div class="o-tag">01 — Done-for-you</div>
+      <h2>Custom Peptide Protocol</h2>
+      <p class="o-lead">A protocol designed specifically for you — your goals, your history, your bloodwork. No guesswork, no copy-paste templates. You complete a detailed intake, and I build your plan.</p>
+      <ul class="o-benefits">
+        <li>Protocol matched to your exact goals &amp; physiology</li>
+        <li>Compound selection, dosing, and timing — fully mapped</li>
+        <li>Titration schedule to minimize side effects</li>
+        <li>Stacking and cycle guidance</li>
+        <li>Trusted sourcing direction</li>
+        <li>Delivered as a clean, branded protocol PDF</li>
+      </ul>
+      <div class="o-cta">
+        <a href="https://tally.so/r/mJPbdr" target="_blank" rel="noopener" class="o-btn">Start Your Protocol →</a>
+        <div class="o-note">Complete the intake to get started</div>
+      </div>
+    </div>
+
+    <!-- 1:1 Consultation -->
+    <div class="offer">
+      <div class="o-tag">02 — Live call</div>
+      <h2>1:1 Consultation</h2>
+      <p class="o-lead">A focused 30-minute call to get your specific questions answered. Bring your goals, your current stack, your bloodwork — and leave with clarity and a direction you can act on.</p>
+      <ul class="o-benefits">
+        <li>30 minutes, one-on-one with David</li>
+        <li>Personalized answers — not generic advice</li>
+        <li>Review your current protocol or stack</li>
+        <li>Direction on peptides, hormones &amp; longevity</li>
+        <li>Clear next steps you can act on immediately</li>
+        <li>Book a time that works for you</li>
+      </ul>
+      <div class="o-cta">
+        <a href="consultation.html" class="o-btn">Book a Consultation →</a>
+        <div class="o-note">See details &amp; pick your time</div>
+      </div>
+    </div>
+
+  </section>
+
+<footer class="foot">
     <div class="wrap">
       <div class="foot-grid">
         <div>
