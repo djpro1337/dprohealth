@@ -49,3 +49,18 @@ Nav "Calculator" link replaced site-wide with a "Tools" dropdown containing:
   - TDEE / Macro Calculator (tdee-calculator.html)
 Applied to index.html, peptide-calculator.html, tdee-calculator.html, and all 39 peptides/*.html pages.
 Footers on the three root pages now link both calculators.
+
+--- UPDATE 2026-06-24 ---
+Added glp1-titration.html (GLP-1 Titration Schedule tool).
+  - Compounds: retatrutide, tirzepatide, semaglutide, cagrilintide
+  - Standard trial-based ramp per compound + Custom mode (set own start/step/target/hold)
+  - Outputs: week-by-week visual timeline + schedule table + summary strip
+  - Google Analytics included; Retatrutide Handbook CTA
+Tools dropdown now lists all three tools (Peptide Calculator, TDEE/Macro, GLP-1 Titration)
+across index.html, all three tool pages, and all 39 peptides/*.html. Footers updated on root pages.
+
+--- UPDATE 2026-06-27 ---
+glp1-titration.html: added retatrutide-specific callout (shows only when retatrutide selected):
+  - 1 mg gentle-start option to minimize early side effects
+  - diminishing returns past 8 mg/week per trial data
+  - clinical-trial / investigational reminder

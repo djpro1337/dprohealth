@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TDEE &amp; Macro Calculator — DPRO Health</title>
-<meta name="description" content="Free TDEE and macro calculator with a dedicated GLP-1 mode. Get your calorie target and protein, carb, and fat grams — tuned for muscle retention on retatrutide, tirzepatide, and semaglutide. From DPRO Health.">
+<title>Suggestions & Feedback — DPRO Health</title>
+<meta name="description" content="Tell DPRO Health what content to make next, report a site bug, or share an idea. Your input shapes what gets built.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -247,283 +247,147 @@
           <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
           <div class="nav-dd-menu" role="menu">
           <a href="peptide-calculator.html">Peptide Calculator</a>
-          <a href="tdee-calculator.html" class="current">TDEE / Macro Calculator</a>
+          <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
           <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
           </div>
         </div>
         <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
         <a href="index.html#community">Community</a>
-        <a href="suggestions.html">Suggestions</a>
+        <a href="suggestions.html" class="current">Suggestions</a>
         <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
       </nav>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="page-hero">
+  <!-- ===== SUGGESTIONS PAGE BODY ===== -->
+  <style>
+    .sg-hero{padding:90px 0 30px}
+    .sg-hero .wrap{max-width:880px;margin:0 auto;text-align:center}
+    .sg-eyebrow{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:18px}
+    .sg-hero h1{font-family:'Archivo';font-weight:800;font-size:clamp(34px,6vw,54px);line-height:1.05;letter-spacing:-.02em;color:var(--white);margin-bottom:18px}
+    .sg-hero h1 .ac{color:var(--tq-bright)}
+    .sg-hero p{font-family:'Outfit';font-weight:300;font-size:clamp(15px,2.2vw,18px);color:var(--text);max-width:600px;margin:0 auto;line-height:1.6}
+
+    .sg-forms{padding:36px 0 100px}
+    .sg-forms .wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    @media(max-width:820px){.sg-forms .wrap{grid-template-columns:1fr;gap:22px}}
+
+    .sg-card{background:var(--bg2);border:1px solid var(--border);position:relative;padding:38px 34px;overflow:hidden}
+    .sg-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0E7490,#22D3EE)}
+    .sg-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:12px;display:block}
+    .sg-card h2{font-family:'Archivo';font-weight:700;font-size:22px;letter-spacing:-.01em;color:var(--white);margin-bottom:8px}
+    .sg-card .sg-sub{font-family:'Outfit';font-weight:300;font-size:14px;color:var(--text);line-height:1.55;margin-bottom:26px}
+
+    .sg-field{margin-bottom:18px}
+    .sg-field label{display:block;font-family:'Outfit';font-size:12.5px;font-weight:500;color:var(--white);margin-bottom:7px}
+    .sg-field label .opt{color:var(--text);font-weight:300}
+    .sg-field input,.sg-field textarea,.sg-field select{width:100%;background:var(--bg3,rgba(255,255,255,.02));border:1px solid var(--border);color:var(--white);font-family:'Outfit';font-size:14.5px;font-weight:300;padding:12px 14px;border-radius:4px;transition:border-color .2s,background .2s}
+    .sg-field input:focus,.sg-field textarea:focus,.sg-field select:focus{outline:none;border-color:var(--tq-bright);background:rgba(6,182,212,.05)}
+    .sg-field textarea{resize:vertical;min-height:120px}
+    .sg-field select{appearance:none;cursor:pointer}
+    .sg-field input::placeholder,.sg-field textarea::placeholder{color:#5b6a74}
+
+    .sg-submit{width:100%;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--tq-bright);border:none;padding:15px;border-radius:4px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+    .sg-submit:hover{transform:translateY(-2px);box-shadow:0 12px 30px -12px rgba(34,211,238,.6)}
+
+    .sg-thanks{padding:90px 0;text-align:center}
+    .sg-thanks .wrap{max-width:600px;margin:0 auto}
+  </style>
+
+  <section class="sg-hero">
     <div class="wrap">
-      <div class="eyebrow">Free Tool · Nutrition</div>
-      <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">TDEE &amp; Macro <span class="tq">Calculator</span></h1>
-      <p class="lead" style="margin-top:22px">Dialing in your diet? Enter your stats below and get your daily calorie target plus exact protein, carb, and fat grams. Flip on <strong style="color:var(--white);font-weight:500">GLP-1 Mode</strong> if you're running retatrutide, tirzepatide, or semaglutide — it protects your muscle while the fat comes off.</p>
+      <div class="sg-eyebrow">Your input shapes what's next</div>
+      <h1>Tell me what to <span class="ac">build &amp; cover</span> next.</h1>
+      <p>Want a video on a specific peptide, protocol, or GLP-1 question? Spotted something broken or confusing on the site? Drop it below — I read every submission.</p>
     </div>
   </section>
 
-  <!-- CALCULATOR -->
-  <section class="section" style="padding-top:30px">
+  <section class="sg-forms">
     <div class="wrap">
-      <div class="howto">
-        <div class="eyebrow">How to use it</div>
-        <h2 class="heading" style="font-size:clamp(24px,3vw,34px)">Your stats, <span class="tq">your numbers</span></h2>
-        <p class="card-text" style="font-size:15px;margin-top:10px;max-width:680px">TDEE is your Total Daily Energy Expenditure — the calories you burn in a day. We calculate it from your body stats and activity, then build your calorie target and macros around your goal. On a GLP-1? Flip the toggle and the math shifts to defend your lean mass.</p>
-        <div class="howto-steps">
-          <div class="howto-step">
-            <div class="hs-num">01</div>
-            <div class="hs-title">Your stats</div>
-            <div class="hs-text">Enter age, sex, height, and weight. Switch between lb/in and kg/cm anytime.</div>
-          </div>
-          <div class="howto-step">
-            <div class="hs-num">02</div>
-            <div class="hs-title">Activity level</div>
-            <div class="hs-text">Pick how active you are day to day — this scales your burn from your baseline.</div>
-          </div>
-          <div class="howto-step">
-            <div class="hs-num">03</div>
-            <div class="hs-title">Your goal</div>
-            <div class="hs-text">Lose, maintain, or gain. This sets your calorie target above or below maintenance.</div>
-          </div>
-          <div class="howto-step">
-            <div class="hs-num">04</div>
-            <div class="hs-title">Read your macros</div>
-            <div class="hs-text">Get daily calories plus protein, carb, and fat grams to hit your target.</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- GLP-1 TOGGLE -->
-      <div class="glp-toggle">
-        <div class="gt-left">
-          <div class="gt-title">GLP-1 Mode <span class="badge">Reta · Tirz · Sema</span></div>
-          <div class="gt-sub">On a GLP-1, appetite drops hard and it's easy to under-eat and lose muscle. Flip this on for a muscle-protecting protein floor, a smarter deficit cap, and a warning if your target dips below your baseline burn.</div>
-        </div>
-        <label class="switch" aria-label="Toggle GLP-1 Mode">
-          <input type="checkbox" id="glpMode">
-          <span class="track"><span class="thumb"></span></span>
-        </label>
-      </div>
+      <!-- FORM 1 — Content / video suggestions -->
+      <div class="sg-card">
+        <span class="sg-tag">01 — Content Requests</span>
+        <h2>Suggest a video or topic</h2>
+        <p class="sg-sub">What do you want me to cover? A peptide, a GLP-1 question, a protocol breakdown — anything.</p>
 
-      <div class="calc-grid">
+        <form name="content-suggestions" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+          <input type="hidden" name="form-name" value="content-suggestions">
+          <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
 
-        <!-- INPUTS -->
-        <div class="calc-panel">
-
-          <div class="field">
-            <label>Units</label>
-            <div class="seg" id="unitSeg">
-              <button data-units="imperial" class="active">Imperial · lb / in</button>
-              <button data-units="metric">Metric · kg / cm</button>
-            </div>
+          <div class="sg-field">
+            <label for="c-topic">What should I make next?</label>
+            <textarea id="c-topic" name="topic" placeholder="e.g. A full retatrutide titration walkthrough, or BPC-157 vs TB-500 for tendon healing…" required></textarea>
           </div>
 
-          <div class="field">
-            <label>Sex</label>
-            <div class="seg" id="sexSeg">
-              <button data-sex="male" class="active">Male</button>
-              <button data-sex="female">Female</button>
-            </div>
-            <div class="hint">Used by the BMR formula — affects baseline calorie burn.</div>
-          </div>
-
-          <div class="field">
-            <label>Age</label>
-            <div class="input-row single">
-              <input id="age" type="number" inputmode="numeric" min="0" step="1" value="35">
-            </div>
-            <div class="hint">Your age in years.</div>
-          </div>
-
-          <div class="field">
-            <label>Height</label>
-            <div class="input-row" id="heightRow">
-              <input id="heightVal" type="number" inputmode="decimal" min="0" step="any" value="70">
-              <select class="unit-select" id="heightUnit"><option value="in" selected>in</option></select>
-            </div>
-            <div class="hint" id="heightHint">Total height in inches (e.g. 5'10" = 70 in).</div>
-          </div>
-
-          <div class="field">
-            <label>Weight</label>
-            <div class="input-row" id="weightRow">
-              <input id="weightVal" type="number" inputmode="decimal" min="0" step="any" value="190">
-              <select class="unit-select" id="weightUnit"><option value="lb" selected>lb</option></select>
-            </div>
-            <div class="hint">Your current bodyweight.</div>
-          </div>
-
-          <div class="field">
-            <label>Activity level</label>
-            <select class="full" id="activity">
-              <option value="1.2">Sedentary — desk job, little exercise</option>
-              <option value="1.375">Light — light exercise 1–3 days/wk</option>
-              <option value="1.55" selected>Moderate — exercise 3–5 days/wk</option>
-              <option value="1.725">Very active — hard exercise 6–7 days/wk</option>
-              <option value="1.9">Athlete — physical job + hard training</option>
+          <div class="sg-field">
+            <label for="c-format">Preferred format <span class="opt">(optional)</span></label>
+            <select id="c-format" name="format">
+              <option value="">No preference</option>
+              <option>Short (Reel / Short / TikTok)</option>
+              <option>Long-form YouTube</option>
+              <option>Written guide / newsletter</option>
+              <option>New site tool or calculator</option>
             </select>
-            <div class="hint">Be honest — overestimating here is the #1 reason targets miss.</div>
           </div>
 
-          <div class="field">
-            <label>Goal</label>
-            <div class="seg stack" id="goalSeg">
-              <button data-goal="lose" class="active">Lose fat<span class="seg-sub">Calorie deficit below maintenance</span></button>
-              <button data-goal="maintain">Maintain<span class="seg-sub">Eat at maintenance</span></button>
-              <button data-goal="gain">Build muscle<span class="seg-sub">Calorie surplus above maintenance</span></button>
-            </div>
+          <div class="sg-field">
+            <label for="c-name">Name <span class="opt">(optional)</span></label>
+            <input type="text" id="c-name" name="name" placeholder="So I can credit you if I make it">
           </div>
 
-          <!-- deficit/surplus aggressiveness, hidden at maintain -->
-          <div class="field" id="rateField">
-            <label id="rateLabel">Deficit size</label>
-            <div class="seg" id="rateSeg">
-              <button data-rate="mild">Mild</button>
-              <button data-rate="moderate" class="active">Moderate</button>
-              <button data-rate="aggressive">Aggressive</button>
-            </div>
-            <div class="hint" id="rateHint">Moderate (~20%) is the sweet spot for most people.</div>
+          <div class="sg-field">
+            <label for="c-email">Email <span class="opt">(optional — if you want a reply)</span></label>
+            <input type="email" id="c-email" name="email" placeholder="you@email.com">
           </div>
 
-        </div>
-
-        <!-- RESULTS -->
-        <div class="result-panel">
-          <div class="result-big">
-            <div class="syringe-label" style="font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px">Daily target</div>
-            <div class="draw-units" id="outCals">—<small> cals</small></div>
-            <div class="draw-sub" id="outErr"></div>
-          </div>
-
-          <div class="result-rows">
-            <div class="rr"><span class="k">Maintenance (TDEE)</span><span class="v" id="outTdee">— <small>cals</small></span></div>
-            <div class="rr"><span class="k">Baseline burn (BMR)</span><span class="v" id="outBmr">— <small>cals</small></span></div>
-            <div class="rr"><span class="k">Daily adjustment</span><span class="v" id="outAdj">—</span></div>
-          </div>
-
-          <!-- GLP-1 flag -->
-          <div class="flag" id="glpFlag">
-            <div class="flag-label">⚠ GLP-1 check</div>
-            <p id="glpFlagText"></p>
-          </div>
-
-          <div class="macro-wrap">
-            <div class="macro-label">Daily macros</div>
-            <div class="macro-row">
-              <div class="macro-head"><span class="mk">Protein</span><span class="mv" id="mvProtein">— <small>g</small></span></div>
-              <div class="macro-bar"><div class="macro-fill protein" id="barProtein"></div></div>
-            </div>
-            <div class="macro-row">
-              <div class="macro-head"><span class="mk">Carbs</span><span class="mv" id="mvCarbs">— <small>g</small></span></div>
-              <div class="macro-bar"><div class="macro-fill carbs" id="barCarbs"></div></div>
-            </div>
-            <div class="macro-row">
-              <div class="macro-head"><span class="mk">Fat</span><span class="mv" id="mvFat">— <small>g</small></span></div>
-              <div class="macro-bar"><div class="macro-fill fat" id="barFat"></div></div>
-            </div>
-          </div>
-        </div>
+          <button type="submit" class="sg-submit">Send suggestion</button>
+        </form>
       </div>
 
-      <!-- HOW IT WORKS / DISCLAIMER -->
-      <div class="grid g2" style="gap:2px;margin-top:2px">
-        <div class="note-card">
-          <div class="nc-label">How the math works</div>
-          <p>We calculate <strong>BMR</strong> with the Mifflin-St Jeor equation, then multiply by your activity level to get <strong>TDEE</strong> (maintenance calories). Your goal sets the adjustment: a deficit to lose, a surplus to gain. <strong>Protein</strong> is set per pound of bodyweight to protect muscle, <strong>fat</strong> to a healthy floor, and <strong>carbs</strong> fill the rest.</p>
-        </div>
-        <div class="note-card" id="glpNote">
-          <div class="nc-label">Why GLP-1 Mode is different</div>
-          <p>On retatrutide, tirzepatide, or semaglutide, appetite suppression makes severe under-eating easy — which burns muscle alongside fat. <strong>GLP-1 Mode caps your deficit, raises your protein floor to ~1 g per pound of goal weight, and flags any target that falls below your BMR.</strong> Slower, muscle-sparing fat loss beats the scale dropping fast while you lose lean mass.</p>
-        </div>
+      <!-- FORM 2 — Site feedback -->
+      <div class="sg-card">
+        <span class="sg-tag">02 — Site Feedback</span>
+        <h2>Report a bug or share an idea</h2>
+        <p class="sg-sub">Something broken, slow, or hard to find? Or an idea to make the site better? Tell me here.</p>
+
+        <form name="site-feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+          <input type="hidden" name="form-name" value="site-feedback">
+          <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
+
+          <div class="sg-field">
+            <label for="f-type">Type of feedback</label>
+            <select id="f-type" name="feedback_type" required>
+              <option value="">Choose one…</option>
+              <option>Bug / something's broken</option>
+              <option>Confusing or hard to find</option>
+              <option>Feature or tool idea</option>
+              <option>General feedback</option>
+            </select>
+          </div>
+
+          <div class="sg-field">
+            <label for="f-message">Details</label>
+            <textarea id="f-message" name="message" placeholder="What happened, which page, and what you expected…" required></textarea>
+          </div>
+
+          <div class="sg-field">
+            <label for="f-page">Which page? <span class="opt">(optional)</span></label>
+            <input type="text" id="f-page" name="page" placeholder="e.g. the GLP-1 Titration tool">
+          </div>
+
+          <div class="sg-field">
+            <label for="f-email">Email <span class="opt">(optional — if you want a reply)</span></label>
+            <input type="email" id="f-email" name="email" placeholder="you@email.com">
+          </div>
+
+          <button type="submit" class="sg-submit">Send feedback</button>
+        </form>
       </div>
 
-      <!-- HANDBOOK CTA -->
-      <a class="cta-card" href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" style="text-decoration:none">
-        <div class="cc-left">
-          <div class="cc-eyebrow">Free · On GLP-1?</div>
-          <div class="cc-title">The Retatrutide Handbook</div>
-          <div class="cc-sub">Your numbers are the start. The handbook covers dosing, titration, side-effect management, and how to keep muscle while the fat comes off — free.</div>
-        </div>
-        <span class="cc-btn">Get the handbook →</span>
-      </a>
-
-      <div class="grid" style="margin-top:2px">
-        <div class="note-card" style="border-left-color:#ef4444">
-          <div class="nc-label" style="color:#fca5a5">Important disclaimer</div>
-          <p>This calculator is an <strong>educational tool only</strong> and does not constitute medical, nutritional, or weight-loss advice. Calorie and macro estimates are starting points based on population averages — your real needs vary. Always work with a qualified healthcare professional before starting any diet, training, or compound protocol.</p>
-        </div>
-      </div>
     </div>
   </section>
 
-  <!-- TRUSTED VENDORS -->
-  <section class="section alt" id="vendors">
-    <div class="wrap">
-      <div class="eyebrow">Where to buy · Trusted Vendors</div>
-      <h2 class="heading">Sourcing <span class="tq">matters</span></h2>
-      <p class="lead" style="margin-bottom:40px">Quality and purity are everything with peptides. These are vendors I trust and personally work with. Codes below save you money — and yes, some are affiliate links that support the channel at no extra cost to you.</p>
-      <div class="vendor-grid">
-        <a href="https://alphaomegapeptide.com/ref/davidp_ifbbpro/" target="_blank" rel="noopener" class="vendor">
-          <div class="v-left">
-            <div class="v-name">Alpha Omega Peptide <span class="arrow">→</span></div>
-            <div class="v-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="v-code">DPRO · 15% off</div>
-        </a>
-        <a href="https://modernaminos.com/?ref=dpro" target="_blank" rel="noopener" class="vendor">
-          <div class="v-left">
-            <div class="v-name">Modern Aminos <span class="arrow">→</span></div>
-            <div class="v-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="v-code">DPRO · 10% off</div>
-        </a>
-        <a href="https://glacieraminos.shop/?ref=dpro" target="_blank" rel="noopener" class="vendor">
-          <div class="v-left">
-            <div class="v-name">Glacier Aminos <span class="arrow">→</span></div>
-            <div class="v-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="v-code">DPRO · 10% off</div>
-        </a>
-        <a href="https://atomiklabz.com/aff/344/" target="_blank" rel="noopener" class="vendor">
-          <div class="v-left">
-            <div class="v-name">Atomik Labz <span class="arrow">→</span></div>
-            <div class="v-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="v-code">DPRO15 · 15% off</div>
-        </a>
-        <a href="https://solutionpeptides.net/aff/334/" target="_blank" rel="noopener" class="vendor">
-          <div class="v-left">
-            <div class="v-name">Solution Peptide <span class="arrow">→</span></div>
-            <div class="v-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="v-code">DPRO15 · 15% off</div>
-        </a>
-        <a href="https://aminowellusa.com/?ref=DPRO" target="_blank" rel="noopener" class="vendor">
-          <div class="v-left">
-            <div class="v-name">Amino Well <span class="arrow">→</span></div>
-            <div class="v-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="v-code">DPRO · 10% off</div>
-        </a>
-        <a href="https://www.transcendcompany.com/DPRO" target="_blank" rel="noopener" class="vendor" style="grid-column:1/-1">
-          <div class="v-left">
-            <div class="v-name">Transcend HRT <span class="arrow">→</span></div>
-            <div class="v-sub">Testosterone, peptides &amp; bloodwork</div>
-          </div>
-          <div class="v-code">DPRO · 5% off</div>
-        </a>
-      </div>
-      <p class="card-text" style="font-size:12.5px;color:var(--muted);margin-top:24px;max-width:700px">Disclosure: some links above are affiliate or referral links. Always verify a vendor's testing and purity standards yourself. Nothing here is medical advice — see the disclaimer above.</p>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
   <footer class="foot">
     <div class="wrap">
       <div class="foot-grid">
