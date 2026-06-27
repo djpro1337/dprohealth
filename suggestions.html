@@ -368,7 +368,7 @@
         <h2>Suggest a video or topic</h2>
         <p class="sg-sub">What do you want me to cover? A peptide, a GLP-1 question, a protocol breakdown — anything.</p>
 
-        <form name="content-suggestions" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+        <form name="content-suggestions" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-sg-form>
           <input type="hidden" name="form-name" value="content-suggestions">
           <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
 
@@ -408,7 +408,7 @@
         <h2>Report a bug or share an idea</h2>
         <p class="sg-sub">Something broken, slow, or hard to find? Or an idea to make the site better? Tell me here.</p>
 
-        <form name="site-feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html">
+        <form name="site-feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" data-sg-form>
           <input type="hidden" name="form-name" value="site-feedback">
           <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
 
@@ -746,6 +746,61 @@
       }
     });
   });
+</script>
+<script>
+/* Netlify Forms — AJAX submit so we never rely on a redirect.
+   Posts to "/" (Netlify intercepts the POST regardless of path),
+   then shows an inline branded success message. */
+(function(){
+  function encode(data){
+    return Object.keys(data).map(function(k){
+      return encodeURIComponent(k)+"="+encodeURIComponent(data[k]);
+    }).join("&");
+  }
+  document.querySelectorAll('form[data-sg-form]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var origText = btn ? btn.textContent : '';
+      if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      var data = {};
+      new FormData(form).forEach(function(v,k){ data[k]=v; });
+
+      fetch('/', {
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded'},
+        body: encode(data)
+      })
+      .then(function(res){
+        if(!res.ok) throw new Error('Bad status '+res.status);
+        // Replace the form with an inline success panel
+        var card = form.closest('.sg-card') || form.parentNode;
+        form.style.display = 'none';
+        var done = document.createElement('div');
+        done.setAttribute('role','status');
+        done.style.cssText = 'padding:30px 4px;text-align:center';
+        done.innerHTML =
+          '<div style="font-family:\'Space Mono\',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px">Submission received</div>'+
+          '<h3 style="font-family:\'Archivo\';font-weight:800;font-size:22px;color:var(--white);margin:0 0 10px">Got it — thank you.</h3>'+
+          '<p style="font-family:\'Outfit\';font-weight:300;font-size:14.5px;color:var(--text);line-height:1.6;margin:0">It landed in my inbox. I read every one — the best ideas become videos, tools, and guides.</p>';
+        card.appendChild(done);
+      })
+      .catch(function(){
+        if(btn){ btn.disabled = false; btn.textContent = origText; }
+        var card = form.closest('.sg-card') || form.parentNode;
+        var err = card.querySelector('[data-sg-err]');
+        if(!err){
+          err = document.createElement('p');
+          err.setAttribute('data-sg-err','');
+          err.style.cssText='font-family:\'Outfit\';font-size:13.5px;color:#fca5a5;margin-top:14px;text-align:center';
+          form.appendChild(err);
+        }
+        err.textContent = 'Something went wrong sending that. Please try again, or email me directly.';
+      });
+    });
+  });
+})();
 </script>
 </body>
 </html>
