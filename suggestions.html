@@ -225,6 +225,26 @@
 </script>
 </head>
 <body>
+
+<!-- Netlify build-time form detection stubs (hidden; ensures all field names register).
+     These are plain static forms the Netlify bot reads at deploy. The visible forms below
+     submit via AJAX to the same form-name. Do not remove. -->
+<form name="content-suggestions" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="content-suggestions">
+  <input name="bot-field">
+  <textarea name="topic"></textarea>
+  <select name="format"><option></option></select>
+  <input type="text" name="name">
+  <input type="email" name="email">
+</form>
+<form name="site-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="site-feedback">
+  <input name="bot-field">
+  <select name="feedback_type"><option></option></select>
+  <textarea name="message"></textarea>
+  <input type="text" name="page">
+  <input type="email" name="email">
+</form>
 <div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
 <div class="shell">
 
@@ -767,7 +787,7 @@
       var data = {};
       new FormData(form).forEach(function(v,k){ data[k]=v; });
 
-      fetch('/', {
+      fetch(window.location.pathname, {
         method:'POST',
         headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body: encode(data)
