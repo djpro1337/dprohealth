@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Test</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#0c0f12;color:#f0f4f6;max-width:560px;margin:60px auto;padding:0 24px;line-height:1.6}
+  h1{font-size:22px}
+  label{display:block;margin:18px 0 6px;font-size:14px}
+  input,textarea{width:100%;padding:11px 13px;background:#11151a;border:1px solid #2a3540;color:#f0f4f6;border-radius:6px;font-size:15px;box-sizing:border-box}
+  button{margin-top:22px;padding:13px 22px;background:#22d3ee;color:#08111a;border:none;border-radius:6px;font-weight:700;font-size:15px;cursor:pointer}
+  .note{font-size:13px;color:#7a9aaa;margin-top:30px;border-top:1px solid #1c252e;padding-top:18px}
+</style>
+</head>
+<body>
+  <h1>Netlify form test</h1>
+  <p>This is a bare-bones Netlify form with no JavaScript and no custom action. Submit it. If it works, you'll land on Netlify's default success page (a plain confirmation). If it 404s, the problem is the Netlify site setup, not the form code.</p>
+
+  <form name="form-test" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="form-test">
+    <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
+
+    <label for="t-name">Name</label>
+    <input type="text" id="t-name" name="name" required>
+
+    <label for="t-msg">Message</label>
+    <textarea id="t-msg" name="message" rows="4" required></textarea>
+
+    <button type="submit">Submit test</button>
+  </form>
+
+  <p class="note">After submitting, check Netlify → Forms for a form called <strong>form-test</strong> with your submission. Delete this page once we've diagnosed the issue.</p>
+</body>
+</html>
