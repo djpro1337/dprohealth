@@ -787,10 +787,20 @@
       var data = {};
       new FormData(form).forEach(function(v,k){ data[k]=v; });
 
-      fetch(window.location.pathname, {
-        method:'POST',
-        headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body: encode(data)
+      // Netlify registered these forms on /suggestions.html at build time.
+      // Post there explicitly; if the host serves pretty-URLs and that 404s,
+      // retry against root, which Netlify also accepts for form posts.
+      function postTo(path){
+        return fetch(path, {
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body: encode(data)
+        });
+      }
+      postTo('/suggestions.html')
+      .then(function(res){
+        if(res.status===404){ return postTo('/'); }
+        return res;
       })
       .then(function(res){
         if(!res.ok) throw new Error('Bad status '+res.status);
