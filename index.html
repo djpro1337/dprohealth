@@ -264,6 +264,61 @@
     </div>
   </section>
 
+  <!-- ===== WHERE TO BUY CALLOUT (under hero) ===== -->
+  <style>
+    .home-buy-wrap{max-width:900px;margin:0 auto;padding:10px 26px 0;position:relative}
+    .home-buy-arrow{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
+    .home-buy-arrow .ba-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright);font-weight:700}
+    .home-buy-arrow .ba-icon{font-size:26px;color:var(--tq-bright);animation:homeBounce 1.4s ease-in-out infinite}
+    @keyframes homeBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+    @media(prefers-reduced-motion:reduce){.home-buy-arrow .ba-icon{animation:none}}
+    .home-buy{position:relative;background:linear-gradient(150deg,rgba(6,182,212,.14),rgba(14,116,144,.08));
+      border:2px solid var(--tq-bright);border-radius:16px;padding:34px 32px;
+      box-shadow:0 0 0 1px rgba(34,211,238,.15),0 24px 60px -24px rgba(34,211,238,.5)}
+    .home-buy .hb-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
+    .home-buy h3{font-family:'Archivo';font-weight:800;font-size:clamp(22px,3.2vw,30px);color:var(--white);letter-spacing:-.01em;margin:0 0 8px;line-height:1.1}
+    .home-buy p.hb-lead{font-family:'Outfit';font-weight:300;font-size:15px;color:var(--text);margin:0 0 26px;line-height:1.55;max-width:620px}
+    .home-buy-btns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:620px){.home-buy-btns{grid-template-columns:1fr}}
+    .home-buy-btn{display:flex;align-items:center;justify-content:space-between;gap:14px;
+      background:var(--bg2);border:1px solid var(--tq-border);border-radius:10px;padding:20px 22px;
+      text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s}
+    .home-buy-btn:hover{transform:translateY(-3px);background:var(--bg3);box-shadow:0 16px 34px -16px rgba(34,211,238,.55)}
+    .home-buy-btn .hbb-name{font-family:'Archivo';font-weight:800;font-size:18px;color:var(--white);display:flex;align-items:center;gap:9px}
+    .home-buy-btn .hbb-name .hbb-arrow{color:var(--tq-bright);font-size:15px;transition:transform .25s}
+    .home-buy-btn:hover .hbb-name .hbb-arrow{transform:translateX(5px)}
+    .home-buy-btn .hbb-sub{font-family:'Outfit';font-weight:300;font-size:12.5px;color:var(--text);margin-top:3px}
+    .home-buy-btn .hbb-code{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.04em;
+      color:var(--bg);background:var(--tq-bright);padding:9px 14px;border-radius:5px;white-space:nowrap}
+  </style>
+  <div class="home-buy-wrap">
+    <div class="home-buy-arrow">
+      <span class="ba-text">Get your peptides here</span>
+      <span class="ba-icon">↓</span>
+    </div>
+    <div class="home-buy">
+      <div class="hb-tag">Where to buy peptides</div>
+      <h3>Save 10-15% with code <span class="tq">DPRO</span></h3>
+      <p class="hb-lead">The two sources I trust and personally use. Code <strong>DPRO</strong> is applied for your discount — tap to shop.</p>
+      <div class="home-buy-btns">
+        <a href="https://glacieraminos.shop/?ref=dpro" target="_blank" rel="noopener" class="home-buy-btn">
+          <div>
+            <div class="hbb-name">Glacier Aminos <span class="hbb-arrow">→</span></div>
+            <div class="hbb-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="hbb-code">DPRO · 10-15%</div>
+        </a>
+        <a href="https://modernaminos.com/?ref=dpro" target="_blank" rel="noopener" class="home-buy-btn">
+          <div>
+            <div class="hbb-name">Modern Aminos <span class="hbb-arrow">→</span></div>
+            <div class="hbb-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="hbb-code">DPRO · 10-15%</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- MISSION -->
   <section class="section">
     <div class="wrap">
