@@ -226,25 +226,6 @@
 </head>
 <body>
 
-<!-- Netlify build-time form detection stubs (hidden; ensures all field names register).
-     These are plain static forms the Netlify bot reads at deploy. The visible forms below
-     submit via AJAX to the same form-name. Do not remove. -->
-<form name="content-suggestions" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="content-suggestions">
-  <input name="bot-field">
-  <textarea name="topic"></textarea>
-  <select name="format"><option></option></select>
-  <input type="text" name="name">
-  <input type="email" name="email">
-</form>
-<form name="site-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
-  <input type="hidden" name="form-name" value="site-feedback">
-  <input name="bot-field">
-  <select name="feedback_type"><option></option></select>
-  <textarea name="message"></textarea>
-  <input type="text" name="page">
-  <input type="email" name="email">
-</form>
 <div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
 <div class="shell">
 
@@ -306,13 +287,6 @@
           <a href="peptides/blend-triple-threat.html">Triple Threat</a>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="nav-dd coaching">
-          <a href="coaching.html" class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Coaching <span class="dd-caret">▾</span></a>
-          <div class="nav-dd-menu" role="menu">
-          <a href="https://tally.so/r/mJPbdr" target="_blank" rel="noopener">Custom Peptide Protocol</a>
-          <a href="consultation.html">1:1 Consultation</a>
           </div>
         </div>
         <div class="nav-dd tools">
@@ -388,9 +362,11 @@
         <h2>Suggest a video or topic</h2>
         <p class="sg-sub">What do you want me to cover? A peptide, a GLP-1 question, a protocol breakdown — anything.</p>
 
-        <form name="content-suggestions" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you">
-          <input type="hidden" name="form-name" value="content-suggestions">
-          <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
+        <form data-w3form method="POST" action="https://api.web3forms.com/submit">
+          <input type="hidden" name="access_key" value="722852da-e976-42bb-9976-4c3831edd856">
+          <input type="hidden" name="subject" value="New Content Suggestion — DPRO Health">
+          <input type="hidden" name="from_name" value="DPRO Health — Suggestions">
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
 
           <div class="sg-field">
             <label for="c-topic">What should I make next?</label>
@@ -428,9 +404,11 @@
         <h2>Report a bug or share an idea</h2>
         <p class="sg-sub">Something broken, slow, or hard to find? Or an idea to make the site better? Tell me here.</p>
 
-        <form name="site-feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you">
-          <input type="hidden" name="form-name" value="site-feedback">
-          <p style="display:none"><label>Skip: <input name="bot-field"></label></p>
+        <form data-w3form method="POST" action="https://api.web3forms.com/submit">
+          <input type="hidden" name="access_key" value="722852da-e976-42bb-9976-4c3831edd856">
+          <input type="hidden" name="subject" value="New Site Feedback — DPRO Health">
+          <input type="hidden" name="from_name" value="DPRO Health — Site Feedback">
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
 
           <div class="sg-field">
             <label for="f-type">Type of feedback</label>
@@ -766,6 +744,53 @@
       }
     });
   });
+</script>
+<script>
+/* Web3Forms AJAX submit — posts in the background, shows inline thank-you.
+   No page navigation, so nothing can 404. Submissions email to David. */
+(function(){
+  document.querySelectorAll('form[data-w3form]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button[type="submit"]');
+      var origText = btn ? btn.textContent : '';
+      if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      var json = JSON.stringify(Object.fromEntries(new FormData(form)));
+
+      fetch('https://api.web3forms.com/submit', {
+        method:'POST',
+        headers:{'Content-Type':'application/json', 'Accept':'application/json'},
+        body: json
+      })
+      .then(function(res){ return res.json().then(function(d){ return {ok:res.ok, data:d}; }); })
+      .then(function(r){
+        if(!r.ok || !r.data.success){ throw new Error(r.data && r.data.message ? r.data.message : 'Submit failed'); }
+        var card = form.closest('.sg-card') || form.parentNode;
+        form.style.display = 'none';
+        var done = document.createElement('div');
+        done.setAttribute('role','status');
+        done.style.cssText = 'padding:30px 4px;text-align:center';
+        done.innerHTML =
+          '<div style="font-family:\'Space Mono\',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px">Submission received</div>'+
+          '<h3 style="font-family:\'Archivo\';font-weight:800;font-size:22px;color:var(--white);margin:0 0 10px">Got it — thank you.</h3>'+
+          '<p style="font-family:\'Outfit\';font-weight:300;font-size:14.5px;color:var(--text);line-height:1.6;margin:0">It landed in my inbox. I read every one — the best ideas become videos, tools, and guides.</p>';
+        card.appendChild(done);
+      })
+      .catch(function(){
+        if(btn){ btn.disabled = false; btn.textContent = origText; }
+        var err = form.querySelector('[data-w3-err]');
+        if(!err){
+          err = document.createElement('p');
+          err.setAttribute('data-w3-err','');
+          err.style.cssText='font-family:\'Outfit\';font-size:13.5px;color:#fca5a5;margin-top:14px;text-align:center';
+          form.appendChild(err);
+        }
+        err.textContent = 'Something went wrong sending that. Please try again in a moment.';
+      });
+    });
+  });
+})();
 </script>
 </body>
 </html>
