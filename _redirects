@@ -1,0 +1,19 @@
+# DPRO Health — affiliate redirect layer
+# Netlify _redirects. Place this file in the site publish root (same folder as index.html).
+# Format:  <path>  <destination>  <status>
+# 302 = temporary. Use 302, NOT 301 — browsers cache 301s forever and you lose
+# the ability to repoint a link later, which is the whole point of this file.
+
+# ---- Peptide vendors -------------------------------------------------------
+/go/glacier      https://glacieraminos.shop/?ref=dpro          302
+/go/modern       https://modernaminos.com/?ref=dpro            302
+/go/aminowell    https://aminowellusa.com/?ref=DPRO            302
+/go/lumora       https://lumorapeptides.io/?ref=dpro           302
+/go/atomik       https://atomiklabz.com/aff/344/               302
+/go/solution     https://solutionpeptides.net/aff/334/         302
+
+# ---- Bloodwork / prescription peptides ------------------------------------
+/go/algorx       https://app.algorx.ai/?ref=DAVIDPROCHASKA     302
+
+# ---- Price comparison ------------------------------------------------------
+/go/prices       https://peptiprices.com/dpro                  302
