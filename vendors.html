@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="brand.css">
 <style>
   /* ===== VENDORS PAGE ===== */
+  :root{--gold:#C97E1D;--gold-bright:#E3A23A;--gold-dim:rgba(201,126,29,.10);--gold-border:rgba(201,126,29,.38)}
   .page-hero{padding:104px 0 54px}
   .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:30px;flex-wrap:wrap}
   .sec-head .lead{margin:0}
@@ -33,21 +34,30 @@
   .pick .pk-title{font-family:'Archivo';font-weight:700;font-size:16px;color:var(--white);margin-bottom:8px;letter-spacing:-.01em}
   .pick .pk-text{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.6}
 
+  /* gold = buy/action. cyan = information. */
+  .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:#1A1000;box-shadow:0 12px 38px -14px rgba(201,126,29,.75)}
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 48px -14px rgba(227,162,58,.9);color:#1A1000}
+
   /* vendor card — shared component (reuse on homepage) */
   .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
   .vgrid.two{grid-template-columns:1fr 1fr}
   .vgrid.one{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   @media(max-width:860px){.vgrid,.vgrid.two,.vgrid.one{grid-template-columns:1fr}}
-  .vcard{background:var(--bg2);border:1px solid var(--border);padding:30px 28px;display:flex;flex-direction:column;gap:16px;transition:background .2s,border-color .2s}
+  .vcard{position:relative;background:var(--bg2);border:1px solid var(--border);padding:30px 28px;display:flex;flex-direction:column;gap:18px;transition:background .2s,border-color .2s}
   .vcard:hover{background:var(--bg3);border-color:var(--tq-border)}
-  .vcard.pref{border-color:var(--tq-border);background:linear-gradient(160deg,#0d141b,#0a0e12);padding:36px 34px}
-  .vcard.pref:hover{border-color:var(--tq-mid)}
-  .vc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .vcard.pref{border-color:var(--gold-border);background:linear-gradient(160deg,#121210,#0a0e12 60%);padding:36px 34px}
+  .vcard.pref::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(360px 200px at 0% 0%,var(--gold-dim),transparent 70%)}
+  .vcard.pref:hover{border-color:var(--gold)}
+  .vc-head{display:flex;align-items:center;gap:18px}
+  .vc-logo{width:84px;height:84px;flex-shrink:0;border-radius:10px;overflow:hidden;background:var(--white);border:1px solid rgba(255,255,255,.1);box-shadow:0 12px 30px -14px rgba(0,0,0,.9)}
+  .vc-logo img{width:100%;height:100%;display:block;object-fit:cover}
+  .vcard.pref .vc-logo{width:112px;height:112px;border-radius:12px}
+  .vc-id{min-width:0;display:flex;flex-direction:column;gap:8px}
   .vc-name{font-family:'Archivo';font-weight:700;font-size:20px;color:var(--white);letter-spacing:-.01em;line-height:1.1}
   .vcard.pref .vc-name{font-size:26px;letter-spacing:-.02em}
-  .vc-badge{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#04161c;background:linear-gradient(135deg,var(--tq-mid),var(--tq-light));padding:5px 9px;border-radius:2px;white-space:nowrap;flex-shrink:0}
-  .vc-sub{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.5;margin-top:-6px}
-  .vc-off{font-family:'Archivo';font-weight:800;font-size:26px;color:var(--tq-bright);line-height:1;letter-spacing:-.02em}
+  .vc-badge{position:absolute;top:18px;right:18px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#1A1000;background:linear-gradient(135deg,var(--gold),var(--gold-bright));padding:5px 9px;border-radius:2px;white-space:nowrap}
+  .vc-sub{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.5;margin-top:-4px}
+  .vc-off{font-family:'Archivo';font-weight:800;font-size:26px;color:var(--gold-bright);line-height:1;letter-spacing:-.02em}
   .vc-off small{font-family:'Outfit';font-weight:300;font-size:13px;color:var(--text);letter-spacing:0;margin-left:6px}
   .vc-code-row{display:flex;align-items:stretch}
   .vc-code{flex:1;min-width:0;font-family:'Space Mono',monospace;font-size:15px;letter-spacing:.12em;color:var(--white);background:var(--bg);border:1px solid var(--border);padding:11px 14px;border-radius:3px 0 0 3px;display:flex;align-items:center;gap:12px}
@@ -56,11 +66,19 @@
   .vc-copy:hover{background:var(--tq-glow);border-color:var(--tq-mid)}
   .vc-copy.done{color:#04161c;background:var(--tq-mid);border-color:var(--tq-mid)}
   .vc-go{justify-content:center;margin-top:auto}
-  .vc-go.btn-ghost{padding:13px 28px}
   .vc-verified{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
   .vc-verified::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--tq-mid);box-shadow:0 0 8px var(--tq-mid);flex-shrink:0}
   .disclosure{font-size:12.5px;color:var(--muted);margin-top:28px;max-width:720px;line-height:1.6}
   .disclosure a{color:var(--text)}
+  @media(max-width:560px){
+    .vcard{padding:26px 22px}
+    .vcard.pref{padding:52px 22px 28px}
+    .vc-logo,.vcard.pref .vc-logo{width:72px;height:72px;border-radius:10px}
+    .vc-name,.vcard.pref .vc-name{font-size:20px}
+    .vc-off{white-space:nowrap;font-size:24px}
+    .vc-off small{display:block;margin:5px 0 0;white-space:normal}
+    .vc-badge{top:14px;right:14px}
+  }
 
   /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
   .nav-dd{position:relative;display:inline-block}
@@ -286,18 +304,24 @@
       <div class="vgrid two">
 
         <div class="vcard pref">
-          <div class="vc-top"><div class="vc-name">Glacier Aminos</div><span class="vc-badge">Preferred</span></div>
-          <div class="vc-off">10–15%<small>off with code</small></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/glacier.png" alt="Glacier Aminos logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">Glacier Aminos</div><div class="vc-off">10–15%<small>off with code</small></div></div>
+            <span class="vc-badge">Preferred</span>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Glacier Aminos">Copy</button></div>
-          <a class="btn btn-primary vc-go" href="/go/glacier" target="_blank" rel="noopener sponsored" data-vendor="Glacier Aminos">Shop Glacier Aminos <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/glacier" target="_blank" rel="noopener sponsored" data-vendor="Glacier Aminos">Shop Glacier Aminos <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
         <div class="vcard pref">
-          <div class="vc-top"><div class="vc-name">Modern Aminos</div><span class="vc-badge">Preferred</span></div>
-          <div class="vc-off">10–15%<small>off with code</small></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/modern.png" alt="Modern Aminos logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">Modern Aminos</div><div class="vc-off">10–15%<small>off with code</small></div></div>
+            <span class="vc-badge">Preferred</span>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Modern Aminos">Copy</button></div>
-          <a class="btn btn-primary vc-go" href="/go/modern" target="_blank" rel="noopener sponsored" data-vendor="Modern Aminos">Shop Modern Aminos <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/modern" target="_blank" rel="noopener sponsored" data-vendor="Modern Aminos">Shop Modern Aminos <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -319,34 +343,42 @@
       <div class="vgrid">
 
         <div class="vcard">
-          <div class="vc-top"><div class="vc-name">Amino Well</div></div>
-          <div class="vc-off">10%<small>off with code</small></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/aminowell.png" alt="Amino Well logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">Amino Well</div><div class="vc-off">10%<small>off with code</small></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Amino Well">Copy</button></div>
-          <a class="btn btn-ghost vc-go" href="/go/aminowell" target="_blank" rel="noopener sponsored" data-vendor="Amino Well">Shop Amino Well <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/aminowell" target="_blank" rel="noopener sponsored" data-vendor="Amino Well">Shop Amino Well <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
         <div class="vcard">
-          <div class="vc-top"><div class="vc-name">Lumora Peptides</div></div>
-          <div class="vc-off">10%<small>off with code</small></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/lumora.png" alt="Lumora Peptides logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">Lumora Peptides</div><div class="vc-off">10%<small>off with code</small></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Lumora Peptides">Copy</button></div>
-          <a class="btn btn-ghost vc-go" href="/go/lumora" target="_blank" rel="noopener sponsored" data-vendor="Lumora Peptides">Shop Lumora <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/lumora" target="_blank" rel="noopener sponsored" data-vendor="Lumora Peptides">Shop Lumora <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
         <div class="vcard">
-          <div class="vc-top"><div class="vc-name">Atomik Labz</div></div>
-          <div class="vc-off">15%<small>off with code</small></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/atomik.png" alt="Atomik Labz logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">Atomik Labz</div><div class="vc-off">15%<small>off with code</small></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Atomik Labz">Copy</button></div>
-          <a class="btn btn-ghost vc-go" href="/go/atomik" target="_blank" rel="noopener sponsored" data-vendor="Atomik Labz">Shop Atomik Labz <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/atomik" target="_blank" rel="noopener sponsored" data-vendor="Atomik Labz">Shop Atomik Labz <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
         <div class="vcard">
-          <div class="vc-top"><div class="vc-name">Solution Peptide</div></div>
-          <div class="vc-off">15%<small>off with code</small></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/solution.png" alt="Solution Peptide logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">Solution Peptide</div><div class="vc-off">15%<small>off with code</small></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Solution Peptide">Copy</button></div>
-          <a class="btn btn-ghost vc-go" href="/go/solution" target="_blank" rel="noopener sponsored" data-vendor="Solution Peptide">Shop Solution Peptide <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/solution" target="_blank" rel="noopener sponsored" data-vendor="Solution Peptide">Shop Solution Peptide <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -368,11 +400,13 @@
       <div class="vgrid one">
 
         <div class="vcard">
-          <div class="vc-top"><div class="vc-name">AlgoRx</div></div>
+          <div class="vc-head">
+            <div class="vc-logo"><img src="img/vendors/algorx.png" alt="AlgoRx logo" width="320" height="320" loading="lazy"></div>
+            <div class="vc-id"><div class="vc-name">AlgoRx</div><div class="vc-off">10%<small>off with code</small></div></div>
+          </div>
           <div class="vc-sub">Best for bloodwork and prescription peptides.</div>
-          <div class="vc-off">10%<small>off with code</small></div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="AlgoRx">Copy</button></div>
-          <a class="btn btn-ghost vc-go" href="/go/algorx" target="_blank" rel="noopener sponsored" data-vendor="AlgoRx">Go to AlgoRx <span class="arrow">→</span></a>
+          <a class="btn btn-gold vc-go" href="/go/algorx" target="_blank" rel="noopener sponsored" data-vendor="AlgoRx">Go to AlgoRx <span class="arrow">→</span></a>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
