@@ -34,6 +34,23 @@
   .pick .pk-title{font-family:'Archivo';font-weight:700;font-size:16px;color:var(--white);margin-bottom:8px;letter-spacing:-.01em}
   .pick .pk-text{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.6}
 
+  /* info rows (shipping / payment) + chips */
+  .vc-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.06em;color:var(--off-white);background:var(--bg);border:1px solid var(--border);padding:5px 9px;border-radius:3px;white-space:nowrap}
+  .chip.ok{color:var(--tq-bright);border-color:var(--tq-border)}
+  .vc-rows{display:flex;flex-direction:column;gap:6px}
+  .vc-row{display:flex;align-items:center;gap:12px;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:10px 12px;min-height:44px}
+  .vc-row .ic{width:26px;height:26px;flex-shrink:0;border-radius:6px;background:var(--tq-dim);border:1px solid var(--tq-border);display:flex;align-items:center;justify-content:center;color:var(--tq-bright)}
+  .vc-row .ic svg{width:14px;height:14px;display:block}
+  .vc-row .txt{font-size:13.5px;color:var(--white);font-weight:400;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+  .vc-row .txt .m{color:var(--text);font-weight:300;font-size:12.5px}
+  .vc-row .txt .dot{color:var(--muted)}
+  .pay{display:flex;flex-wrap:wrap;gap:5px}
+  .pay span{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.04em;color:var(--off-white);background:var(--bg2);border:1px solid var(--border);padding:4px 7px;border-radius:3px;white-space:nowrap}
+  .vc-actions{display:grid;grid-template-columns:1.4fr 1fr;gap:6px;margin-top:auto}
+  .vc-actions .btn{justify-content:center;padding:14px 16px;font-size:14.5px;white-space:nowrap}
+  @media(max-width:400px){.vc-actions{grid-template-columns:1fr}}
+
   /* gold = buy/action. cyan = information. */
   .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:#1A1000;box-shadow:0 12px 38px -14px rgba(201,126,29,.75)}
   .btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 48px -14px rgba(227,162,58,.9);color:#1A1000}
@@ -309,8 +326,16 @@
             <div class="vc-id"><div class="vc-name">Glacier Aminos</div><div class="vc-off">10–15%<small>off with code</small></div></div>
             <span class="vc-badge">Preferred</span>
           </div>
+          <div class="vc-chips"><span class="chip">125+ listings</span><span class="chip ok">8-pt tested · COAs</span><span class="chip">US only</span></div>
+          <div class="vc-rows">
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1z"/><path d="M14 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="txt"><span>Same-day ship</span><span class="dot">•</span><span class="m">before 2 PM MT</span><span class="dot">•</span><span class="m">1–3 days</span></div></div>
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="pay"><span>Card</span><span>Zelle</span><span>ACH</span><span>Crypto</span></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Glacier Aminos">Copy</button></div>
-          <a class="btn btn-gold vc-go" href="/go/glacier" target="_blank" rel="noopener sponsored" data-vendor="Glacier Aminos">Shop Glacier Aminos <span class="arrow">→</span></a>
+          <div class="vc-actions">
+            <a class="btn btn-gold vc-go" href="/go/glacier" target="_blank" rel="noopener sponsored" data-vendor="Glacier Aminos">Shop Glacier Aminos <span class="arrow">→</span></a>
+            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:glacier">Compare prices</a>
+          </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -320,8 +345,16 @@
             <div class="vc-id"><div class="vc-name">Modern Aminos</div><div class="vc-off">10–15%<small>off with code</small></div></div>
             <span class="vc-badge">Preferred</span>
           </div>
+          <div class="vc-chips"><span class="chip">150+ listings</span><span class="chip ok">3rd-party tested</span><span class="chip">US only</span></div>
+          <div class="vc-rows">
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1z"/><path d="M14 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="txt"><span>Same-day ship</span><span class="dot">•</span><span class="m">before 4 PM CT</span><span class="dot">•</span><span class="m">FedEx 2Day / Overnight</span></div></div>
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="pay"><span>Card</span><span>Bank</span><span>Bitcoin</span></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Modern Aminos">Copy</button></div>
-          <a class="btn btn-gold vc-go" href="/go/modern" target="_blank" rel="noopener sponsored" data-vendor="Modern Aminos">Shop Modern Aminos <span class="arrow">→</span></a>
+          <div class="vc-actions">
+            <a class="btn btn-gold vc-go" href="/go/modern" target="_blank" rel="noopener sponsored" data-vendor="Modern Aminos">Shop Modern Aminos <span class="arrow">→</span></a>
+            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:modern">Compare prices</a>
+          </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -347,8 +380,16 @@
             <div class="vc-logo"><img src="img/vendors/aminowell.png" alt="Amino Well logo" width="320" height="320" loading="lazy"></div>
             <div class="vc-id"><div class="vc-name">Amino Well</div><div class="vc-off">10%<small>off with code</small></div></div>
           </div>
+          <div class="vc-chips"><span class="chip">45+ listings</span><span class="chip ok">7X tested</span><span class="chip">Ships intl</span></div>
+          <div class="vc-rows">
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1z"/><path d="M14 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="txt"><span>$8 standard</span><span class="dot">•</span><span class="m">free over $250</span><span class="dot">•</span><span class="m">2–4 days</span></div></div>
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="pay"><span>Card</span><span>Apple Pay</span><span>Google Pay</span></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Amino Well">Copy</button></div>
-          <a class="btn btn-gold vc-go" href="/go/aminowell" target="_blank" rel="noopener sponsored" data-vendor="Amino Well">Shop Amino Well <span class="arrow">→</span></a>
+          <div class="vc-actions">
+            <a class="btn btn-gold vc-go" href="/go/aminowell" target="_blank" rel="noopener sponsored" data-vendor="Amino Well">Shop Amino Well <span class="arrow">→</span></a>
+            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:aminowell">Compare prices</a>
+          </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -357,8 +398,15 @@
             <div class="vc-logo"><img src="img/vendors/lumora.png" alt="Lumora Peptides logo" width="320" height="320" loading="lazy"></div>
             <div class="vc-id"><div class="vc-name">Lumora Peptides</div><div class="vc-off">10%<small>off with code</small></div></div>
           </div>
+          <div class="vc-chips"><span class="chip">35+ listings</span><span class="chip ok">3rd-party tested</span><span class="chip">US only</span></div>
+          <div class="vc-rows">
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1z"/><path d="M14 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="txt"><span>FedEx 2-Day, every order</span><span class="dot">•</span><span class="m">free over $200</span><span class="dot">•</span><span class="m">same-day before 1 PM ET</span></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Lumora Peptides">Copy</button></div>
-          <a class="btn btn-gold vc-go" href="/go/lumora" target="_blank" rel="noopener sponsored" data-vendor="Lumora Peptides">Shop Lumora <span class="arrow">→</span></a>
+          <div class="vc-actions">
+            <a class="btn btn-gold vc-go" href="/go/lumora" target="_blank" rel="noopener sponsored" data-vendor="Lumora Peptides">Shop Lumora <span class="arrow">→</span></a>
+            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:lumora">Compare prices</a>
+          </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -367,8 +415,16 @@
             <div class="vc-logo"><img src="img/vendors/atomik.png" alt="Atomik Labz logo" width="320" height="320" loading="lazy"></div>
             <div class="vc-id"><div class="vc-name">Atomik Labz</div><div class="vc-off">15%<small>off with code</small></div></div>
           </div>
+          <div class="vc-chips"><span class="chip">250+ listings</span><span class="chip ok">COAs published</span><span class="chip">Ships 6 days/wk</span></div>
+          <div class="vc-rows">
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1z"/><path d="M14 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="txt"><span>$14.99 flat</span><span class="dot">•</span><span class="m">free over $499</span><span class="dot">•</span><span class="m">2–5 days</span></div></div>
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="pay"><span>Card</span><span>Apple/Google Pay</span><span>Bank</span><span>Crypto</span><span>Venmo</span><span>Zelle</span><span>Cash App</span></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Atomik Labz">Copy</button></div>
-          <a class="btn btn-gold vc-go" href="/go/atomik" target="_blank" rel="noopener sponsored" data-vendor="Atomik Labz">Shop Atomik Labz <span class="arrow">→</span></a>
+          <div class="vc-actions">
+            <a class="btn btn-gold vc-go" href="/go/atomik" target="_blank" rel="noopener sponsored" data-vendor="Atomik Labz">Shop Atomik Labz <span class="arrow">→</span></a>
+            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:atomik">Compare prices</a>
+          </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
@@ -377,8 +433,16 @@
             <div class="vc-logo"><img src="img/vendors/solution.png" alt="Solution Peptide logo" width="320" height="320" loading="lazy"></div>
             <div class="vc-id"><div class="vc-name">Solution Peptide</div><div class="vc-off">15%<small>off with code</small></div></div>
           </div>
+          <div class="vc-chips"><span class="chip">250+ listings</span><span class="chip ok">3rd-party tested</span><span class="chip">Same-day before 2 PM</span></div>
+          <div class="vc-rows">
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h13v13H1z"/><path d="M14 8h4l4 4v4h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><div class="txt"><span>$14.99 flat</span><span class="dot">•</span><span class="m">free over $499</span><span class="dot">•</span><span class="m">2–5 days</span></div></div>
+            <div class="vc-row"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div><div class="pay"><span>Card</span><span>Bank</span><span>Crypto</span><span>Zelle</span><span>Venmo</span><span>Cash App</span></div></div>
+          </div>
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Solution Peptide">Copy</button></div>
-          <a class="btn btn-gold vc-go" href="/go/solution" target="_blank" rel="noopener sponsored" data-vendor="Solution Peptide">Shop Solution Peptide <span class="arrow">→</span></a>
+          <div class="vc-actions">
+            <a class="btn btn-gold vc-go" href="/go/solution" target="_blank" rel="noopener sponsored" data-vendor="Solution Peptide">Shop Solution Peptide <span class="arrow">→</span></a>
+            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:solution">Compare prices</a>
+          </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
 
