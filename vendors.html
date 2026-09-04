@@ -50,6 +50,8 @@
   .vc-actions{display:grid;grid-template-columns:1.4fr 1fr;gap:6px;margin-top:auto}
   .vc-actions .btn{justify-content:center;padding:14px 16px;font-size:14.5px;white-space:nowrap}
   @media(max-width:400px){.vc-actions{grid-template-columns:1fr}}
+  .vc-soon{flex-direction:column;gap:3px;line-height:1.1;color:var(--off-white)}
+  .vc-soon small{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright)}
 
   /* gold = buy/action. cyan = information. */
   .btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:#1A1000;box-shadow:0 12px 38px -14px rgba(201,126,29,.75)}
@@ -334,7 +336,7 @@
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Glacier Aminos">Copy</button></div>
           <div class="vc-actions">
             <a class="btn btn-gold vc-go" href="/go/glacier" target="_blank" rel="noopener sponsored" data-vendor="Glacier Aminos">Shop Glacier Aminos <span class="arrow">→</span></a>
-            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:glacier">Compare prices</a>
+            <span class="btn btn-ghost btn-disabled vc-go vc-soon" aria-disabled="true">Compare prices<small>Coming soon</small></span>
           </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
@@ -353,7 +355,7 @@
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Modern Aminos">Copy</button></div>
           <div class="vc-actions">
             <a class="btn btn-gold vc-go" href="/go/modern" target="_blank" rel="noopener sponsored" data-vendor="Modern Aminos">Shop Modern Aminos <span class="arrow">→</span></a>
-            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:modern">Compare prices</a>
+            <span class="btn btn-ghost btn-disabled vc-go vc-soon" aria-disabled="true">Compare prices<small>Coming soon</small></span>
           </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
@@ -371,7 +373,6 @@
           <h2 class="heading">The rest of the <span class="tq">roster</span></h2>
           <p class="lead">Also vetted, also used. Same code everywhere.</p>
         </div>
-        <a class="sec-link" href="/go/prices" target="_blank" rel="noopener sponsored">Compare prices across vendors →</a>
       </div>
       <div class="vgrid">
 
@@ -388,7 +389,7 @@
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Amino Well">Copy</button></div>
           <div class="vc-actions">
             <a class="btn btn-gold vc-go" href="/go/aminowell" target="_blank" rel="noopener sponsored" data-vendor="Amino Well">Shop Amino Well <span class="arrow">→</span></a>
-            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:aminowell">Compare prices</a>
+            <span class="btn btn-ghost btn-disabled vc-go vc-soon" aria-disabled="true">Compare prices<small>Coming soon</small></span>
           </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
@@ -405,7 +406,7 @@
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Lumora Peptides">Copy</button></div>
           <div class="vc-actions">
             <a class="btn btn-gold vc-go" href="/go/lumora" target="_blank" rel="noopener sponsored" data-vendor="Lumora Peptides">Shop Lumora <span class="arrow">→</span></a>
-            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:lumora">Compare prices</a>
+            <span class="btn btn-ghost btn-disabled vc-go vc-soon" aria-disabled="true">Compare prices<small>Coming soon</small></span>
           </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
@@ -423,7 +424,7 @@
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Atomik Labz">Copy</button></div>
           <div class="vc-actions">
             <a class="btn btn-gold vc-go" href="/go/atomik" target="_blank" rel="noopener sponsored" data-vendor="Atomik Labz">Shop Atomik Labz <span class="arrow">→</span></a>
-            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:atomik">Compare prices</a>
+            <span class="btn btn-ghost btn-disabled vc-go vc-soon" aria-disabled="true">Compare prices<small>Coming soon</small></span>
           </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
@@ -441,7 +442,7 @@
           <div class="vc-code-row"><span class="vc-code"><span class="lbl">Code</span>DPRO</span><button class="vc-copy" type="button" data-code="DPRO" data-vendor="Solution Peptide">Copy</button></div>
           <div class="vc-actions">
             <a class="btn btn-gold vc-go" href="/go/solution" target="_blank" rel="noopener sponsored" data-vendor="Solution Peptide">Shop Solution Peptide <span class="arrow">→</span></a>
-            <a class="btn btn-ghost vc-go" href="/go/prices" target="_blank" rel="noopener sponsored" data-vendor="prices:solution">Compare prices</a>
+            <span class="btn btn-ghost btn-disabled vc-go vc-soon" aria-disabled="true">Compare prices<small>Coming soon</small></span>
           </div>
           <div class="vc-verified">Verified Sep 2, 2026</div>
         </div>
