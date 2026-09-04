@@ -336,3 +336,15 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
   .deal-cta .vc-code{flex:0 0 auto}
   .deal-cta .btn{flex:1}
 }
+
+/* spaced, rounded, glowing cards — vendor cards + deals (homepage and /vendors) */
+.vgrid{gap:16px}
+.vcard{border-radius:12px;border-color:rgba(34,211,238,.35);box-shadow:0 0 0 1px rgba(6,182,212,.06),0 18px 40px -22px rgba(6,182,212,.55);transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
+.vcard:hover{border-color:var(--tq-bright);transform:translateY(-3px);box-shadow:0 0 0 1px rgba(34,211,238,.18),0 24px 48px -20px rgba(34,211,238,.7)}
+.vcard.pref{border-color:var(--gold-border);box-shadow:0 0 0 1px rgba(201,126,29,.08),0 22px 48px -22px rgba(201,126,29,.6)}
+.vcard.pref:hover{border-color:var(--gold);box-shadow:0 0 0 1px rgba(201,126,29,.2),0 28px 56px -20px rgba(227,162,58,.7)}
+.vcard.pref::before{border-radius:12px}
+.vc-logo{border-radius:12px}
+.deal-grid{gap:16px}
+.deal{border-radius:12px;box-shadow:0 0 0 1px rgba(201,126,29,.08),0 22px 48px -22px rgba(201,126,29,.6);transition:border-color .2s,transform .2s,box-shadow .2s}
+.deal:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 0 0 1px rgba(201,126,29,.2),0 28px 56px -20px rgba(227,162,58,.7)}
