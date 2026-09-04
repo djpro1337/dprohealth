@@ -26,3 +26,12 @@
     });
   });
 })();
+
+/* Deals strip: hide any deal whose data-ends has passed; hide the whole strip if none remain. */
+(function(){
+  var deals=document.querySelectorAll('.deal[data-ends]'); if(!deals.length) return;
+  var now=Date.now();
+  deals.forEach(function(d){var t=Date.parse(d.getAttribute('data-ends')); if(!isNaN(t)&&now>t){d.hidden=true;}});
+  var grid=document.querySelector('.deal-grid'), sec=document.getElementById('deals');
+  if(grid&&sec&&![].some.call(grid.children,function(c){return !c.hidden;})){sec.hidden=true;}
+})();

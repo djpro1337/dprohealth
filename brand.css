@@ -306,3 +306,33 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .vcard.compact .vc-code{font-size:13px;padding:9px 12px}
 .vcard.compact .vc-copy{min-width:80px;padding:0 12px}
 .vendors-more{display:flex;justify-content:center;margin-top:26px}
+
+/* ============================================================
+   DEALS — live promos strip (/vendors now, /deals later)
+   ============================================================ */
+.deal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:860px){.deal-grid{grid-template-columns:1fr}}
+.deal{display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;background:linear-gradient(160deg,#141210,#0b0e12 60%);border:1px solid var(--gold-border);border-radius:8px;padding:20px 22px;position:relative;overflow:hidden}
+.deal::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(300px 160px at 0% 0%,var(--gold-dim),transparent 70%)}
+.deal[hidden]{display:none}
+.deal-logo{width:64px;height:64px;border-radius:9px;overflow:hidden;background:var(--white);border:1px solid rgba(255,255,255,.1)}
+.deal-logo img{width:100%;height:100%;display:block}
+.deal-body{min-width:0;display:flex;flex-direction:column;gap:5px}
+.deal-vendor{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-bright)}
+.deal-head{font-family:'Archivo';font-weight:800;font-size:19px;color:var(--white);letter-spacing:-.015em;line-height:1.1}
+.deal-text{font-size:13px;font-weight:300;color:var(--text);line-height:1.5}
+.deal-meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
+.deal-ends{color:var(--off-white)}
+.deal-ends::before{content:'⏱ ';}
+.deal-verified{color:var(--muted);display:flex;align-items:center;gap:7px}
+.deal-verified::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--tq-mid);box-shadow:0 0 8px var(--tq-mid)}
+.deal-cta{display:flex;flex-direction:column;gap:8px;align-items:stretch;min-width:170px}
+.deal-cta .btn{justify-content:center;padding:12px 18px;font-size:14px;white-space:nowrap}
+.deal-cta .vc-code{font-size:13px;padding:9px 12px;border-radius:3px;justify-content:center}
+@media(max-width:560px){
+  .deal{grid-template-columns:52px 1fr;padding:18px}
+  .deal-logo{width:52px;height:52px}
+  .deal-cta{grid-column:1/-1;flex-direction:row}
+  .deal-cta .vc-code{flex:0 0 auto}
+  .deal-cta .btn{flex:1}
+}
