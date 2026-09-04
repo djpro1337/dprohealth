@@ -144,8 +144,9 @@
   .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
   @media(max-width:860px){.tools-grid{grid-template-columns:1fr 1fr}}
   @media(max-width:560px){.tools-grid{grid-template-columns:1fr}}
-  .tool{display:flex;flex-direction:column;gap:12px;padding:30px 26px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;min-height:230px}
-  a.tool:hover{background:var(--bg3);border-color:var(--tq-border);transform:translateY(-3px)}
+  .tools-grid{gap:14px}
+  .tool{display:flex;flex-direction:column;gap:12px;padding:30px 26px;background:linear-gradient(170deg,rgba(6,182,212,.10),var(--bg2) 55%);border:1.5px solid rgba(34,211,238,.55);border-radius:10px;box-shadow:0 0 0 1px rgba(6,182,212,.08),0 18px 40px -22px rgba(6,182,212,.55);text-decoration:none;transition:background .2s,border-color .2s,transform .2s,box-shadow .2s;min-height:230px}
+  a.tool:hover{background:linear-gradient(170deg,rgba(6,182,212,.16),var(--bg3) 55%);border-color:var(--tq-bright);transform:translateY(-3px);box-shadow:0 0 0 1px rgba(34,211,238,.2),0 24px 48px -20px rgba(34,211,238,.7)}
   .tool .t-ic{width:40px;height:40px;border-radius:9px;background:var(--tq-dim);border:1px solid var(--tq-border);display:flex;align-items:center;justify-content:center;color:var(--tq-bright)}
   .tool .t-ic svg{width:20px;height:20px;display:block}
   .tool .t-name{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);letter-spacing:-.01em;line-height:1.15}
@@ -153,7 +154,7 @@
   .tool .t-go{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);display:flex;align-items:center;gap:8px}
   .tool .t-go .arrow{transition:transform .25s}
   a.tool:hover .t-go .arrow{transform:translateX(4px)}
-  .tool.soon{border-style:dashed;background:transparent;opacity:.75}
+  .tool.soon{border-style:dashed;border-color:rgba(34,211,238,.3);background:transparent;box-shadow:none;opacity:.8}
   .tool.soon .t-ic{background:transparent;color:var(--muted);border-color:var(--border)}
   .tool.soon .t-name{color:var(--off-white)}
   .tool.soon .t-go{color:var(--muted)}
@@ -239,8 +240,9 @@
           <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
           </div>
         </div>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
         <a href="#about">About</a>
-        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" class="nav-cta">Free Handbook</a>
+        <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener" class="nav-cta">Free Skool Community</a>
       </nav>
     </div>
   </header>
