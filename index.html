@@ -139,6 +139,24 @@
   .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
 }
 
+
+  /* tools block — 4 slots, 4th reserved for the bloodwork tool */
+  .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+  @media(max-width:860px){.tools-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.tools-grid{grid-template-columns:1fr}}
+  .tool{display:flex;flex-direction:column;gap:12px;padding:30px 26px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;min-height:230px}
+  a.tool:hover{background:var(--bg3);border-color:var(--tq-border);transform:translateY(-3px)}
+  .tool .t-ic{width:40px;height:40px;border-radius:9px;background:var(--tq-dim);border:1px solid var(--tq-border);display:flex;align-items:center;justify-content:center;color:var(--tq-bright)}
+  .tool .t-ic svg{width:20px;height:20px;display:block}
+  .tool .t-name{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);letter-spacing:-.01em;line-height:1.15}
+  .tool .t-text{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.55;flex:1}
+  .tool .t-go{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);display:flex;align-items:center;gap:8px}
+  .tool .t-go .arrow{transition:transform .25s}
+  a.tool:hover .t-go .arrow{transform:translateX(4px)}
+  .tool.soon{border-style:dashed;background:transparent;opacity:.75}
+  .tool.soon .t-ic{background:transparent;color:var(--muted);border-color:var(--border)}
+  .tool.soon .t-name{color:var(--off-white)}
+  .tool.soon .t-go{color:var(--muted)}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
@@ -158,7 +176,6 @@
       <a href="#top" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
       <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
       <nav class="nav-links" id="navlinks">
-        <a href="#about">About</a>
         <div class="nav-dd peptides-parent">
           <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
           <div class="nav-dd-menu" role="menu">
@@ -222,15 +239,8 @@
           <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
           </div>
         </div>
-        <div class="nav-dd resources">
-          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Resources <span class="dd-caret">▾</span></button>
-          <div class="nav-dd-menu" role="menu">
-          <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Free Community</a>
-          <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
-          </div>
-        </div>
-        <a href="suggestions.html">Suggestions</a>
-        <a href="#" class="nav-cta" aria-disabled="true" onclick="return false;">Work With Me</a>
+        <a href="#about">About</a>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener" class="nav-cta">Free Handbook</a>
       </nav>
     </div>
   </header>
@@ -379,6 +389,41 @@
         </div>
       </div>
       <div class="vendors-more"><a class="btn btn-ghost" href="/vendors">See all vendors <span class="arrow">→</span></a></div>
+    </div>
+  </section>
+
+  <!-- ===== TOOLS — four slots; the fourth is reserved for the bloodwork tool ===== -->
+  <section class="section alt" id="tools">
+    <div class="wrap">
+      <div class="eyebrow">Free tools</div>
+      <h2 class="heading">Do the <span class="tq">math</span> before you dose</h2>
+      <p class="lead" style="margin-bottom:30px">The calculators I use myself. No signup, no fluff.</p>
+      <div class="tools-grid">
+        <a class="tool" href="peptide-calculator.html">
+          <div class="t-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6l4 4v14H5V7z"/><path d="M9 3v4H5"/><path d="M9 13h6M9 17h6"/></svg></div>
+          <div class="t-name">Peptide Calculator</div>
+          <div class="t-text">Vial size, bacteriostatic water, target dose — get your concentration and the exact units to draw.</div>
+          <div class="t-go">Open calculator <span class="arrow">→</span></div>
+        </a>
+        <a class="tool" href="tdee-calculator.html">
+          <div class="t-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s5 4 5 10a5 5 0 0 1-10 0c0-3 2-4 2-4s0 3 3 3c0-4 0-9 0-9z"/></svg></div>
+          <div class="t-name">TDEE &amp; Macros</div>
+          <div class="t-text">Maintenance calories and protein, carb and fat targets for your goal — with a GLP-1 mode built in.</div>
+          <div class="t-go">Open calculator <span class="arrow">→</span></div>
+        </a>
+        <a class="tool" href="glp1-titration.html">
+          <div class="t-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h5v-5h5v-5h5V5h3"/></svg></div>
+          <div class="t-name">GLP-1 Titration</div>
+          <div class="t-text">Week-by-week ramp schedules for retatrutide, tirzepatide, semaglutide and cagrilintide — standard or custom.</div>
+          <div class="t-go">Build a schedule <span class="arrow">→</span></div>
+        </a>
+        <div class="tool soon" aria-disabled="true">
+          <div class="t-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 7 6 12a6 6 0 0 1-12 0c0-5 6-12 6-12z"/></svg></div>
+          <div class="t-name">Bloodwork Reference</div>
+          <div class="t-text">The 15 markers this audience actually runs — standard and optimal ranges, and what moves them.</div>
+          <div class="t-go">Coming soon</div>
+        </div>
+      </div>
     </div>
   </section>
 
