@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+<meta name="theme-color" content="#080A0C">
+<title>Bloodwork Analyzer — DPRO Health</title>
+<link rel="canonical" href="https://dprohealth.com/bloodwork">
+<meta name="description" content="Free bloodwork analyzer: drop in your lab PDF and see every marker scored against the standard lab range and DPRO optimal ranges — testosterone, thyroid, lipids, metabolic, liver, kidney, CBC, iron, inflammation and more. Runs entirely in your browser; nothing is uploaded.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  /* ===== BLOODWORK ANALYZER ===== */
+  .page-hero{padding:104px 0 44px}
+  .hero-grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:end}
+  @media(max-width:860px){.hero-grid2{grid-template-columns:1fr}}
+  .privacy{display:flex;gap:12px;align-items:flex-start;background:var(--tq-dim);border:1px solid var(--tq-border);border-radius:10px;padding:16px 18px;font-size:13.5px;color:var(--off-white);line-height:1.55}
+  .privacy svg{width:20px;height:20px;flex-shrink:0;color:var(--tq-bright);margin-top:2px}
+  .privacy b{color:var(--white);font-weight:600}
+
+  .bw-panel{background:var(--bg2);border:1px solid rgba(34,211,238,.35);border-radius:14px;box-shadow:0 0 0 1px rgba(34,211,238,.08),0 0 16px rgba(34,211,238,.22);overflow:hidden}
+  .bw-top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg)}
+  .bw-tabs{display:flex;gap:4px}
+  .bw-tab{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text);background:transparent;border:1px solid transparent;padding:9px 14px;border-radius:4px;cursor:pointer;transition:.18s}
+  .bw-tab:hover{color:var(--white)}
+  .bw-tab.active{color:var(--tq-bright);background:var(--tq-dim);border-color:var(--tq-border)}
+  .sexseg{display:flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .sexseg .seg{display:flex;gap:2px;background:var(--border);border-radius:4px;padding:2px}
+  .sexseg .seg button{background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;border-radius:3px;cursor:pointer}
+  .sexseg .seg button.active{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .bw-pane{padding:22px 18px}
+  .bw-pane[hidden]{display:none}
+  .drop{border:2px dashed rgba(34,211,238,.35);border-radius:12px;padding:46px 20px;text-align:center;cursor:pointer;transition:.2s;background:var(--bg)}
+  .drop:hover,.drop.over{border-color:var(--tq-bright);background:var(--tq-dim)}
+  .drop .d-ic{width:48px;height:48px;border-radius:12px;background:var(--tq-dim);border:1px solid var(--tq-border);display:inline-flex;align-items:center;justify-content:center;color:var(--tq-bright);margin-bottom:14px}
+  .drop .d-ic svg{width:22px;height:22px}
+  .drop .d-t{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white)}
+  .drop .d-s{font-size:13px;color:var(--text);margin-top:6px}
+  .drop input{display:none}
+  .bw-note{font-size:12.5px;color:var(--muted);margin-top:12px;line-height:1.5}
+  .bw-status{margin-top:12px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;min-height:16px}
+  .bw-status.ok{color:var(--tq-bright)} .bw-status.err{color:#fca5a5}
+  textarea#paste{width:100%;min-height:200px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'Space Mono',monospace;font-size:12px;padding:14px;resize:vertical;outline:none}
+  textarea#paste:focus{border-color:var(--tq-mid)}
+  .bw-actions{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .bw-mcat{border:1px solid var(--border);border-radius:8px;padding:0 14px;margin-bottom:8px;cursor:default}
+  .bw-mcat summary{font-family:'Archivo';font-weight:700;font-size:14px;color:var(--white);padding:12px 0;cursor:pointer}
+  .bw-mcat summary span{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-left:8px}
+  .bw-mcat summary::after{font-size:18px}
+  .bw-mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 14px;padding:4px 0 16px}
+  @media(max-width:860px){.bw-mgrid{grid-template-columns:1fr 1fr}} @media(max-width:560px){.bw-mgrid{grid-template-columns:1fr}}
+  .bw-field{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--text)}
+  .bw-field input{background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--white);font-family:'Space Mono',monospace;font-size:13px;padding:8px 10px;outline:none;width:100%}
+  .bw-field input:focus{border-color:var(--tq-mid)}
+  .bw-field input::placeholder{color:var(--muted);font-size:11px}
+
+  /* results */
+  #results{margin-top:40px}
+  #results[hidden]{display:none}
+  .bw-sum{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:18px}
+  @media(max-width:860px){.bw-sum{grid-template-columns:repeat(3,1fr)}} @media(max-width:560px){.bw-sum{grid-template-columns:1fr 1fr}}
+  .bw-tile{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 14px;text-align:center}
+  .bw-tile .n{font-family:'Archivo';font-weight:800;font-size:28px;line-height:1;color:var(--white)}
+  .bw-tile .l{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+  .bw-tile.opt .n{color:var(--tq-bright)} .bw-tile.ok .n{color:var(--off-white)} .bw-tile.low .n{color:#7dd3fc} .bw-tile.high .n{color:#fbbf24}
+  .bw-tile.opt{border-color:var(--tq-border)} .bw-tile.high{border-color:rgba(251,191,36,.35)} .bw-tile.low{border-color:rgba(125,211,252,.35)}
+  .bw-legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:26px;align-items:center}
+  .bw-legend span{display:flex;align-items:center;gap:7px}
+  .bw-legend .k{display:inline-block;width:18px;height:6px;border-radius:3px;background:rgba(255,255,255,.12)}
+  .bw-legend .k.opt{background:var(--tq-mid)} .bw-legend .k.dot{width:10px;height:10px;border-radius:50%;background:var(--white)}
+  .bw-legend .sexnote{margin-left:auto} .bw-legend .sexnote b{color:var(--white)}
+  .bw-cat{margin-bottom:34px}
+  .bw-cat h3{font-family:'Archivo';font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--white);margin-bottom:12px}
+  .bw-row{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:8px}
+  .bw-row.st-opt{border-left-color:var(--tq-mid)} .bw-row.st-ok{border-left-color:rgba(200,212,218,.5)} .bw-row.st-high{border-left-color:#fbbf24} .bw-row.st-low{border-left-color:#7dd3fc}
+  .bw-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .bw-name{font-family:'Archivo';font-weight:700;font-size:16px;color:var(--white);flex:1;min-width:160px}
+  .bw-name .calc{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-left:8px;border:1px solid var(--border);padding:2px 6px;border-radius:2px;vertical-align:middle}
+  .bw-val{font-family:'Archivo';font-weight:800;font-size:22px;color:var(--white);letter-spacing:-.01em}
+  .bw-val small{font-family:'Outfit';font-weight:300;font-size:12px;color:var(--text);margin-left:5px}
+  .bw-pill{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:5px 9px;border-radius:3px;border:1px solid var(--border);color:var(--off-white)}
+  .st-opt .bw-pill{color:#04161c;background:var(--tq-mid);border-color:var(--tq-mid)}
+  .st-high .bw-pill{color:#1a1000;background:#fbbf24;border-color:#fbbf24}
+  .st-low .bw-pill{color:#062033;background:#7dd3fc;border-color:#7dd3fc}
+  .bw-bar{position:relative;height:10px;margin:14px 0 8px;background:rgba(255,255,255,.05);border-radius:5px}
+  .bw-std{position:absolute;top:0;height:100%;background:rgba(255,255,255,.14);border-radius:5px}
+  .bw-opt{position:absolute;top:0;height:100%;background:var(--tq-mid);opacity:.85;border-radius:5px}
+  .bw-dot{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;background:var(--white);border:2px solid var(--bg);transform:translate(-50%,-50%);box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+  .bw-ranges{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--text)}
+  .bw-ranges b{color:var(--off-white);font-weight:500} .bw-ranges .labr{color:var(--muted)}
+  .bw-mean{font-size:13.5px;color:var(--off-white);line-height:1.55;margin-top:10px}
+  .bw-lev{border:none;padding:8px 0 0;cursor:default}
+  .bw-lev summary{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);cursor:pointer;justify-content:flex-start;gap:8px}
+  .bw-lev summary::after{font-size:14px}
+  .bw-lev div{font-size:13px;color:var(--text);line-height:1.55;margin-top:6px}
+  .bw-missing{border:1px dashed var(--border);border-radius:10px;padding:18px 20px;margin-top:10px}
+  .bw-missing h3{font-family:'Archivo';font-weight:700;font-size:15px;color:var(--off-white);margin-bottom:6px}
+  .bw-missing h3 span{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-left:8px}
+  .bw-missing p{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .bw-miss-list{display:flex;flex-wrap:wrap;gap:5px}
+  .bw-miss-list span{font-family:'Space Mono',monospace;font-size:9.5px;color:var(--muted);border:1px solid var(--border);padding:4px 7px;border-radius:3px}
+  .bw-foot{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;align-items:center}
+  .bw-disc{font-size:12.5px;color:var(--muted);line-height:1.6;max-width:820px;margin-top:18px}
+
+  /* library */
+  .lib-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+  .lib-bar .idx-search{flex:1 1 240px;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:0 12px}
+  .lib-bar input{flex:1;background:none;border:none;outline:none;color:var(--white);font-family:'Outfit';font-size:14px;padding:10px 0;min-width:0}
+  .lib-grid{display:grid;grid-template-columns:1fr;gap:6px}
+  .lib-item{border:1px solid var(--border);border-radius:8px;padding:0 16px;cursor:default;background:var(--bg2)}
+  .lib-item summary{display:grid;grid-template-columns:1.4fr 1fr 1fr auto auto;gap:14px;align-items:center;padding:12px 0;font-size:13px;cursor:pointer}
+  @media(max-width:700px){.lib-item summary{grid-template-columns:1fr 1fr;} .lib-item .lib-u{display:none}}
+  .lib-name{font-family:'Archivo';font-weight:700;font-size:14px;color:var(--white)}
+  .lib-r{color:var(--off-white)} .lib-r em{font-style:normal;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-right:6px}
+  .lib-r.opt{color:var(--tq-bright)}
+  .lib-u{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+  .lib-body{padding:0 0 14px;font-size:13px;color:var(--text);line-height:1.55} .lib-body p{margin-bottom:6px} .lib-body b{color:var(--off-white);font-weight:500}
+  .bw-empty{color:var(--muted);padding:20px 0}
+  @media print{ .nav,.atmos,.bw-panel,.idx-bar,#library-sec,.foot,.bw-foot,.page-hero .privacy{display:none!important} body{background:#fff;color:#000} .bw-row,.bw-tile{border-color:#ccc;background:#fff} .bw-name,.bw-val,.bw-cat h3,.bw-tile .n{color:#000} .bw-mean,.bw-ranges,.bw-lev div{color:#333} .bw-std{background:#ddd} .bw-dot{background:#000} }
+
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
+<div class="shell">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <div class="nav-dd peptides-parent">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/peptides" class="nav-all">All peptides →</a>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptides <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu" role="menu">
+          <a href="peptides/ara290.html">ARA-290</a>
+          <a href="peptides/bpc157.html">BPC-157</a>
+          <a href="peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="peptides/kpv.html">KPV</a>
+          <a href="peptides/tb500.html">TB-500</a>
+          <a href="peptides/aod9604.html">AOD-9604</a>
+          <a href="peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="peptides/mots-c.html">MOTS-c</a>
+          <a href="peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="peptides/epitalon.html">Epitalon</a>
+          <a href="peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="peptides/nad.html">NAD+</a>
+          <a href="peptides/selank.html">Selank</a>
+          <a href="peptides/semax.html">Semax</a>
+          <a href="peptides/ss31.html">SS-31</a>
+          <a href="peptides/thymalin.html">Thymalin</a>
+          <a href="peptides/dsip.html">DSIP</a>
+          <a href="peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="peptides/oxytocin.html">Oxytocin</a>
+          <a href="peptides/pt141.html">PT-141</a>
+          <a href="peptides/ll37.html">LL-37</a>
+          <a href="peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="peptides/vip.html">VIP</a>
+          <a href="peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="peptides/follistatin344.html">Follistatin-344</a>
+          <a href="peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="peptides/melanotan1.html">Melanotan 1</a>
+          <a href="peptides/bioregulators.html">Bioregulators</a>
+          <a href="peptides/retatrutide.html">Retatrutide</a>
+          <a href="peptides/semaglutide.html">Semaglutide</a>
+          <a href="peptides/tirzepatide.html">Tirzepatide</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu blends-sub" role="menu">
+          <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="peptides/blend-glow.html">GLOW Blend</a>
+          <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="peptides/blend-klow.html">KLOW Blend</a>
+          <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="/vendors">Vendors</a>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptide-calculator.html">Peptide Calculator</a>
+          <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+          <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+          <a href="/bloodwork">Bloodwork Analyzer</a>
+          </div>
+        </div>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
+        <a href="index.html#about">About</a>
+        <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener" class="nav-cta">Free Skool Community</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="hero-grid2">
+        <div>
+          <div class="eyebrow">Free tool · Bloodwork analyzer</div>
+          <h1 class="display" style="font-size:clamp(38px,6vw,72px)">Read your <span class="tq">bloodwork.</span></h1>
+          <p class="lead" style="margin-top:22px">Drop in the PDF from your lab and every marker gets scored two ways: against the standard lab range, and against the tighter ranges I actually aim for. Hormones, thyroid, lipids, blood sugar, liver, kidney, CBC, iron, inflammation, vitamins — 70+ markers.</p>
+        </div>
+        <div class="privacy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <div><b>Your bloodwork never leaves your device.</b> The PDF is read and scored right here in your browser. Nothing is uploaded, stored, or sent to me or anyone else — close the tab and it's gone.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:none;padding-top:0">
+    <div class="wrap">
+      <div class="bw-panel">
+        <div class="bw-top">
+          <div class="bw-tabs">
+            <button class="bw-tab active" type="button" data-pane="pane-pdf">Upload PDF</button>
+            <button class="bw-tab" type="button" data-pane="pane-paste">Paste text</button>
+            <button class="bw-tab" type="button" data-pane="pane-manual">Enter values</button>
+          </div>
+          <div class="sexseg">Ranges for <div class="seg"><button type="button" data-sex="m" class="active">Male</button><button type="button" data-sex="f">Female</button></div></div>
+        </div>
+
+        <div class="bw-pane" id="pane-pdf">
+          <div class="drop" id="drop">
+            <div class="d-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M4 20h16"/></svg></div>
+            <div class="d-t">Drop your lab PDF here</div>
+            <div class="d-s">or click to choose a file · LabCorp, Quest, Function, Marek, AlgoRx and most portal exports</div>
+            <input type="file" id="file" accept="application/pdf,.pdf">
+          </div>
+          <div class="bw-note">Works on PDFs downloaded from a lab portal (the text is selectable). Photos and scanned images can't be read yet — use "Enter values" for those. Sex is detected from the report when it's printed on it; otherwise pick it above.</div>
+          <div class="bw-status" id="pdfstatus"></div>
+        </div>
+
+        <div class="bw-pane" id="pane-paste" hidden>
+          <textarea id="paste" placeholder="Select all the text on your results page, copy, and paste it here. One marker per line works best, e.g.&#10;Testosterone, Total  650  ng/dL  264-916&#10;TSH  1.8  uIU/mL  0.45-4.5"></textarea>
+          <div class="bw-actions"><button class="btn btn-gold" id="pasteRun" type="button">Analyze <span class="arrow">→</span></button></div>
+        </div>
+
+        <div class="bw-pane" id="pane-manual" hidden>
+          <div class="bw-note" style="margin:0 0 12px">Type what you have — you don't need all of them. Values already read from a PDF or paste show up here so you can correct anything the reader got wrong.</div>
+          <div id="manual"></div>
+          <div class="bw-actions"><button class="btn btn-gold" id="manualRun" type="button">Analyze <span class="arrow">→</span></button></div>
+        </div>
+      </div>
+
+      <div id="results" hidden></div>
+
+      <div class="bw-foot">
+        <button class="btn btn-ghost" id="printBtn" type="button">Print / save as PDF</button>
+        <button class="btn btn-ghost" id="reset" type="button">Start over</button>
+        <a class="btn btn-ghost" href="/go/algorx" target="_blank" rel="noopener sponsored">Need labs? AlgoRx — code DPRO <span class="arrow">→</span></a>
+      </div>
+      <p class="bw-disc">This tool is educational. It compares numbers to reference ranges using fixed rules — it doesn't know your history, medications, or symptoms, and it is not a diagnosis or medical advice. "Optimal" ranges are DPRO Health targets for healthy, active adults, not clinical thresholds. One out-of-range value is a reason to retest and talk to a clinician, not to change a protocol. Lab methods differ; when your lab prints its own range, that range is shown too.</p>
+    </div>
+  </section>
+
+  <!-- REFERENCE LIBRARY -->
+  <section class="section alt" id="library-sec">
+    <div class="wrap">
+      <div class="eyebrow">Reference</div>
+      <h2 class="heading">Every marker, <span class="tq">explained</span></h2>
+      <p class="lead" style="margin-bottom:26px">Standard range, the DPRO optimal range, what high or low tends to mean, and what moves it. Same data the analyzer uses.</p>
+      <div class="lib-bar"><label class="idx-search"><input type="search" id="libq" placeholder="Search markers…" autocomplete="off"></label></div>
+      <div id="library"></div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="index.html" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="index.html">Home</a>
+            <a href="/bloodwork">Bloodwork Analyzer</a>
+            <a href="peptide-calculator.html">Calculator</a>
+            <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+            <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+            <a href="vendors.html">Trusted Vendors</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+            <a href="suggestions.html">Suggestions</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dpromethod" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // mobile nav
+  document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+  document.querySelectorAll('.nav-dd-btn').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.preventDefault();e.stopPropagation();
+      const dd=btn.closest('.nav-dd');
+      const wasOpen=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!wasOpen){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',(e)=>{
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
+  });
+</script>
+<script src="js/bloodwork-data.js"></script>
+<script src="js/bloodwork.js" defer></script>
+<script type="module">
+  import * as pdfjsLib from './js/pdf.min.mjs';
+  pdfjsLib.GlobalWorkerOptions.workerSrc='./js/pdf.worker.min.mjs';
+  window.pdfjsLib=pdfjsLib;
+</script>
+</body>
+</html>

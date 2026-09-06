@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /go/
+Disallow: /form-test
+Disallow: /thank-you
+
+Sitemap: https://dprohealth.com/sitemap.xml

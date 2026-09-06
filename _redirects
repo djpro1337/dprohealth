@@ -4,6 +4,11 @@
 # 302 = temporary. Use 302, NOT 301 — browsers cache 301s forever and you lose
 # the ability to repoint a link later, which is the whole point of this file.
 
+# ---- Domain canonicalization: the Netlify default subdomain serves a byte-identical twin of the site and
+# Google was picking it as canonical. Force everything on that host to dprohealth.com (301, forced with "!"). ----
+https://dprohealth-sight.netlify.app/*  https://dprohealth.com/:splat  301!
+http://dprohealth-sight.netlify.app/*   https://dprohealth.com/:splat  301!
+
 # ---- Peptide vendors -------------------------------------------------------
 /go/glacier      https://glacieraminos.shop/?ref=dpro          302
 /go/modern       https://modernaminos.com/?ref=dpro            302
@@ -17,3 +22,57 @@
 
 # ---- Price comparison ------------------------------------------------------
 /go/prices       https://peptiprices.com/dpro                  302
+
+# ---- Clean URLs: send old .html addresses to the canonical extensionless ones (301 is correct here — these are our own pages, not affiliate links) ----
+/index.html      /            301
+/peptides/       /peptides    301
+/vendors.html  /vendors  301
+/peptides.html  /peptides  301
+/bloodwork.html  /bloodwork  301
+/peptide-calculator.html  /peptide-calculator  301
+/tdee-calculator.html  /tdee-calculator  301
+/glp1-titration.html  /glp1-titration  301
+/suggestions.html  /suggestions  301
+/coaching.html  /coaching  301
+/consultation.html  /consultation  301
+/thank-you.html  /thank-you  301
+/form-test.html  /form-test  301
+/peptides/bpc157.html  /peptides/bpc157  301
+/peptides/tb500.html  /peptides/tb500  301
+/peptides/ara290.html  /peptides/ara290  301
+/peptides/kpv.html  /peptides/kpv  301
+/peptides/ghk-cu.html  /peptides/ghk-cu  301
+/peptides/ll37.html  /peptides/ll37  301
+/peptides/vip.html  /peptides/vip  301
+/peptides/thymosin-alpha1.html  /peptides/thymosin-alpha1  301
+/peptides/thymalin.html  /peptides/thymalin  301
+/peptides/retatrutide.html  /peptides/retatrutide  301
+/peptides/tirzepatide.html  /peptides/tirzepatide  301
+/peptides/semaglutide.html  /peptides/semaglutide  301
+/peptides/cagrilintide.html  /peptides/cagrilintide  301
+/peptides/aod9604.html  /peptides/aod9604  301
+/peptides/5-amino-1mq.html  /peptides/5-amino-1mq  301
+/peptides/mots-c.html  /peptides/mots-c  301
+/peptides/tesamorelin.html  /peptides/tesamorelin  301
+/peptides/cjc1295.html  /peptides/cjc1295  301
+/peptides/ipamorelin.html  /peptides/ipamorelin  301
+/peptides/igf1-lr3.html  /peptides/igf1-lr3  301
+/peptides/follistatin344.html  /peptides/follistatin344  301
+/peptides/epitalon.html  /peptides/epitalon  301
+/peptides/foxo4-dri.html  /peptides/foxo4-dri  301
+/peptides/nad.html  /peptides/nad  301
+/peptides/ss31.html  /peptides/ss31  301
+/peptides/bioregulators.html  /peptides/bioregulators  301
+/peptides/dsip.html  /peptides/dsip  301
+/peptides/semax.html  /peptides/semax  301
+/peptides/selank.html  /peptides/selank  301
+/peptides/oxytocin.html  /peptides/oxytocin  301
+/peptides/pt141.html  /peptides/pt141  301
+/peptides/kisspeptin.html  /peptides/kisspeptin  301
+/peptides/melanotan1.html  /peptides/melanotan1  301
+/peptides/blend-bpc-tb500.html  /peptides/blend-bpc-tb500  301
+/peptides/blend-glow.html  /peptides/blend-glow  301
+/peptides/blend-klow.html  /peptides/blend-klow  301
+/peptides/blend-ipa-cjc.html  /peptides/blend-ipa-cjc  301
+/peptides/blend-tesa-ipa.html  /peptides/blend-tesa-ipa  301
+/peptides/blend-triple-threat.html  /peptides/blend-triple-threat  301
