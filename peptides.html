@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+<meta name="theme-color" content="#080A0C">
+<title>All Peptides — DPRO Health</title>
+<meta name="description" content="Every peptide cheat sheet on DPRO Health in one place — filter by goal (fat loss, healing, sleep, cognitive, longevity, GH, GLP-1) or browse A–Z. What each compound does, typical protocols, reconstitution, and where to source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  /* ===== PEPTIDES INDEX ===== */
+  .page-hero{padding:104px 0 40px}
+  .idx-bar{position:sticky;top:73px;z-index:20;background:rgba(8,10,12,.88);backdrop-filter:blur(12px);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0}
+  .idx-bar .wrap{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+  .idx-search{flex:1 1 220px;min-width:180px;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:0 12px}
+  .idx-search svg{width:14px;height:14px;color:var(--muted);flex-shrink:0}
+  .idx-search input{flex:1;background:none;border:none;outline:none;color:var(--white);font-family:'Outfit';font-size:14px;padding:10px 0;min-width:0}
+  .idx-search input::placeholder{color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .fchip{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);background:var(--bg2);border:1px solid var(--border);padding:8px 11px;border-radius:3px;cursor:pointer;transition:.18s;white-space:nowrap}
+  .fchip:hover{color:var(--white);border-color:var(--tq-border)}
+  .fchip.on{color:#04161c;background:var(--tq-mid);border-color:var(--tq-mid)}
+  .fchip .n{opacity:.6;margin-left:5px}
+  .seg{display:flex;gap:2px;background:var(--border);border-radius:4px;padding:2px;margin-left:auto}
+  .seg button{background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:9px 12px;border-radius:3px;cursor:pointer;transition:.2s}
+  .seg button.active{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .idx-count{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 14px}
+  .group{margin-bottom:44px}
+  .group-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+  .group-h h2{font-family:'Archivo';font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--white)}
+  .group-h .gn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--muted)}
+  .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:860px){.pgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+  .pcard{display:flex;flex-direction:column;gap:10px;padding:22px 22px 18px;background:var(--bg2);border:1px solid rgba(34,211,238,.28);border-radius:12px;text-decoration:none;box-shadow:0 0 0 1px rgba(34,211,238,.06),0 0 12px rgba(34,211,238,.18);transition:border-color .2s,transform .2s,box-shadow .2s,background .2s}
+  .pcard:hover{border-color:var(--tq-bright);transform:translateY(-2px);background:var(--bg3);box-shadow:0 0 0 1px rgba(34,211,238,.25),0 0 18px rgba(34,211,238,.4)}
+  .pcard .pc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .pcard .pc-name{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);letter-spacing:-.01em;line-height:1.15}
+  .pcard .pc-kind{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:3px 7px;border-radius:2px;white-space:nowrap}
+  .pcard .pc-kind.blend{color:var(--gold-bright);border-color:var(--gold-border)}
+  .pcard .pc-text{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.55;flex:1}
+  .pcard .pc-goals{display:flex;flex-wrap:wrap;gap:5px}
+  .pcard .pc-goals span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--tq-bright);background:var(--tq-dim);border:1px solid var(--tq-border);padding:3px 7px;border-radius:2px}
+  .pcard .pc-go{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);display:flex;align-items:center;gap:8px;margin-top:4px}
+  .pcard .pc-go .arrow{transition:transform .25s}
+  .pcard:hover .pc-go .arrow{transform:translateX(4px)}
+  .pcard[hidden]{display:none}
+  .group[hidden]{display:none}
+  .empty{display:none;padding:50px 0;text-align:center;color:var(--text)}
+  .empty.show{display:block}
+  .idx-cta{margin-top:20px;background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);border-radius:12px;padding:32px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .idx-cta .h{font-family:'Archivo';font-weight:800;font-size:22px;color:var(--white);letter-spacing:-.02em}
+  .idx-cta .s{font-size:14px;color:var(--text);margin-top:4px}
+
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
+<div class="shell">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <div class="nav-dd peptides-parent">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/peptides" class="nav-all">All peptides →</a>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptides <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu" role="menu">
+          <a href="peptides/ara290.html">ARA-290</a>
+          <a href="peptides/bpc157.html">BPC-157</a>
+          <a href="peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="peptides/kpv.html">KPV</a>
+          <a href="peptides/tb500.html">TB-500</a>
+          <a href="peptides/aod9604.html">AOD-9604</a>
+          <a href="peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="peptides/mots-c.html">MOTS-c</a>
+          <a href="peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="peptides/epitalon.html">Epitalon</a>
+          <a href="peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="peptides/nad.html">NAD+</a>
+          <a href="peptides/selank.html">Selank</a>
+          <a href="peptides/semax.html">Semax</a>
+          <a href="peptides/ss31.html">SS-31</a>
+          <a href="peptides/thymalin.html">Thymalin</a>
+          <a href="peptides/dsip.html">DSIP</a>
+          <a href="peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="peptides/oxytocin.html">Oxytocin</a>
+          <a href="peptides/pt141.html">PT-141</a>
+          <a href="peptides/ll37.html">LL-37</a>
+          <a href="peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="peptides/vip.html">VIP</a>
+          <a href="peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="peptides/follistatin344.html">Follistatin-344</a>
+          <a href="peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="peptides/melanotan1.html">Melanotan 1</a>
+          <a href="peptides/bioregulators.html">Bioregulators</a>
+          <a href="peptides/retatrutide.html">Retatrutide</a>
+          <a href="peptides/semaglutide.html">Semaglutide</a>
+          <a href="peptides/tirzepatide.html">Tirzepatide</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu blends-sub" role="menu">
+          <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="peptides/blend-glow.html">GLOW Blend</a>
+          <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="peptides/blend-klow.html">KLOW Blend</a>
+          <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="/vendors">Vendors</a>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptide-calculator.html">Peptide Calculator</a>
+          <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+          <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+          </div>
+        </div>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
+        <a href="index.html#about">About</a>
+        <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener" class="nav-cta">Free Skool Community</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Cheat sheets · 39 compounds</div>
+      <h1 class="display" style="font-size:clamp(38px,6vw,72px)">Every <span class="tq">peptide.</span></h1>
+      <p class="lead" style="margin-top:22px">All 33 peptides and 6 blends I've written up — what each one does, a typical protocol, reconstitution and draw, storage, and where to source it. Filter by goal or browse A–Z.</p>
+    </div>
+  </section>
+
+  <div class="idx-bar" id="idxbar">
+    <div class="wrap">
+      <label class="idx-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="q" placeholder="Search peptides…" autocomplete="off"></label>
+      <div class="chips" id="chips"><button class="fchip on" data-goal="all" type="button">All<span class="n">39</span></button><button class="fchip" data-goal="fat" type="button">Fat loss<span class="n">10</span></button><button class="fchip" data-goal="glp1" type="button">GLP-1s<span class="n">4</span></button><button class="fchip" data-goal="heal" type="button">Healing & recovery<span class="n">10</span></button><button class="fchip" data-goal="gh" type="button">Growth hormone & muscle<span class="n">7</span></button><button class="fchip" data-goal="long" type="button">Longevity<span class="n">10</span></button><button class="fchip" data-goal="sleep" type="button">Sleep<span class="n">4</span></button><button class="fchip" data-goal="cog" type="button">Cognitive<span class="n">3</span></button><button class="fchip" data-goal="skin" type="button">Skin<span class="n">4</span></button><button class="fchip" data-goal="immune" type="button">Immune<span class="n">6</span></button><button class="fchip" data-goal="sex" type="button">Sexual health<span class="n">3</span></button></div>
+      <div class="seg" id="view"><button type="button" class="active" data-view="goal">By goal</button><button type="button" data-view="az">A–Z</button></div>
+    </div>
+  </div>
+
+  <section class="section" style="border-top:none;padding-top:10px">
+    <div class="wrap">
+      <div class="idx-count" id="count"></div>
+      <div id="byGoal">
+      <div class="group" data-group="fat">
+        <div class="group-h"><h2>Fat loss</h2><span class="gn">10</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/retatrutide.html" data-name="retatrutide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Retatrutide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Triple agonist (GLP-1 / GIP / glucagon) — the most aggressive fat-loss compound in the class.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tirzepatide.html" data-name="tirzepatide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Tirzepatide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Dual GLP-1 / GIP agonist — strong efficacy with better tolerability than semaglutide.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/semaglutide.html" data-name="semaglutide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Semaglutide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The original blockbuster GLP-1 — most widely used and studied for appetite and weight.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/cagrilintide.html" data-name="cagrilintide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Cagrilintide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Long-acting amylin analog for satiety; commonly stacked with a GLP-1.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/aod9604.html" data-name="aod-9604" data-goals="fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">AOD-9604</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">GH fragment that keeps the fat-metabolism activity without affecting growth or blood sugar.</div>
+          <div class="pc-goals"><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/5-amino-1mq.html" data-name="5-amino-1mq" data-goals="fat long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">5-Amino-1MQ</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">NNMT inhibitor that raises cellular NAD+ and pushes fat cells toward burning, not storing.</div>
+          <div class="pc-goals"><span>Fat loss</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/mots-c.html" data-name="mots-c" data-goals="long fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">MOTS-c</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Mitochondrial peptide that regulates metabolism, glucose handling, and exercise capacity.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tesamorelin.html" data-name="tesamorelin" data-goals="gh fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Tesamorelin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">GHRH analog with the strongest clinical evidence for reducing visceral belly fat.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-tesa-ipa.html" data-name="tesamorelin / ipamorelin" data-goals="gh fat" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Tesamorelin / Ipamorelin</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">Visceral fat reduction plus a clean GH pulse in one vial.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-triple-threat.html" data-name="triple threat" data-goals="long fat" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Triple Threat</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">NAD+ + MOTS-c + 5-Amino-1MQ — a three-way metabolic and mitochondrial blend.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="glp1">
+        <div class="group-h"><h2>GLP-1s</h2><span class="gn">4</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/retatrutide.html" data-name="retatrutide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Retatrutide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Triple agonist (GLP-1 / GIP / glucagon) — the most aggressive fat-loss compound in the class.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tirzepatide.html" data-name="tirzepatide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Tirzepatide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Dual GLP-1 / GIP agonist — strong efficacy with better tolerability than semaglutide.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/semaglutide.html" data-name="semaglutide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Semaglutide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The original blockbuster GLP-1 — most widely used and studied for appetite and weight.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/cagrilintide.html" data-name="cagrilintide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Cagrilintide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Long-acting amylin analog for satiety; commonly stacked with a GLP-1.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="heal">
+        <div class="group-h"><h2>Healing & recovery</h2><span class="gn">10</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/bpc157.html" data-name="bpc-157" data-goals="heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">BPC-157</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The go-to repair peptide — tendons, ligaments, gut lining, and localized injury.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tb500.html" data-name="tb-500" data-goals="heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">TB-500</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Systemic recovery and cell migration; pairs with BPC-157 for whole-body repair.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ara290.html" data-name="ara-290" data-goals="heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">ARA-290</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Nerve-focused: EPO-derived peptide studied for neuropathic pain and small-fiber nerve repair.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/kpv.html" data-name="kpv" data-goals="heal immune" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">KPV</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Alpha-MSH fragment with strong anti-inflammatory action — gut, skin, and systemic inflammation.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ghk-cu.html" data-name="ghk-cu" data-goals="skin heal long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">GHK-Cu</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Copper peptide that drives collagen, skin remodeling, and wound healing.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ll37.html" data-name="ll-37" data-goals="immune heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">LL-37</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The body&#x27;s own antimicrobial peptide — innate immunity, biofilms, and stubborn infections.</div>
+          <div class="pc-goals"><span>Immune</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/vip.html" data-name="vip" data-goals="immune heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">VIP</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Broad anti-inflammatory signaling peptide used in immune regulation and CIRS-type protocols.</div>
+          <div class="pc-goals"><span>Immune</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-bpc-tb500.html" data-name="bpc-157 / tb-500" data-goals="heal" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">BPC-157 / TB-500</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">The two most popular healing peptides in one vial — local repair plus systemic recovery.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-glow.html" data-name="glow blend" data-goals="skin heal" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">GLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GHK-Cu + BPC-157 + TB-500 — the beauty-and-healing stack.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-klow.html" data-name="klow blend" data-goals="skin heal immune" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">KLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GLOW with KPV added for anti-inflammatory power — four peptides, one draw.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="gh">
+        <div class="group-h"><h2>Growth hormone & muscle</h2><span class="gn">7</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/tesamorelin.html" data-name="tesamorelin" data-goals="gh fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Tesamorelin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">GHRH analog with the strongest clinical evidence for reducing visceral belly fat.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/cjc1295.html" data-name="cjc-1295 no dac" data-goals="gh" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">CJC-1295 No DAC</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Short-acting GHRH analog that amplifies your natural GH pulses.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ipamorelin.html" data-name="ipamorelin" data-goals="gh sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Ipamorelin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Selective GH secretagogue — a clean GH pulse without the cortisol or appetite spike.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/igf1-lr3.html" data-name="igf-1 lr3" data-goals="gh" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">IGF-1 LR3</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Long-acting IGF-1 analog that drives muscle cell growth and hyperplasia.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/follistatin344.html" data-name="follistatin-344" data-goals="gh" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Follistatin-344</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Potent myostatin inhibitor — removes the brake on muscle growth.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-ipa-cjc.html" data-name="ipamorelin / cjc-1295" data-goals="gh sleep" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Ipamorelin / CJC-1295</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">The classic GH stack pre-combined: Ipamorelin triggers the pulse, CJC-1295 amplifies it.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-tesa-ipa.html" data-name="tesamorelin / ipamorelin" data-goals="gh fat" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Tesamorelin / Ipamorelin</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">Visceral fat reduction plus a clean GH pulse in one vial.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="long">
+        <div class="group-h"><h2>Longevity</h2><span class="gn">10</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/ghk-cu.html" data-name="ghk-cu" data-goals="skin heal long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">GHK-Cu</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Copper peptide that drives collagen, skin remodeling, and wound healing.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/thymalin.html" data-name="thymalin" data-goals="immune long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Thymalin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Thymus bioregulator used to restore and rebalance immune function with age.</div>
+          <div class="pc-goals"><span>Immune</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/5-amino-1mq.html" data-name="5-amino-1mq" data-goals="fat long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">5-Amino-1MQ</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">NNMT inhibitor that raises cellular NAD+ and pushes fat cells toward burning, not storing.</div>
+          <div class="pc-goals"><span>Fat loss</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/mots-c.html" data-name="mots-c" data-goals="long fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">MOTS-c</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Mitochondrial peptide that regulates metabolism, glucose handling, and exercise capacity.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/epitalon.html" data-name="epitalon" data-goals="long sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Epitalon</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Pineal tetrapeptide studied for telomerase activation, circadian rhythm, and longevity.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/foxo4-dri.html" data-name="foxo4-dri" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">FOXO4-DRI</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Senolytic peptide designed to clear senescent &quot;zombie&quot; cells.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/nad.html" data-name="nad+" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">NAD+</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The coenzyme behind cellular energy and DNA repair — levels decline with age.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ss31.html" data-name="ss-31" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">SS-31</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Mitochondria-targeting peptide (elamipretide) that protects and restores energy production.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/bioregulators.html" data-name="bioregulators" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Bioregulators</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Short organ-specific peptides (Khavinson) used in cycles to restore tissue function.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-triple-threat.html" data-name="triple threat" data-goals="long fat" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Triple Threat</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">NAD+ + MOTS-c + 5-Amino-1MQ — a three-way metabolic and mitochondrial blend.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="sleep">
+        <div class="group-h"><h2>Sleep</h2><span class="gn">4</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/ipamorelin.html" data-name="ipamorelin" data-goals="gh sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Ipamorelin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Selective GH secretagogue — a clean GH pulse without the cortisol or appetite spike.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/epitalon.html" data-name="epitalon" data-goals="long sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Epitalon</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Pineal tetrapeptide studied for telomerase activation, circadian rhythm, and longevity.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/dsip.html" data-name="dsip" data-goals="sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">DSIP</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Delta sleep-inducing peptide — deeper slow-wave sleep and better recovery.</div>
+          <div class="pc-goals"><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-ipa-cjc.html" data-name="ipamorelin / cjc-1295" data-goals="gh sleep" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Ipamorelin / CJC-1295</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">The classic GH stack pre-combined: Ipamorelin triggers the pulse, CJC-1295 amplifies it.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="cog">
+        <div class="group-h"><h2>Cognitive</h2><span class="gn">3</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/semax.html" data-name="semax" data-goals="cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Semax</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">ACTH-derived nootropic that raises BDNF — focus, memory, and neuroprotection.</div>
+          <div class="pc-goals"><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/selank.html" data-name="selank" data-goals="cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Selank</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Anxiolytic nootropic — calm focus without sedation.</div>
+          <div class="pc-goals"><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/oxytocin.html" data-name="oxytocin" data-goals="sex cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Oxytocin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The bonding hormone — mood, social connection, and intimacy.</div>
+          <div class="pc-goals"><span>Sexual health</span><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="skin">
+        <div class="group-h"><h2>Skin</h2><span class="gn">4</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/ghk-cu.html" data-name="ghk-cu" data-goals="skin heal long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">GHK-Cu</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Copper peptide that drives collagen, skin remodeling, and wound healing.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/melanotan1.html" data-name="melanotan 1" data-goals="skin" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Melanotan 1</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Afamelanotide — melanin production for tanning and UV protection, more selective than MT-2.</div>
+          <div class="pc-goals"><span>Skin</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-glow.html" data-name="glow blend" data-goals="skin heal" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">GLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GHK-Cu + BPC-157 + TB-500 — the beauty-and-healing stack.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-klow.html" data-name="klow blend" data-goals="skin heal immune" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">KLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GLOW with KPV added for anti-inflammatory power — four peptides, one draw.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="immune">
+        <div class="group-h"><h2>Immune</h2><span class="gn">6</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/kpv.html" data-name="kpv" data-goals="heal immune" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">KPV</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Alpha-MSH fragment with strong anti-inflammatory action — gut, skin, and systemic inflammation.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ll37.html" data-name="ll-37" data-goals="immune heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">LL-37</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The body&#x27;s own antimicrobial peptide — innate immunity, biofilms, and stubborn infections.</div>
+          <div class="pc-goals"><span>Immune</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/vip.html" data-name="vip" data-goals="immune heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">VIP</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Broad anti-inflammatory signaling peptide used in immune regulation and CIRS-type protocols.</div>
+          <div class="pc-goals"><span>Immune</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/thymosin-alpha1.html" data-name="thymosin alpha-1" data-goals="immune" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Thymosin Alpha-1</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Thymus peptide that strengthens T-cell activity and overall immune resilience.</div>
+          <div class="pc-goals"><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/thymalin.html" data-name="thymalin" data-goals="immune long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Thymalin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Thymus bioregulator used to restore and rebalance immune function with age.</div>
+          <div class="pc-goals"><span>Immune</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-klow.html" data-name="klow blend" data-goals="skin heal immune" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">KLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GLOW with KPV added for anti-inflammatory power — four peptides, one draw.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="group" data-group="sex">
+        <div class="group-h"><h2>Sexual health</h2><span class="gn">3</span></div>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/oxytocin.html" data-name="oxytocin" data-goals="sex cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Oxytocin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The bonding hormone — mood, social connection, and intimacy.</div>
+          <div class="pc-goals"><span>Sexual health</span><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/pt141.html" data-name="pt-141" data-goals="sex" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">PT-141</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Bremelanotide — drives sexual arousal centrally, in men and women.</div>
+          <div class="pc-goals"><span>Sexual health</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/kisspeptin.html" data-name="kisspeptin" data-goals="sex" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Kisspeptin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Top of the reproductive cascade — signals GnRH release to support natural testosterone and fertility.</div>
+          <div class="pc-goals"><span>Sexual health</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      </div>
+      <div id="az" hidden>
+        <div class="pgrid">
+        <a class="pcard" href="peptides/5-amino-1mq.html" data-name="5-amino-1mq" data-goals="fat long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">5-Amino-1MQ</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">NNMT inhibitor that raises cellular NAD+ and pushes fat cells toward burning, not storing.</div>
+          <div class="pc-goals"><span>Fat loss</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/aod9604.html" data-name="aod-9604" data-goals="fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">AOD-9604</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">GH fragment that keeps the fat-metabolism activity without affecting growth or blood sugar.</div>
+          <div class="pc-goals"><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ara290.html" data-name="ara-290" data-goals="heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">ARA-290</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Nerve-focused: EPO-derived peptide studied for neuropathic pain and small-fiber nerve repair.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/bioregulators.html" data-name="bioregulators" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Bioregulators</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Short organ-specific peptides (Khavinson) used in cycles to restore tissue function.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/bpc157.html" data-name="bpc-157" data-goals="heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">BPC-157</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The go-to repair peptide — tendons, ligaments, gut lining, and localized injury.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-bpc-tb500.html" data-name="bpc-157 / tb-500" data-goals="heal" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">BPC-157 / TB-500</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">The two most popular healing peptides in one vial — local repair plus systemic recovery.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/cagrilintide.html" data-name="cagrilintide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Cagrilintide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Long-acting amylin analog for satiety; commonly stacked with a GLP-1.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/cjc1295.html" data-name="cjc-1295 no dac" data-goals="gh" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">CJC-1295 No DAC</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Short-acting GHRH analog that amplifies your natural GH pulses.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/dsip.html" data-name="dsip" data-goals="sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">DSIP</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Delta sleep-inducing peptide — deeper slow-wave sleep and better recovery.</div>
+          <div class="pc-goals"><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/epitalon.html" data-name="epitalon" data-goals="long sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Epitalon</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Pineal tetrapeptide studied for telomerase activation, circadian rhythm, and longevity.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/follistatin344.html" data-name="follistatin-344" data-goals="gh" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Follistatin-344</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Potent myostatin inhibitor — removes the brake on muscle growth.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/foxo4-dri.html" data-name="foxo4-dri" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">FOXO4-DRI</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Senolytic peptide designed to clear senescent &quot;zombie&quot; cells.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ghk-cu.html" data-name="ghk-cu" data-goals="skin heal long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">GHK-Cu</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Copper peptide that drives collagen, skin remodeling, and wound healing.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-glow.html" data-name="glow blend" data-goals="skin heal" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">GLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GHK-Cu + BPC-157 + TB-500 — the beauty-and-healing stack.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/igf1-lr3.html" data-name="igf-1 lr3" data-goals="gh" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">IGF-1 LR3</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Long-acting IGF-1 analog that drives muscle cell growth and hyperplasia.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ipamorelin.html" data-name="ipamorelin" data-goals="gh sleep" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Ipamorelin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Selective GH secretagogue — a clean GH pulse without the cortisol or appetite spike.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-ipa-cjc.html" data-name="ipamorelin / cjc-1295" data-goals="gh sleep" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Ipamorelin / CJC-1295</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">The classic GH stack pre-combined: Ipamorelin triggers the pulse, CJC-1295 amplifies it.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Sleep</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/kisspeptin.html" data-name="kisspeptin" data-goals="sex" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Kisspeptin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Top of the reproductive cascade — signals GnRH release to support natural testosterone and fertility.</div>
+          <div class="pc-goals"><span>Sexual health</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-klow.html" data-name="klow blend" data-goals="skin heal immune" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">KLOW Blend</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">GLOW with KPV added for anti-inflammatory power — four peptides, one draw.</div>
+          <div class="pc-goals"><span>Skin</span><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/kpv.html" data-name="kpv" data-goals="heal immune" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">KPV</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Alpha-MSH fragment with strong anti-inflammatory action — gut, skin, and systemic inflammation.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ll37.html" data-name="ll-37" data-goals="immune heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">LL-37</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The body&#x27;s own antimicrobial peptide — innate immunity, biofilms, and stubborn infections.</div>
+          <div class="pc-goals"><span>Immune</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/melanotan1.html" data-name="melanotan 1" data-goals="skin" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Melanotan 1</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Afamelanotide — melanin production for tanning and UV protection, more selective than MT-2.</div>
+          <div class="pc-goals"><span>Skin</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/mots-c.html" data-name="mots-c" data-goals="long fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">MOTS-c</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Mitochondrial peptide that regulates metabolism, glucose handling, and exercise capacity.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/nad.html" data-name="nad+" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">NAD+</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The coenzyme behind cellular energy and DNA repair — levels decline with age.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/oxytocin.html" data-name="oxytocin" data-goals="sex cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Oxytocin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The bonding hormone — mood, social connection, and intimacy.</div>
+          <div class="pc-goals"><span>Sexual health</span><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/pt141.html" data-name="pt-141" data-goals="sex" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">PT-141</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Bremelanotide — drives sexual arousal centrally, in men and women.</div>
+          <div class="pc-goals"><span>Sexual health</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/retatrutide.html" data-name="retatrutide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Retatrutide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Triple agonist (GLP-1 / GIP / glucagon) — the most aggressive fat-loss compound in the class.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/selank.html" data-name="selank" data-goals="cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Selank</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Anxiolytic nootropic — calm focus without sedation.</div>
+          <div class="pc-goals"><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/semaglutide.html" data-name="semaglutide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Semaglutide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">The original blockbuster GLP-1 — most widely used and studied for appetite and weight.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/semax.html" data-name="semax" data-goals="cog" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Semax</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">ACTH-derived nootropic that raises BDNF — focus, memory, and neuroprotection.</div>
+          <div class="pc-goals"><span>Cognitive</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/ss31.html" data-name="ss-31" data-goals="long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">SS-31</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Mitochondria-targeting peptide (elamipretide) that protects and restores energy production.</div>
+          <div class="pc-goals"><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tb500.html" data-name="tb-500" data-goals="heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">TB-500</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Systemic recovery and cell migration; pairs with BPC-157 for whole-body repair.</div>
+          <div class="pc-goals"><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tesamorelin.html" data-name="tesamorelin" data-goals="gh fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Tesamorelin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">GHRH analog with the strongest clinical evidence for reducing visceral belly fat.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-tesa-ipa.html" data-name="tesamorelin / ipamorelin" data-goals="gh fat" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Tesamorelin / Ipamorelin</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">Visceral fat reduction plus a clean GH pulse in one vial.</div>
+          <div class="pc-goals"><span>Growth hormone &amp; muscle</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/thymalin.html" data-name="thymalin" data-goals="immune long" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Thymalin</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Thymus bioregulator used to restore and rebalance immune function with age.</div>
+          <div class="pc-goals"><span>Immune</span><span>Longevity</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/thymosin-alpha1.html" data-name="thymosin alpha-1" data-goals="immune" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Thymosin Alpha-1</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Thymus peptide that strengthens T-cell activity and overall immune resilience.</div>
+          <div class="pc-goals"><span>Immune</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/tirzepatide.html" data-name="tirzepatide" data-goals="glp1 fat" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">Tirzepatide</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Dual GLP-1 / GIP agonist — strong efficacy with better tolerability than semaglutide.</div>
+          <div class="pc-goals"><span>GLP-1s</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/blend-triple-threat.html" data-name="triple threat" data-goals="long fat" data-kind="blend">
+          <div class="pc-top"><div class="pc-name">Triple Threat</div><span class="pc-kind blend">Blend</span></div>
+          <div class="pc-text">NAD+ + MOTS-c + 5-Amino-1MQ — a three-way metabolic and mitochondrial blend.</div>
+          <div class="pc-goals"><span>Longevity</span><span>Fat loss</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        <a class="pcard" href="peptides/vip.html" data-name="vip" data-goals="immune heal" data-kind="peptide">
+          <div class="pc-top"><div class="pc-name">VIP</div><span class="pc-kind">Peptide</span></div>
+          <div class="pc-text">Broad anti-inflammatory signaling peptide used in immune regulation and CIRS-type protocols.</div>
+          <div class="pc-goals"><span>Immune</span><span>Healing &amp; recovery</span></div>
+          <div class="pc-go">Open cheat sheet <span class="arrow">→</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="empty" id="empty">Nothing matches that — try another goal or a shorter search.</div>
+
+      <div class="idx-cta">
+        <div><div class="h">Know what you want to run?</div><div class="s">Every cheat sheet ends with where to source it. Or skip straight to the vendors I trust.</div></div>
+        <a class="btn btn-gold" href="/vendors">Where to buy <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="index.html" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="index.html">Home</a>
+            <a href="/peptides">All Peptides</a>
+            <a href="peptide-calculator.html">Calculator</a>
+            <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+            <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+            <a href="vendors.html">Trusted Vendors</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+            <a href="suggestions.html">Suggestions</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dpromethod" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // mobile nav
+  document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+  document.querySelectorAll('.nav-dd-btn').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.preventDefault();e.stopPropagation();
+      const dd=btn.closest('.nav-dd');
+      const wasOpen=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!wasOpen){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',(e)=>{
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
+  });
+</script>
+<script>
+  // ---- peptides index: filter / search / view ----
+  (function(){
+    var chips=[].slice.call(document.querySelectorAll('#chips .fchip'));
+    var q=document.getElementById('q'), byGoal=document.getElementById('byGoal'), az=document.getElementById('az'), count=document.getElementById('count'), empty=document.getElementById('empty');
+    var view='goal', goal='all';
+    function apply(){
+      var term=q.value.trim().toLowerCase();
+      var shown=0;
+      document.querySelectorAll('#az .pcard').forEach(function(c){
+        var ok=(goal==='all'||c.dataset.goals.split(' ').indexOf(goal)>-1)&&(!term||c.dataset.name.indexOf(term)>-1);
+        c.hidden=!ok; if(view==='az'&&ok) shown++;
+      });
+      document.querySelectorAll('#byGoal .group').forEach(function(g){
+        var groupOk=(goal==='all'||g.dataset.group===goal); var n=0;
+        g.querySelectorAll('.pcard').forEach(function(c){var ok=groupOk&&(!term||c.dataset.name.indexOf(term)>-1);c.hidden=!ok;if(ok)n++;});
+        g.hidden=!(groupOk&&n>0); if(view==='goal') shown+=n;
+      });
+      byGoal.hidden=(view!=='goal'); az.hidden=(view!=='az');
+      var label=view==='az'?shown+' compound'+(shown===1?'':'s'):shown+' listing'+(shown===1?'':'s')+(goal==='all'?' across '+document.querySelectorAll('#byGoal .group:not([hidden])').length+' goals':'');
+      count.textContent=label; empty.classList.toggle('show',shown===0);
+    }
+    chips.forEach(function(b){b.addEventListener('click',function(){chips.forEach(function(x){x.classList.remove('on')});b.classList.add('on');goal=b.dataset.goal;apply();
+      if(typeof gtag==='function')gtag('event','peptide_filter',{goal:goal});});});
+    document.querySelectorAll('#view button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#view button').forEach(function(x){x.classList.remove('active')});b.classList.add('active');view=b.dataset.view;apply();});});
+    q.addEventListener('input',apply);
+    var h=location.hash.replace('#','');
+    if(h==='az'){document.querySelector('#view [data-view=az]').click();}
+    else if(h.indexOf('goal=')===0){var c=document.querySelector('#chips [data-goal="'+h.slice(5)+'"]'); if(c) c.click();}
+    apply();
+  })();
+</script>
+</body>
+</html>

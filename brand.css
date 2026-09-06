@@ -349,3 +349,6 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .deal-grid{gap:16px}
 .deal{border-radius:12px;box-shadow:none;transition:border-color .2s}
 .deal:hover{border-color:var(--gold)}
+
+/* "All peptides" row at the top of the Peptides dropdown */
+.nav-dd-menu a.nav-all,.dpro-dd-menu a.nav-all{color:var(--tq-bright);font-weight:500;border-bottom:1px solid var(--border);border-radius:7px 7px 0 0;margin-bottom:6px;padding-bottom:10px}
