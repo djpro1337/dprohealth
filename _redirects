@@ -16,6 +16,11 @@ http://dprohealth-sight.netlify.app/*   https://dprohealth.com/:splat  301!
 /go/lumora       https://lumorapeptides.io/?ref=dpro           302
 /go/atomik       https://atomiklabz.com/aff/344/               302
 /go/solution     https://solutionpeptides.net/aff/334/         302
+/go/peptira      https://peptira.com/?ref=DPRO                 302
+/go/peptire      https://peptira.com/?ref=DPRO                 302
+
+# ---- Supplements (not peptides) ------------------------------------------
+/go/morph        https://www.morphogennutrition.com/?ref=DPRO&utm_campaign=goaffpro&utm_medium=affiliate&utm_source=DPRO  302
 
 # ---- Bloodwork / prescription peptides ------------------------------------
 /go/algorx       https://app.algorx.ai/?ref=DAVIDPROCHASKA     302
