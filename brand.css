@@ -288,6 +288,8 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 }
 
 /* homepage variants of the same card */
+.vgrid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:860px){.vgrid.three{grid-template-columns:1fr}}
 .vgrid.four{grid-template-columns:repeat(4,1fr)}
 @media(max-width:860px){.vgrid.four{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.vgrid.four{grid-template-columns:1fr}}

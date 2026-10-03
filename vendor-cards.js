@@ -1,6 +1,6 @@
 /* DPRO Health — vendor card behaviour (shared by /vendors and the homepage)
    - copy-to-clipboard on .vc-copy buttons
-   - GA4 events: copy_code, vendor_click */
+   - GA4 event: copy_code  (vendor clicks: see js/affiliate-track.js) */
 (function(){
   function copyText(t){
     if(navigator.clipboard&&window.isSecureContext){return navigator.clipboard.writeText(t);}
@@ -20,11 +20,9 @@
       if(typeof gtag==='function'){gtag('event','copy_code',{vendor:btn.getAttribute('data-vendor'),code:code,page:location.pathname});}
     });
   });
-  document.querySelectorAll('a.vc-go').forEach(function(a){
-    a.addEventListener('click',function(){
-      if(typeof gtag==='function'){gtag('event','vendor_click',{vendor:a.getAttribute('data-vendor'),href:a.getAttribute('href'),page:location.pathname});}
-    });
-  });
+  /* vendor_click removed 3 Oct 2026: /go/ clicks are now tracked sitewide as
+     affiliate_click by js/affiliate-track.js. Keeping it here would double-count
+     the homepage and /vendors against every other page. */
 })();
 
 /* Deals strip: hide any deal whose data-ends has passed; hide the whole strip if none remain. */
