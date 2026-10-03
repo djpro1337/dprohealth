@@ -4,9 +4,9 @@
    ============================================================ */
 
 :root{
-  --bg:        #080A0C;
-  --bg2:       #0C0F12;
-  --bg3:       #111519;
+  --bg:        #0E1622;   /* navy slate — never pure black */
+  --bg2:       #152131;   /* card slate */
+  --bg3:       #1B2A3D;
   --tq-deep:   #0E7490;
   --tq-mid:    #06B6D4;
   --tq-bright: #22D3EE;
@@ -18,10 +18,20 @@
   --navy-mid:  #1E3A5F;
   --white:     #F0F4F6;
   --off-white: #C8D4DA;
-  --text:      #7A9AAA;
-  --muted:     #3A5060;
-  --border:    rgba(255,255,255,0.055);
-  --border2:   rgba(255,255,255,0.03);
+  --text:      #A9BCC8;
+  --muted:     #5B7385;
+  --border:    rgba(255,255,255,0.08);
+  --border2:   rgba(255,255,255,0.04);
+  --gold:      #F5B544;   /* DPRO Gold — action colour, one CTA per screen */
+  --gold-bright:#F5B544;
+  --gold-ink:  #1A1206;   /* text on gold */
+  --gold-dim:  rgba(245,181,68,.10);
+  --gold-border:rgba(245,181,68,.42);
+  --violet:    #A78BFA;   /* category: longevity */
+  --green:     #4ADE80;   /* category: cognitive / performance */
+  --light:     #EEF3F6;   /* light band */
+  --light-head:#0B1220;
+  --light-body:#43566A;
   --danger:    #ef4444;
 }
 
@@ -60,7 +70,7 @@ body{
 /* ── HEADER / NAV ── */
 .nav{
   position:sticky;top:0;z-index:50;
-  background:rgba(8,10,12,.82);backdrop-filter:blur(14px);
+  background:rgba(14,22,34,.86);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border);
 }
 .nav-inner{max-width:1080px;margin:0 auto;padding:16px 32px;display:flex;align-items:center;justify-content:space-between}
@@ -110,10 +120,10 @@ h3.sub{font-family:'Archivo',sans-serif;font-weight:700;font-size:20px;letter-sp
   font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;
   text-decoration:none;padding:15px 32px;border-radius:3px;transition:.28s;cursor:pointer;border:none
 }
-.btn-primary{background:linear-gradient(135deg,var(--tq-deep),var(--tq-mid));color:#04161c;box-shadow:0 12px 38px -14px rgba(6,182,212,.7)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 48px -14px rgba(6,182,212,.9)}
-.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border)}
-.btn-ghost:hover{border-color:var(--tq-mid);color:var(--tq-bright)}
+.btn-primary{background:var(--gold);color:var(--gold-ink);box-shadow:0 12px 38px -14px rgba(245,181,68,.7)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 48px -14px rgba(245,181,68,.9);color:var(--gold-ink)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--tq-border)}
+.btn-ghost:hover{border-color:var(--tq-mid);color:var(--tq-bright);background:var(--tq-dim)}
 .btn-disabled{opacity:.45;cursor:default;pointer-events:none;box-shadow:none}
 .btn-disabled:hover{transform:none;box-shadow:none}
 .btn .arrow{transition:transform .25s}
@@ -138,7 +148,7 @@ h3.sub{font-family:'Archivo',sans-serif;font-weight:700;font-size:20px;letter-sp
 
 /* offer / price panel */
 .panel{
-  background:linear-gradient(160deg,#0d141b,#0a0e12);
+  background:linear-gradient(160deg,#152131,#0E1622);
   border:1px solid var(--tq-border);border-radius:10px;padding:44px;position:relative;overflow:hidden
 }
 .panel::before{content:'';position:absolute;top:-70px;right:-70px;width:220px;height:220px;background:radial-gradient(circle,var(--tq-glow),transparent 70%)}
@@ -185,7 +195,7 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .portrait-wrap{position:relative}
 .portrait-wrap::after{content:'';position:absolute;inset:0;border:1px solid var(--tq-border);border-radius:12px;transform:translate(14px,14px);pointer-events:none;z-index:-1}
 .portrait{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--border);position:relative;z-index:1}
-.portrait-tint{position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,transparent 55%,rgba(8,10,12,.55));z-index:2;pointer-events:none}
+.portrait-tint{position:absolute;inset:0;border-radius:12px;background:linear-gradient(180deg,transparent 55%,rgba(14,22,34,.55));z-index:2;pointer-events:none}
 .headshot{width:100%;height:100%;object-fit:cover;border-radius:12px;border:1px solid var(--border);display:block}
 
 /* embed wrapper (calendly etc) */
@@ -206,7 +216,7 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .testi .stars{color:var(--tq-bright);font-size:14px;letter-spacing:3px}
 .testi .quote{font-size:15px;font-weight:300;color:var(--off-white);line-height:1.6;flex:1}
 .testi .who{display:flex;align-items:center;gap:12px;margin-top:4px}
-.testi .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--tq-deep),var(--tq-mid));display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:700;font-size:14px;color:#04161c;flex-shrink:0}
+.testi .avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--tq-deep),var(--tq-mid));display:flex;align-items:center;justify-content:center;font-family:'Archivo';font-weight:700;font-size:14px;color:#07262C;flex-shrink:0}
 .testi .name{font-family:'Archivo';font-weight:600;font-size:14px;color:var(--white)}
 .testi .role{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-top:2px}
 
@@ -225,7 +235,6 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
    VENDOR CARD COMPONENT — shared by /vendors and the homepage
    gold = buy/action, cyan = information
    ============================================================ */
-:root{--gold:#C97E1D;--gold-bright:#E3A23A;--gold-dim:rgba(201,126,29,.10);--gold-border:rgba(201,126,29,.38)}
 /* info rows (shipping / payment) + chips */
 .vc-chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.06em;color:var(--off-white);background:var(--bg);border:1px solid var(--border);padding:5px 9px;border-radius:3px;white-space:nowrap}
@@ -245,8 +254,8 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .vc-soon{flex-direction:column;gap:3px;line-height:1.1;color:var(--off-white)}
 .vc-soon small{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright)}
 /* gold = buy/action. cyan = information. */
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:#1A1000;box-shadow:0 12px 38px -14px rgba(201,126,29,.75)}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 48px -14px rgba(227,162,58,.9);color:#1A1000}
+.btn-gold{background:var(--gold);color:var(--gold-ink);box-shadow:0 12px 38px -14px rgba(245,181,68,.75)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 48px -14px rgba(245,181,68,.9);color:var(--gold-ink)}
 /* vendor card — shared component (reuse on homepage) */
 .vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
 .vgrid.two{grid-template-columns:1fr 1fr}
@@ -254,7 +263,7 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 @media(max-width:860px){.vgrid,.vgrid.two,.vgrid.one{grid-template-columns:1fr}}
 .vcard{position:relative;background:var(--bg2);border:1px solid var(--border);padding:30px 28px;display:flex;flex-direction:column;gap:18px;transition:background .2s,border-color .2s}
 .vcard:hover{background:var(--bg3);border-color:var(--tq-border)}
-.vcard.pref{border-color:var(--gold-border);background:linear-gradient(160deg,#121210,#0a0e12 60%);padding:36px 34px}
+.vcard.pref{border-color:var(--gold-border);background:linear-gradient(160deg,#1A1A17,#0E1622 60%);padding:36px 34px}
 .vcard.pref::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(360px 200px at 0% 0%,var(--gold-dim),transparent 70%)}
 .vcard.pref:hover{border-color:var(--gold)}
 .vc-head{display:flex;align-items:center;gap:18px}
@@ -264,7 +273,7 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .vc-id{min-width:0;display:flex;flex-direction:column;gap:8px}
 .vc-name{font-family:'Archivo';font-weight:700;font-size:20px;color:var(--white);letter-spacing:-.01em;line-height:1.1}
 .vcard.pref .vc-name{font-size:26px;letter-spacing:-.02em}
-.vc-badge{position:absolute;top:18px;right:18px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#1A1000;background:linear-gradient(135deg,var(--gold),var(--gold-bright));padding:5px 9px;border-radius:2px;white-space:nowrap}
+.vc-badge{position:absolute;top:18px;right:18px;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-ink);background:linear-gradient(135deg,var(--gold),var(--gold-bright));padding:5px 9px;border-radius:2px;white-space:nowrap}
 .vc-sub{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.5;margin-top:-4px}
 .vc-off{font-family:'Archivo';font-weight:800;font-size:26px;color:var(--gold-bright);line-height:1;letter-spacing:-.02em}
 .vc-off small{font-family:'Outfit';font-weight:300;font-size:13px;color:var(--text);letter-spacing:0;margin-left:6px}
@@ -273,7 +282,7 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .vc-code .lbl{font-size:9px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
 .vc-copy{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tq-bright);background:var(--tq-dim);border:1px solid var(--tq-border);border-left:none;padding:0 16px;border-radius:0 3px 3px 0;cursor:pointer;transition:.2s;min-width:96px}
 .vc-copy:hover{background:var(--tq-glow);border-color:var(--tq-mid)}
-.vc-copy.done{color:#04161c;background:var(--tq-mid);border-color:var(--tq-mid)}
+.vc-copy.done{color:#07262C;background:var(--tq-mid);border-color:var(--tq-mid)}
 .vc-go{justify-content:center;margin-top:auto}
 .vc-verified{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
 .vc-verified::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--tq-mid);box-shadow:0 0 8px var(--tq-mid);flex-shrink:0}
@@ -314,7 +323,7 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
    ============================================================ */
 .deal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:860px){.deal-grid{grid-template-columns:1fr}}
-.deal{display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;background:linear-gradient(160deg,#141210,#0b0e12 60%);border:1px solid var(--gold-border);border-radius:8px;padding:20px 22px;position:relative;overflow:hidden}
+.deal{display:grid;grid-template-columns:64px 1fr auto;gap:18px;align-items:center;background:linear-gradient(160deg,#1B1A14,#0E1622 60%);border:1px solid var(--gold-border);border-radius:8px;padding:20px 22px;position:relative;overflow:hidden}
 .deal::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(300px 160px at 0% 0%,var(--gold-dim),transparent 70%)}
 .deal[hidden]{display:none}
 .deal-logo{width:64px;height:64px;border-radius:9px;overflow:hidden;background:var(--white);border:1px solid rgba(255,255,255,.1)}
@@ -344,8 +353,8 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .vgrid{gap:16px}
 .vcard{border-radius:12px;border-color:rgba(34,211,238,.55);box-shadow:0 0 0 1px rgba(34,211,238,.12),0 0 14px rgba(34,211,238,.32);transition:background .2s,border-color .2s,transform .2s,box-shadow .2s}
 .vcard:hover{border-color:var(--tq-bright);transform:translateY(-2px);box-shadow:0 0 0 1px rgba(34,211,238,.3),0 0 20px rgba(34,211,238,.5)}
-.vcard.pref{border-color:rgba(227,162,58,.6);box-shadow:0 0 0 1px rgba(201,126,29,.14),0 0 14px rgba(201,126,29,.38)}
-.vcard.pref:hover{border-color:var(--gold-bright);box-shadow:0 0 0 1px rgba(201,126,29,.3),0 0 20px rgba(227,162,58,.55)}
+.vcard.pref{border-color:rgba(245,181,68,.6);box-shadow:0 0 0 1px rgba(245,181,68,.14),0 0 14px rgba(245,181,68,.38)}
+.vcard.pref:hover{border-color:var(--gold-bright);box-shadow:0 0 0 1px rgba(245,181,68,.3),0 0 20px rgba(245,181,68,.55)}
 .vcard.pref::before{border-radius:12px}
 .vc-logo{border-radius:12px}
 .deal-grid{gap:16px}
@@ -354,3 +363,29 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 
 /* "All peptides" row at the top of the Peptides dropdown */
 .nav-dd-menu a.nav-all,.dpro-dd-menu a.nav-all{color:var(--tq-bright);font-weight:500;border-bottom:1px solid var(--border);border-radius:7px 7px 0 0;margin-bottom:6px;padding-bottom:10px}
+
+/* ============================================================
+   LIGHT BAND — warm-white section to break up dark pages (brand guide §04)
+   ============================================================ */
+.section.light{background:var(--light);border-top:none;color:var(--light-body)}
+.section.light .eyebrow{color:var(--tq-deep)} .section.light .eyebrow::before{background:var(--tq-deep)}
+.section.light h2.heading,.section.light h3.sub,.section.light h2,.section.light h3{color:var(--light-head)}
+.section.light h2.heading .tq,.section.light .tq{color:var(--tq-deep)}
+.section.light .lead,.section.light p{color:var(--light-body)}
+.section.light .card,.section.light .pick{background:#FFFFFF;border-color:rgba(11,18,32,.08)}
+.section.light .card:hover,.section.light .pick:hover{background:#FFFFFF;border-color:rgba(14,116,144,.45)}
+.section.light .pick .pk-title,.section.light .card-text strong{color:var(--light-head)}
+.section.light .pick .pk-text,.section.light .card-text{color:var(--light-body)}
+.section.light .pick .pk-num,.section.light .card-label{color:var(--tq-deep)}
+.section.light .mission{background:#FFFFFF;border:1px solid rgba(14,116,144,.22);box-shadow:0 20px 50px -30px rgba(11,18,32,.35)}
+.section.light .mission::before{background:radial-gradient(circle,rgba(6,182,212,.14),transparent 65%)}
+.section.light .mission p{color:var(--light-head)}
+.section.light .mission p .tq{color:var(--tq-deep)}
+.section.light .mission .qm{color:var(--tq-deep);opacity:.14}
+.section.light .btn-ghost{color:var(--light-head);border-color:rgba(11,18,32,.18)}
+.section.light .btn-ghost:hover{color:var(--tq-deep);border-color:var(--tq-deep);background:rgba(6,182,212,.06)}
+/* category colours — tags & thumbnails only */
+.tag-fat{color:var(--tq-bright)!important;border-color:rgba(34,211,238,.35)!important;background:rgba(34,211,238,.08)!important}
+.tag-heal{color:var(--gold)!important;border-color:rgba(245,181,68,.4)!important;background:rgba(245,181,68,.08)!important}
+.tag-long{color:var(--violet)!important;border-color:rgba(167,139,250,.4)!important;background:rgba(167,139,250,.1)!important}
+.tag-cog{color:var(--green)!important;border-color:rgba(74,222,128,.4)!important;background:rgba(74,222,128,.08)!important}

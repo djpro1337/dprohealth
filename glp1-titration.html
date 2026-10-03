@@ -8,7 +8,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
-<meta name="theme-color" content="#080A0C">
+<meta name="theme-color" content="#0E1622">
 <title>GLP-1 Titration Schedule — DPRO Health</title>
 <link rel="canonical" href="https://dprohealth.com/glp1-titration">
 <meta name="description" content="Free GLP-1 titration schedule tool for retatrutide, tirzepatide, semaglutide, and cagrilintide. See a week-by-week dose-escalation timeline and table, with a standard protocol or your own custom start dose and step pace. From DPRO Health.">
@@ -60,7 +60,7 @@
   .custom-block.show{display:block}
 
   /* MODE TOGGLE — segmented control */
-  .mode-toggle{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);
+  .mode-toggle{background:linear-gradient(160deg,#152131,#0E1622);border:1px solid var(--tq-border);
     padding:20px 22px;margin-bottom:2px}
   .mode-toggle .mt-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;
     text-transform:uppercase;color:var(--tq-bright);margin-bottom:13px}
@@ -73,14 +73,14 @@
     color:var(--muted);margin-top:4px;letter-spacing:0;text-transform:none}
   .mode-seg button:hover{color:var(--white);background:rgba(255,255,255,.03)}
   .mode-seg button.active{background:var(--tq-bright);color:var(--bg);box-shadow:0 6px 18px -8px rgba(34,211,238,.55)}
-  .mode-seg button.active .ms-sub{color:rgba(8,10,12,.72)}
+  .mode-seg button.active .ms-sub{color:rgba(14,22,34,.72)}
   .mode-seg button:focus-visible{outline:none;box-shadow:0 0 0 2px var(--tq-mid)}
   @media(max-width:560px){.mode-seg{grid-template-columns:1fr}}
   /* hidden legacy checkbox kept so existing logic/IDs stay intact */
   #customMode{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
 
   /* SUMMARY STRIP */
-  .summary{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:32px 40px;margin-bottom:2px;
+  .summary{background:linear-gradient(160deg,#152131,#0E1622);border:1px solid var(--tq-border);padding:32px 40px;margin-bottom:2px;
     display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
   @media(max-width:720px){.summary{grid-template-columns:1fr 1fr;gap:20px}}
   .summary .s-item .s-k{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:8px}
@@ -123,7 +123,7 @@
   .note-card p strong{color:var(--white);font-weight:500}
 
   /* retatrutide-specific callout (shows only for reta) */
-  .reta-note{display:none;background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);border-left:3px solid var(--tq-bright);padding:26px 30px;margin-bottom:2px}
+  .reta-note{display:none;background:linear-gradient(160deg,#152131,#0E1622);border:1px solid var(--tq-border);border-left:3px solid var(--tq-bright);padding:26px 30px;margin-bottom:2px}
   .reta-note.show{display:block}
   .reta-note .rn-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px}
   .reta-note .rn-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
@@ -132,7 +132,7 @@
   .reta-note p{font-family:'Outfit';font-size:14px;font-weight:300;color:var(--text);line-height:1.6;margin:0}
   .reta-note p strong{color:var(--white);font-weight:500}
 
-  .cta-card{background:linear-gradient(160deg,#0d141b,#0a0e12);border:1px solid var(--tq-border);padding:36px 40px;margin-top:2px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+  .cta-card{background:linear-gradient(160deg,#152131,#0E1622);border:1px solid var(--tq-border);padding:36px 40px;margin-top:2px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
   .cta-card .cc-left{min-width:0;flex:1}
   .cta-card .cc-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
   .cta-card .cc-title{font-family:'Archivo';font-weight:800;font-size:clamp(22px,3vw,28px);color:var(--white);line-height:1.15}
