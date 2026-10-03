@@ -297,15 +297,19 @@
   .related .r-why{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:4px}
   .related .r-all{margin-top:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
   .related .r-all a{display:inline;border:none;padding:0;color:var(--tq)}
-  /* ===== gold accents + buy bar (brand guide: gold = action) ===== */
-  .buybar{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;background:linear-gradient(90deg,rgba(245,181,68,.16),rgba(245,181,68,.04));border:1px solid rgba(245,181,68,.45);border-left:4px solid var(--gold);border-radius:10px;padding:13px 16px;margin:-6px 0 26px}
-  .buybar .bb-label{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
-  .buybar .bb-links{display:flex;gap:7px;flex-wrap:wrap}
-  .buybar .bb-links a{font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid rgba(245,181,68,.45);background:rgba(245,181,68,.08);padding:7px 12px;border-radius:6px;transition:.2s}
-  .buybar .bb-links a:hover{background:var(--gold);color:#1A1206;border-color:var(--gold)}
-  .buybar .bb-code{margin-left:auto;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--ink-2);white-space:nowrap}
-  .buybar .bb-code b{color:#1A1206;background:var(--gold);padding:4px 9px;border-radius:4px;margin-left:6px;letter-spacing:.14em}
-  @media(max-width:560px){.buybar .bb-code{margin-left:0}}
+  /* ===== gold accents + buy block (brand guide: gold = action) ===== */
+  .buyblock{position:relative;background:linear-gradient(150deg,rgba(245,181,68,.16),rgba(245,181,68,.05) 60%,var(--panel));border:2px solid var(--gold);border-radius:14px;padding:22px 24px;margin:-4px 0 28px;box-shadow:0 0 0 1px rgba(245,181,68,.18),0 0 26px rgba(245,181,68,.26)}
+  .buyblock .bb-tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+  .buyblock h3{font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(18px,2.6vw,24px);color:var(--ink);letter-spacing:-.015em;margin:0 0 6px;line-height:1.15}
+  .buyblock h3 b{color:var(--gold)}
+  .buyblock p{font-size:13.5px;color:var(--ink-2);line-height:1.55;margin:0 0 16px;max-width:620px}
+  .buyblock .bb-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  @media(max-width:640px){.buyblock .bb-grid{grid-template-columns:1fr}}
+  .buyblock .bb-v{display:flex;flex-direction:column;gap:9px;background:var(--panel);border:1px solid rgba(245,181,68,.45);border-radius:10px;padding:14px 16px;text-decoration:none;transition:.2s}
+  .buyblock .bb-v:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 14px 30px -16px rgba(245,181,68,.6)}
+  .buyblock .bb-v .n{font-family:'Archivo',sans-serif;font-weight:800;font-size:15px;color:var(--ink)}
+  .buyblock .bb-v .n span{color:var(--gold);margin-left:6px}
+  .buyblock .bb-v .c{font-family:'Space Mono',monospace;font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#1A1206;background:var(--gold);padding:6px 10px;border-radius:5px;align-self:flex-start;white-space:nowrap}
   .sec-nav a[href="#sec-5"]{background:rgba(245,181,68,.14)!important;border-color:var(--gold)!important;color:var(--gold)!important;font-weight:600}
   .sec-nav a[href="#sec-5"] .sn-num{background:var(--gold)!important;color:#1A1206!important}
   .vendor .v-code{color:#1A1206!important;background:var(--gold)!important}
@@ -403,7 +407,16 @@
     <span class="badge">Longevity</span>
   </div>
   <div class="head-rule"></div>
-  <div class="buybar"><span class="bb-label">Where I buy</span><div class="bb-links"><a href="/go/modern" target="_blank" rel="noopener sponsored">Modern Aminos →</a><a href="/go/glacier" target="_blank" rel="noopener sponsored">Glacier Aminos →</a><a href="/go/peptira" target="_blank" rel="noopener sponsored">Peptira →</a></div><span class="bb-code">Code<b>DPRO</b></span></div>
+  <div class="buyblock">
+    <div class="bb-tag">Where I buy</div>
+    <h3>I buy from these trusted vendors. Code <b>DPRO</b> saves 10–15%.</h3>
+    <p>Third-party tested, consistent batch to batch, and I order from them myself. Every link below carries the code.</p>
+    <div class="bb-grid">
+      <a class="bb-v" href="/go/modern" target="_blank" rel="noopener sponsored"><div class="n">Modern Aminos<span>→</span></div><div class="c">DPRO · 10–15% OFF</div></a>
+      <a class="bb-v" href="/go/glacier" target="_blank" rel="noopener sponsored"><div class="n">Glacier Aminos<span>→</span></div><div class="c">DPRO · 10–15% OFF</div></a>
+      <a class="bb-v" href="/go/peptira" target="_blank" rel="noopener sponsored"><div class="n">Peptira<span>→</span></div><div class="c">DPRO · 10% OFF</div></a>
+    </div>
+  </div>
   <nav class="sec-nav">
     <a href="#sec-1"><span class="sn-num">1</span>What It Does</a>
     <a href="#sec-2"><span class="sn-num">2</span>Typical Protocol</a>

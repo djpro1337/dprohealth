@@ -262,34 +262,34 @@
       <div class="eyebrow">Free Tool · Reconstitution</div>
       <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">Peptide <span class="tq">Calculator</span></h1>
       <p class="lead" style="margin-top:22px">Reconstituting a peptide vial? Enter your numbers below and get your concentration and the exact units to draw on an insulin syringe — with a visual to match. Built for accuracy, simplified for real life.</p>
-      <div class="quickbuy"><span class="qb-label">Where I buy</span><div class="qb-links"><a href="/go/modern" target="_blank" rel="noopener sponsored">Modern Aminos <span class="arrow">→</span></a><a href="/go/glacier" target="_blank" rel="noopener sponsored">Glacier Aminos <span class="arrow">→</span></a><a href="/go/peptira" target="_blank" rel="noopener sponsored">Peptira <span class="arrow">→</span></a></div><span class="qb-code">10–15% off with code<b>DPRO</b></span></div>
     </div>
   </section>
 
-  <!-- WHERE TO BUY CALLOUT (top of page) -->
+  <!-- WHERE TO BUY CALLOUT (shared component — styles in brand.css) -->
   <div class="buy-callout-wrap">
     <div class="buy-arrow">
       <span class="ba-text">Get your peptides here</span>
       <span class="ba-icon">↓</span>
     </div>
     <div class="buy-callout">
-      <div class="bc-tag">Where to buy peptides</div>
-      <h3>Save 10-15% with code <span class="tq">DPRO</span></h3>
-      <p class="bc-lead">These are the two sources I trust and personally use. Code <strong>DPRO</strong> is applied for your discount — tap to shop.</p>
+      <div class="bc-tag">Where I buy</div>
+      <h3>Save 10–15% with code <span class="tq">DPRO</span></h3>
+      <p class="bc-lead">I buy from these trusted vendors — third-party tested, consistent batch to batch, and I order from them myself. Code <strong>DPRO</strong> at checkout.</p>
       <div class="buy-btns">
-        <a href="/go/glacier" target="_blank" rel="noopener" class="buy-btn">
-          <div>
-            <div class="bb-name">Glacier Aminos <span class="bb-arrow">→</span></div>
-            <div class="bb-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="bb-code">DPRO · 10-15%</div>
+        <a href="/go/modern" target="_blank" rel="noopener sponsored" class="buy-btn">
+          <div class="bb-name">Modern Aminos <span class="bb-arrow">→</span></div>
+          <div class="bb-sub">Peptides &amp; research compounds</div>
+          <div class="bb-code">DPRO · 10–15% off</div>
         </a>
-        <a href="/go/modern" target="_blank" rel="noopener" class="buy-btn">
-          <div>
-            <div class="bb-name">Modern Aminos <span class="bb-arrow">→</span></div>
-            <div class="bb-sub">Peptides &amp; research compounds</div>
-          </div>
-          <div class="bb-code">DPRO · 10-15%</div>
+        <a href="/go/glacier" target="_blank" rel="noopener sponsored" class="buy-btn">
+          <div class="bb-name">Glacier Aminos <span class="bb-arrow">→</span></div>
+          <div class="bb-sub">Peptides &amp; research compounds</div>
+          <div class="bb-code">DPRO · 10–15% off</div>
+        </a>
+        <a href="/go/peptira" target="_blank" rel="noopener sponsored" class="buy-btn">
+          <div class="bb-name">Peptira <span class="bb-arrow">→</span></div>
+          <div class="bb-sub">Peptides &amp; research compounds</div>
+          <div class="bb-code">DPRO · 10% off</div>
         </a>
       </div>
     </div>
@@ -437,34 +437,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ===== PROMINENT "WHERE TO BUY" CALLOUT ===== -->
-  <style>
-    .buy-callout-wrap{max-width:900px;margin:0 auto;padding:20px 26px 10px;position:relative}
-    .buy-arrow{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
-    .buy-arrow .ba-text{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tq-bright);font-weight:700}
-    .buy-arrow .ba-icon{font-size:26px;color:var(--tq-bright);animation:bounceDown 1.4s ease-in-out infinite}
-    @keyframes bounceDown{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
-    @media(prefers-reduced-motion:reduce){.buy-arrow .ba-icon{animation:none}}
-    .buy-callout{position:relative;background:linear-gradient(150deg,rgba(6,182,212,.14),rgba(14,116,144,.08));
-      border:2px solid var(--tq-bright);border-radius:16px;padding:34px 32px;
-      box-shadow:0 0 0 1px rgba(34,211,238,.15),0 24px 60px -24px rgba(34,211,238,.5)}
-    .buy-callout .bc-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
-    .buy-callout h3{font-family:'Archivo';font-weight:800;font-size:clamp(22px,3.2vw,30px);color:var(--white);letter-spacing:-.01em;margin:0 0 8px;line-height:1.1}
-    .buy-callout p.bc-lead{font-family:'Outfit';font-weight:300;font-size:15px;color:var(--text);margin:0 0 26px;line-height:1.55;max-width:620px}
-    .buy-btns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    @media(max-width:620px){.buy-btns{grid-template-columns:1fr}}
-    .buy-btn{display:flex;align-items:center;justify-content:space-between;gap:14px;
-      background:var(--bg2);border:1px solid var(--tq-border);border-radius:10px;padding:20px 22px;
-      text-decoration:none;transition:transform .2s,background .2s,box-shadow .2s}
-    .buy-btn:hover{transform:translateY(-3px);background:var(--bg3);box-shadow:0 16px 34px -16px rgba(34,211,238,.55)}
-    .buy-btn .bb-name{font-family:'Archivo';font-weight:800;font-size:18px;color:var(--white);display:flex;align-items:center;gap:9px}
-    .buy-btn .bb-name .bb-arrow{color:var(--tq-bright);font-size:15px;transition:transform .25s}
-    .buy-btn:hover .bb-name .bb-arrow{transform:translateX(5px)}
-    .buy-btn .bb-sub{font-family:'Outfit';font-weight:300;font-size:12.5px;color:var(--text);margin-top:3px}
-    .buy-btn .bb-code{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.04em;
-      color:var(--bg);background:var(--tq-bright);padding:9px 14px;border-radius:5px;white-space:nowrap}
-  </style>
 
   <!-- TRUSTED VENDORS -->
   <section class="section alt" id="vendors">
