@@ -83,11 +83,11 @@ body{
 .nav-links a:hover{color:var(--white)}
 .nav-links a.current{color:var(--tq-bright)}
 .nav-cta{
-  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--tq-bright)!important;border:1px solid var(--tq-border);background:var(--tq-dim);
-  padding:9px 16px;border-radius:2px;transition:.22s
+  font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  color:var(--gold-ink)!important;border:1px solid var(--gold);background:var(--gold);
+  padding:9px 16px;border-radius:3px;transition:.22s;box-shadow:0 8px 24px -12px rgba(245,181,68,.8)
 }
-.nav-cta:hover{background:var(--tq-glow);border-color:var(--tq-mid)}
+.nav-cta:hover{background:#FFC55A;border-color:#FFC55A;transform:translateY(-1px)}
 .nav-toggle{display:none;background:none;border:none;color:var(--white);font-size:22px;cursor:pointer}
 
 /* ── SHARED TEXT BLOCKS ── */
@@ -389,3 +389,25 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .tag-heal{color:var(--gold)!important;border-color:rgba(245,181,68,.4)!important;background:rgba(245,181,68,.08)!important}
 .tag-long{color:var(--violet)!important;border-color:rgba(167,139,250,.4)!important;background:rgba(167,139,250,.1)!important}
 .tag-cog{color:var(--green)!important;border-color:rgba(74,222,128,.4)!important;background:rgba(74,222,128,.08)!important}
+
+/* ============================================================
+   QUICK BUY — gold callout strip for tool pages (preferred vendors)
+   ============================================================ */
+.quickbuy{display:flex;align-items:center;gap:14px 18px;flex-wrap:wrap;background:linear-gradient(90deg,rgba(245,181,68,.14),rgba(245,181,68,.04));border:1px solid var(--gold-border);border-left:4px solid var(--gold);border-radius:10px;padding:14px 18px;margin:26px 0 0}
+.quickbuy .qb-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.quickbuy .qb-links{display:flex;gap:8px;flex-wrap:wrap}
+.quickbuy .qb-links a{font-family:'Archivo';font-weight:700;font-size:14px;color:var(--white);text-decoration:none;border:1px solid var(--gold-border);background:rgba(245,181,68,.08);padding:8px 14px;border-radius:6px;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.quickbuy .qb-links a:hover{background:var(--gold);color:var(--gold-ink);border-color:var(--gold)}
+.quickbuy .qb-links a .arrow{color:var(--gold)} .quickbuy .qb-links a:hover .arrow{color:var(--gold-ink)}
+.quickbuy .qb-code{margin-left:auto;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--off-white);white-space:nowrap}
+.quickbuy .qb-code b{color:var(--gold-ink);background:var(--gold);padding:5px 10px;border-radius:4px;margin-left:6px;letter-spacing:.14em}
+@media(max-width:560px){.quickbuy .qb-code{margin-left:0}}
+/* three preferred cards in a row — tighten so names don't wrap */
+.pref-row .vcard.pref{padding:30px 24px}
+.pref-row .vcard.pref .vc-logo{width:84px;height:84px;border-radius:12px}
+.pref-row .vcard.pref .vc-head{gap:14px;padding-right:0}
+.pref-row .vcard.pref .vc-name{font-size:20px;letter-spacing:-.015em}
+.pref-row .vcard.pref .vc-off{font-size:22px}
+.pref-row .vcard.pref .vc-off small{display:block;margin:4px 0 0}
+.pref-row .vc-badge{top:14px;right:14px}
+.pref-row .vcard.pref .vc-head{margin-top:14px}

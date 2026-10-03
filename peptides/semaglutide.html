@@ -297,6 +297,21 @@
   .related .r-why{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:4px}
   .related .r-all{margin-top:10px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
   .related .r-all a{display:inline;border:none;padding:0;color:var(--tq)}
+  /* ===== gold accents + buy bar (brand guide: gold = action) ===== */
+  .buybar{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;background:linear-gradient(90deg,rgba(245,181,68,.16),rgba(245,181,68,.04));border:1px solid rgba(245,181,68,.45);border-left:4px solid var(--gold);border-radius:10px;padding:13px 16px;margin:-6px 0 26px}
+  .buybar .bb-label{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .buybar .bb-links{display:flex;gap:7px;flex-wrap:wrap}
+  .buybar .bb-links a{font-family:'Archivo',sans-serif;font-weight:700;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid rgba(245,181,68,.45);background:rgba(245,181,68,.08);padding:7px 12px;border-radius:6px;transition:.2s}
+  .buybar .bb-links a:hover{background:var(--gold);color:#1A1206;border-color:var(--gold)}
+  .buybar .bb-code{margin-left:auto;font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:var(--ink-2);white-space:nowrap}
+  .buybar .bb-code b{color:#1A1206;background:var(--gold);padding:4px 9px;border-radius:4px;margin-left:6px;letter-spacing:.14em}
+  @media(max-width:560px){.buybar .bb-code{margin-left:0}}
+  .sec-nav a[href="#sec-5"]{background:rgba(245,181,68,.14)!important;border-color:var(--gold)!important;color:var(--gold)!important;font-weight:600}
+  .sec-nav a[href="#sec-5"] .sn-num{background:var(--gold)!important;color:#1A1206!important}
+  .vendor .v-code{color:#1A1206!important;background:var(--gold)!important}
+  .vendor.pref-v{border-color:rgba(245,181,68,.5)!important}
+  .dpro-cta{color:#1A1206!important;border:1px solid var(--gold)!important;background:var(--gold)!important;font-weight:700;border-radius:3px!important}
+  .dpro-cta:hover{background:#FFC55A!important;border-color:#FFC55A!important}
 </style>
 <style>
 /* compact spacing to keep sheet to 2 print pages */
@@ -400,6 +415,7 @@ h2{margin-bottom:12px}
     <span class="badge">Fat Loss</span>
   </div>
   <div class="head-rule"></div>
+  <div class="buybar"><span class="bb-label">Where I buy</span><div class="bb-links"><a href="/go/modern" target="_blank" rel="noopener sponsored">Modern Aminos →</a><a href="/go/glacier" target="_blank" rel="noopener sponsored">Glacier Aminos →</a><a href="/go/peptira" target="_blank" rel="noopener sponsored">Peptira →</a></div><span class="bb-code">Code<b>DPRO</b></span></div>
   <nav class="sec-nav">
     <a href="#sec-1"><span class="sn-num">1</span>What It Does</a>
     <a href="#sec-2"><span class="sn-num">2</span>Typical Protocol</a>
@@ -479,8 +495,9 @@ h2{margin-bottom:12px}
     <div class="sec-line"></div>
     <p class="lede">Trusted vendors with DPRO discount codes applied at checkout.</p>
     <div class="sources">
-      <a class="vendor" href="/go/modern" target="_blank" rel="noopener"><div><span class="v-name">Modern Aminos</span><div class="v-sub">10-15% off</div></div><span class="v-code">DPRO</span></a>
-      <a class="vendor" href="/go/glacier" target="_blank" rel="noopener"><div><span class="v-name">Glacier Aminos</span><div class="v-sub">10-15% off</div></div><span class="v-code">DPRO</span></a>
+      <a class="vendor pref-v" href="/go/modern" target="_blank" rel="noopener"><div><span class="v-name">Modern Aminos</span><div class="v-sub">10-15% off</div></div><span class="v-code">DPRO</span></a>
+      <a class="vendor pref-v" href="/go/glacier" target="_blank" rel="noopener"><div><span class="v-name">Glacier Aminos</span><div class="v-sub">10-15% off</div></div><span class="v-code">DPRO</span></a>
+      <a class="vendor pref-v" href="/go/peptira" target="_blank" rel="noopener"><div><span class="v-name">Peptira</span><div class="v-sub">10% off</div></div><span class="v-code">DPRO</span></a>
       <a class="vendor" href="/go/algorx" target="_blank" rel="noopener"><div><span class="v-name">AlgoRx</span><div class="v-sub">Bloodwork, prescriptions &amp; telehealth</div></div><span class="v-code">DPRO · 10%</span></a>
       <a class="vendor" href="/go/aminowell" target="_blank" rel="noopener"><div><span class="v-name">Amino Well</span><div class="v-sub">10% off</div></div><span class="v-code">DPRO</span></a>
 </div>
