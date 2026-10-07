@@ -1,17 +1,25 @@
+# DPRO Health — shared catalog descriptions.  key<TAB>description
+# One line per compound, shared across every vendor catalog.
+# STYLE RULES:
+#   - One sentence. Plain English. What it is, then what it's for.
+#   - NEVER name the vendor. Write "Retatrutide. Triple agonist...",
+#     not "Modern's retatrutide" or "the vendor's retatrutide".
+#     Coded SKUs (MA-3RT, GLA-3 RT, RETA-3) all describe the compound itself.
+#   - Lines without a TAB are ignored by build.py, so comments are safe here.
 atpampnaltamino	Direct cellular energy substrates plus N-acetyl-L-tyrosine, the raw material your body uses to make dopamine and adrenaline.
 b12	Injectable vitamin B12. Supports energy metabolism, red blood cell production and nerve function.
 bcaaamino	The three branched-chain amino acids in liquid form, used around training for recovery and muscle-protein signalling.
 carnitinearginineamino	Carnitine to shuttle fat into the mitochondria, arginine as a nitric-oxide precursor for blood flow.
 carnitinecholineamino	Carnitine for fat transport plus choline, the building block of acetylcholine and cell membranes.
 carnosinecarnitineamino	Carnosine buffers the acid build-up that limits hard sets; carnitine moves fat into the mitochondria to be burned.
-chargd	Peptira's own energy and focus liquid blend.
-hsn	Peptira's hair, skin and nails liquid blend.
+chargd	Energy and focus liquid blend.
+hsn	Liquid blend for hair, skin and nails.
 larginineamino	Arginine-based nitric oxide precursor. Vasodilation, blood flow and pump.
 lcarnitine	Carries long-chain fatty acids into the mitochondria so they can actually be burned for fuel.
 lcitrullineamino	Citrulline raises arginine levels more reliably than arginine itself, for longer-lasting nitric oxide and blood flow.
 msmamino	Methylsulfonylmethane, a sulfur donor used for joint comfort and connective tissue.
-pumptira	Peptira's own pre-workout pump and blood-flow liquid blend.
-super	Peptira's multi-ingredient liquid amino blend.
+pumptira	Pre-workout liquid blend for pump and blood flow.
+super	Multi-ingredient liquid amino blend.
 vitaminb12	Injectable B12 for energy metabolism, red blood cell production and nerve health.
 9mebc	Increases dopamine production and protects dopamine neurons. Studied for motivation, drive and age-related cognitive decline.
 adalankadamax1032	Adalank and Adamax combined in a sublingual drop format.
@@ -39,7 +47,7 @@ meltsproselanksemax	Semax and Selank together in a dissolving oral strip. Focus 
 methyleneblue	At low doses, a mitochondrial electron carrier that improves cellular energy production. Also antimicrobial.
 nefiracetam	Racetam acting on NMDA and cholinergic channels. Studied for post-stroke apathy and mood.
 neurotriple	Three nootropic peptides combined in a sublingual spray.
-neurotira	Peptira's own cognitive support liquid blend.
+neurotira	Liquid blend for cognitive support and mental clarity.
 nooglutyl	Glutamic acid derivative with anti-amnestic and neuroprotective effects.
 noopept	Dipeptide nootropic roughly a thousand times stronger than piracetam by weight. Raises BDNF and NGF.
 nsi189phosphate	Grows new neurons in the hippocampus and increases its volume. An antidepressant mechanism that doesn't work through serotonin.
@@ -67,10 +75,10 @@ hghfrag176191	The fat-burning tail end of growth hormone, isolated. Lipolysis wi
 lipo	Lipotropic injection blend for fat metabolism and liver support.
 lipoc	Lipotropic blend of methionine, inositol, choline and B12 for fat metabolism.
 lipocb12	Lipotropic fat-metabolism blend with added B12 for energy.
-lipocxl	Peptira's higher-strength lipotropic fat-metabolism blend.
+lipocxl	Higher-strength lipotropic blend for fat metabolism and liver support.
 meltsprotesofensine5amino1mqdissolvingstrips	Tesofensine and 5-Amino-1MQ in a dissolving strip, pairing appetite suppression with fat-cell metabolism.
 motsc	Mitochondrial peptide that activates AMPK. Improves insulin sensitivity and metabolic flexibility; an exercise mimetic.
-peeld	Peptira's own fat-loss support liquid blend.
+peeld	Liquid blend formulated for fat-loss support.
 slupp332	Exercise mimetic that activates ERR-alpha, raising fat oxidation and mitochondrial production in muscle.
 slupp332bam15	SLU-PP-332 with BAM15, pairing an exercise mimetic with a mitochondrial uncoupler.
 slupp915	Next-generation SLU-PP compound hitting all three ERR receptors for broader metabolic activation.
@@ -91,26 +99,26 @@ mk777	Newer orally active growth hormone secretagogue in the MK series. Limited 
 sermorelin	The original GHRH fragment. Very short-acting and mild, producing a natural GH pulse pattern.
 tesamorelin	The only GH secretagogue with clinical data specifically on reducing visceral belly fat.
 tesamorelinipamorelin	Visceral-fat-targeted GHRH paired with the cleanest GHRP. A popular body-recomposition combination.
-cag4	Peptira's cagrilintide. A long-acting amylin analog that drives fullness; often stacked with a GLP-1.
+cag4	Cagrilintide. Long-acting amylin analog that drives fullness; often stacked with a GLP-1.
 cagrilintide	Long-acting amylin analog. Slows stomach emptying and increases fullness, usually run alongside a GLP-1.
 cagrisemasodium	Cagrilintide and semaglutide together, hitting the amylin and GLP-1 pathways at the same time.
-gla1sm	Glacier's semaglutide. A GLP-1 receptor agonist taken weekly.
-gla2trz	Glacier's tirzepatide. Dual GIP and GLP-1 agonist, taken weekly.
-gla25trzrt	Glacier's tirzepatide and retatrutide combination.
-gla3rt	Glacier's retatrutide. Triple agonist hitting GLP-1, GIP and glucagon.
-gla3rtcagrilintide	Glacier's retatrutide paired with cagrilintide, adding the amylin pathway.
-ma1s	Modern's semaglutide. Single GLP-1 receptor agonist, taken weekly.
-ma2tz	Modern's tirzepatide. Dual GIP and GLP-1 agonist, generally stronger than semaglutide for weight loss.
-ma3rt	Modern's retatrutide. Triple agonist on GLP-1, GIP and glucagon, with the largest weight loss of the class in trials.
+gla1sm	Semaglutide. Weekly GLP-1 receptor agonist.
+gla2trz	Tirzepatide. Dual GIP and GLP-1 agonist, taken weekly.
+gla25trzrt	Tirzepatide and retatrutide combined in one vial.
+gla3rt	Retatrutide. Triple agonist hitting GLP-1, GIP and glucagon.
+gla3rtcagrilintide	Retatrutide paired with cagrilintide, adding the amylin pathway to the triple agonist.
+ma1s	Semaglutide. Single GLP-1 receptor agonist, taken weekly.
+ma2tz	Tirzepatide. Dual GIP and GLP-1 agonist, generally stronger than semaglutide for weight loss.
+ma3rt	Retatrutide. Triple agonist on GLP-1, GIP and glucagon, with the largest weight loss of the class in trials.
 ma3rtcagrilintide	Retatrutide with cagrilintide in one vial, adding amylin to the triple agonist.
 maritide	Antibody-peptide conjugate built for monthly rather than weekly dosing. Blocks GIP while activating GLP-1.
 mazdutide	Dual GLP-1 and glucagon agonist. The glucagon arm adds calorie burn on top of appetite suppression.
 petrelintide	Long-acting amylin analog designed to be more lean-mass-sparing than GLP-1s alone.
-reta3	Peptira's retatrutide. Triple agonist on GLP-1, GIP and glucagon.
-sema1	Peptira's semaglutide. Weekly GLP-1 receptor agonist.
-survo	Peptira's survodutide. Dual GLP-1 and glucagon agonist.
+reta3	Retatrutide. Triple agonist on GLP-1, GIP and glucagon.
+sema1	Semaglutide. Weekly GLP-1 receptor agonist.
+survo	Survodutide. Dual GLP-1 and glucagon agonist.
 survodutide	Dual GLP-1 and glucagon receptor agonist. Appetite suppression plus increased energy expenditure.
-tirz2	Peptira's tirzepatide. Dual GIP and GLP-1 agonist, taken weekly.
+tirz2	Tirzepatide. Dual GIP and GLP-1 agonist, taken weekly.
 ara290	Non-blood-building EPO derivative. Targets nerve repair and neuropathic pain, especially small-fibre nerve damage.
 bpc157	The backbone of injury recovery. Drives blood vessel growth and fibroblast migration for tendon, ligament, muscle and gut-lining repair.
 bpc157kpv	BPC-157 with KPV in capsule form, aimed at gut lining repair and inflammation.
@@ -118,13 +126,13 @@ bpc157tb500	The default injury stack: BPC-157 for local tissue repair, TB-500 fo
 bpc157arginate	Arginine salt of BPC-157, noticeably more stable than the standard form, with added nitric oxide support.
 cartalax	Cartilage bioregulator peptide. Targets chondrocyte function and joint tissue.
 cartalaxresearchmatrix	Cartalax layered onto BPC-157, TB-500 and KPV. A joint-focused version of the KLOW repair stack.
-compound7p	A vendor-formulated repair blend. Exact composition isn't fully published.
+compound7p	A proprietary repair blend. Exact composition isn't published.
 glow	GHK-Cu, TB-500 and BPC-157 together. The go-to stack for skin, hair and connective tissue.
 klow	GLOW with KPV added for the anti-inflammatory and gut arm. A four-peptide repair matrix.
-kpvtb500bpc157	Peptira's Phoenix blend. KPV, TB-500 and BPC-157 for repair plus inflammation control.
+kpvtb500bpc157	KPV, TB-500 and BPC-157 together for tissue repair plus inflammation control.
 pea	Naturally occurring fatty acid amide. Non-opioid pain relief and anti-inflammatory action, particularly for nerve pain.
 pentadecapeptide	The full name for BPC-157, a fifteen-amino-acid peptide for tissue and gut repair.
-phoenix	Peptira's Phoenix repair blend in tablet form.
+phoenix	KPV, TB-500 and BPC-157 repair blend in tablet form.
 tb500	Actin-regulating peptide that drives cell migration and blood vessel growth throughout the body. The systemic partner to BPC-157.
 tb500bpc157	The Wolverine stack. TB-500 and BPC-157 together for injury recovery.
 transdermalpentadecapeptide	BPC-157 in a topical form applied directly over the injured area.
@@ -149,7 +157,7 @@ foxo4dri	Senolytic peptide. Targets worn-out senescent cells and prompts them to
 itpp	Shifts haemoglobin to release more oxygen into tissue. Endurance research.
 livagen	Liver bioregulator peptide. Also loosens packed-up DNA in aged immune cells.
 meltsnaddissolvingstrips	NAD+ in a dissolving oral strip, avoiding the flush that comes with injecting it.
-mito	Glacier's mitochondrial support blend.
+mito	Blend formulated for mitochondrial function and cellular energy.
 nad	Central cellular energy cofactor and sirtuin fuel. Declines steeply with age.
 nadcarnitineamino	NAD+ paired with carnitine, combining cellular energy with fat transport.
 nadbuffered	pH-buffered NAD+, formulated to reduce injection-site discomfort.
@@ -194,7 +202,7 @@ snap8	Topical peptide that softens expression lines by reducing muscle contracti
 dsip	Delta sleep-inducing peptide. Promotes deep slow-wave sleep and dampens the stress axis.
 melatoninamino	Liquid melatonin blend for sleep onset and circadian timing.
 meltssleepdissolvingstrips	Sleep blend in a dissolving oral strip.
-noctira	Peptira's own sleep support liquid blend.
+noctira	Liquid blend formulated for sleep support.
 seltorexant	Orexin receptor blocker. A newer sleep mechanism that works by switching off wakefulness rather than sedating you.
 10vialkitcase	Storage case holding 10 vials.
 3dprintedkitslidercase	3D-printed sliding storage case for vials.

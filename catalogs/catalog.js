@@ -53,14 +53,25 @@
     render();
   }
 
+  var uid = 0;
+
   function card(i) {
-    return '<a class="crow" href="' + i.u + '" target="_blank" rel="sponsored noopener">' +
-             '<span class="crow-main">' +
-               '<span class="crow-n">' + esc(i.n) + '</span>' +
-               (i.d ? '<span class="crow-d">' + esc(i.d) + '</span>' : '') +
-             '</span>' +
-             '<span class="crow-go">View <span class="arrow">→</span></span>' +
-           '</a>';
+    var id = 'x' + (++uid);
+    return '<div class="crow' + (i.x ? ' has-more' : '') + '">' +
+             '<div class="crow-head">' +
+               '<div class="crow-main">' +
+                 '<span class="crow-n">' + esc(i.n) + '</span>' +
+                 (i.d ? '<span class="crow-d">' + esc(i.d) + '</span>' : '') +
+               '</div>' +
+               '<a class="crow-go" href="' + i.u + '" target="_blank" rel="sponsored noopener">' +
+                 'View <span class="arrow">→</span></a>' +
+             '</div>' +
+             (i.x
+               ? '<button class="crow-tog" type="button" aria-expanded="false" aria-controls="' + id + '">' +
+                   '<span class="tog-t">More</span><span class="chev" aria-hidden="true"></span></button>' +
+                 '<div class="crow-more" id="' + id + '" hidden><p>' + esc(i.x) + '</p></div>'
+               : '') +
+           '</div>';
   }
 
   function render() {
@@ -69,7 +80,8 @@
       if (!term) return true;
       return i.n.toLowerCase().indexOf(term) > -1 ||
              i.s.indexOf(term) > -1 ||
-             (i.d || '').toLowerCase().indexOf(term) > -1;
+             (i.d || '').toLowerCase().indexOf(term) > -1 ||
+             (i.x || '').toLowerCase().indexOf(term) > -1;
     });
 
     document.getElementById('count').textContent =
@@ -103,6 +115,18 @@
     });
     root.innerHTML = html;
   }
+
+  /* expand / collapse a product's extra detail */
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.crow-tog'); if (!b) return;
+    var panel = document.getElementById(b.getAttribute('aria-controls'));
+    if (!panel) return;
+    var open = b.getAttribute('aria-expanded') === 'true';
+    b.setAttribute('aria-expanded', open ? 'false' : 'true');
+    panel.hidden = open;
+    b.closest('.crow').classList.toggle('open', !open);
+    var t = b.querySelector('.tog-t'); if (t) t.textContent = open ? 'More' : 'Less';
+  });
 
   /* copy-code buttons */
   document.addEventListener('click', function (e) {
