@@ -19,6 +19,12 @@ http://dprohealth-sight.netlify.app/*   https://dprohealth.com/:splat  301!
 /go/peptira      https://peptira.com/?ref=DPRO                 302
 /go/peptire      https://peptira.com/?ref=DPRO                 302
 
+# ---- Catalog deep links: /go/<vendor>/<product-slug> -> that product page, affiliate-tagged.
+# One line per vendor covers the whole catalog, so a ref-code or URL-structure change is a one-line edit.
+/go/modern/*     https://modernaminos.com/product/:splat/?ref=dpro      302
+/go/glacier/*    https://glacieraminos.shop/product/:splat/?ref=dpro    302
+/go/peptira/*    https://peptira.com/product/:splat?ref=DPRO            302
+
 # ---- Supplements (not peptides) ------------------------------------------
 /go/morph        https://www.morphogennutrition.com/?ref=DPRO&utm_campaign=goaffpro&utm_medium=affiliate&utm_source=DPRO  302
 
@@ -42,6 +48,10 @@ http://dprohealth-sight.netlify.app/*   https://dprohealth.com/:splat  301!
 /consultation.html  /consultation  301
 /thank-you.html  /thank-you  301
 /form-test.html  /form-test  301
+/catalogs/index.html  /catalogs  301
+/catalogs/modern-aminos.html  /catalogs/modern-aminos  301
+/catalogs/glacier-aminos.html  /catalogs/glacier-aminos  301
+/catalogs/peptira.html  /catalogs/peptira  301
 /peptides/bpc157.html  /peptides/bpc157  301
 /peptides/tb500.html  /peptides/tb500  301
 /peptides/ara290.html  /peptides/ara290  301

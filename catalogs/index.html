@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+<meta name="theme-color" content="#0E1622">
+<title>Vendor Catalogs &mdash; every product, one page | DPRO Health</title>
+<link rel="canonical" href="https://dprohealth.com/catalogs">
+<meta name="description" content="Full peptide vendor catalogs, one filterable page each. Modern Aminos and Glacier Aminos grouped by goal, every link carrying code DPRO.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/brand.css">
+<style>
+  /* ===== PEPTIDES INDEX ===== */
+  .page-hero{padding:104px 0 40px}
+  .idx-bar{position:sticky;top:73px;z-index:20;background:rgba(14,22,34,.88);backdrop-filter:blur(12px);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0}
+  .idx-bar .wrap{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+  .idx-search{flex:1 1 220px;min-width:180px;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:0 12px}
+  .idx-search svg{width:14px;height:14px;color:var(--muted);flex-shrink:0}
+  .idx-search input{flex:1;background:none;border:none;outline:none;color:var(--white);font-family:'Outfit';font-size:14px;padding:10px 0;min-width:0}
+  .idx-search input::placeholder{color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .fchip{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);background:var(--bg2);border:1px solid var(--border);padding:8px 11px;border-radius:3px;cursor:pointer;transition:.18s;white-space:nowrap}
+  .fchip:hover{color:var(--white);border-color:var(--tq-border)}
+  .fchip.on{color:#07262C;background:var(--tq-mid);border-color:var(--tq-mid)}
+  .fchip .n{opacity:.6;margin-left:5px}
+  .seg{display:flex;gap:2px;background:var(--border);border-radius:4px;padding:2px;margin-left:auto}
+  .seg button{background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:9px 12px;border-radius:3px;cursor:pointer;transition:.2s}
+  .seg button.active{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .idx-count{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 14px}
+  .group{margin-bottom:44px}
+  .group-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+  .group-h h2{font-family:'Archivo';font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--white)}
+  .group-h .gn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;color:var(--muted)}
+  .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:860px){.pgrid{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.pgrid{grid-template-columns:1fr}}
+  .pcard{display:flex;flex-direction:column;gap:10px;padding:22px 22px 18px;background:var(--bg2);border:1px solid rgba(34,211,238,.28);border-radius:12px;text-decoration:none;box-shadow:0 0 0 1px rgba(34,211,238,.06),0 0 12px rgba(34,211,238,.18);transition:border-color .2s,transform .2s,box-shadow .2s,background .2s}
+  .pcard:hover{border-color:var(--tq-bright);transform:translateY(-2px);background:var(--bg3);box-shadow:0 0 0 1px rgba(34,211,238,.25),0 0 18px rgba(34,211,238,.4)}
+  .pcard .pc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .pcard .pc-name{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);letter-spacing:-.01em;line-height:1.15}
+  .pcard .pc-kind{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:3px 7px;border-radius:2px;white-space:nowrap}
+  .pcard .pc-kind.blend{color:var(--gold-bright);border-color:var(--gold-border)}
+  .pcard .pc-text{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.55;flex:1}
+  .pcard .pc-goals{display:flex;flex-wrap:wrap;gap:5px}
+  .pcard .pc-goals span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--tq-bright);background:var(--tq-dim);border:1px solid var(--tq-border);padding:3px 7px;border-radius:2px}
+  .pcard .pc-go{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);display:flex;align-items:center;gap:8px;margin-top:4px}
+  .pcard .pc-go .arrow{transition:transform .25s}
+  .pcard:hover .pc-go .arrow{transform:translateX(4px)}
+  .pcard[hidden]{display:none}
+  .group[hidden]{display:none}
+  .empty{display:none;padding:50px 0;text-align:center;color:var(--text)}
+  .empty.show{display:block}
+  .idx-cta{margin-top:20px;background:linear-gradient(160deg,#152131,#0E1622);border:1px solid var(--tq-border);border-radius:12px;padding:32px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  .idx-cta .h{font-family:'Archivo';font-weight:800;font-size:22px;color:var(--white);letter-spacing:-.02em}
+  .idx-cta .s{font-size:14px;color:var(--text);margin-top:4px}
+
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
+
+  /* ===== CATALOG ===== */
+  .page-hero{padding:104px 0 28px}
+  .codebar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;background:var(--bg2);border:1px solid var(--gold-border);border-radius:5px;padding:14px 18px;margin-top:26px}
+  .codebar .cb-t{font-size:15px;color:var(--off-white);flex:1 1 230px}
+  .codebar .cb-t b{color:var(--white)}
+  .copycode{display:inline-flex;align-items:center;gap:9px;background:var(--gold-dim);border:1px dashed var(--gold-border);color:var(--gold);font-family:'Space Mono',monospace;font-size:15px;font-weight:700;letter-spacing:.12em;padding:9px 16px;border-radius:4px;cursor:pointer;transition:.18s}
+  .copycode:hover,.copycode.ok{background:var(--gold);color:var(--gold-ink);border-style:solid}
+  .copycode .cc-t{font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+  .btn-gold{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--gold-ink);font-weight:600;font-size:15px;padding:12px 22px;border-radius:4px;text-decoration:none;transition:.18s;border:1px solid var(--gold)}
+  .btn-gold:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .cat-meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:18px}
+  .cgroup{margin-bottom:38px}
+  .clist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:8px}
+  .crow{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:13px 15px;text-decoration:none;transition:.16s}
+  .crow:hover{border-color:var(--gold-border);background:var(--bg3);transform:translateY(-1px)}
+  .crow-n{flex:1;color:var(--white);font-size:15px;font-weight:500;line-height:1.3}
+  .crow-tag{display:none;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+  @media(min-width:900px){.crow-tag{display:inline}}
+  .crow-go{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap;display:flex;align-items:center;gap:5px}
+  .crow-go .arrow{transition:.16s;display:inline-block}
+  .crow:hover .crow-go .arrow{transform:translateX(3px)}
+  .cat-empty{color:var(--text);padding:30px 0}
+  .cat-reset{background:none;border:1px solid var(--tq-border);color:var(--tq-bright);font-family:'Outfit';font-size:13px;padding:7px 13px;border-radius:3px;cursor:pointer;margin-left:6px}
+  .disc{border-top:1px solid var(--border);margin-top:14px;padding:22px 0 0;color:var(--muted);font-size:13px;line-height:1.7;max-width:76ch}
+  .vcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:30px}
+  .vcard{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:24px;text-decoration:none;display:block;transition:.18s}
+  .vcard:hover{border-color:var(--gold-border);transform:translateY(-2px)}
+  .vcard h3{font-family:'Archivo';font-weight:800;font-size:21px;color:var(--white);letter-spacing:-.02em;margin-bottom:6px}
+  .vcard .vc-n{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px}
+  .vcard p{color:var(--text);font-size:14.5px;line-height:1.6;margin-bottom:16px}
+  .vcard .vc-go{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+  .vcard.soon{opacity:.5;pointer-events:none}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+<script defer src="/js/affiliate-track.js"></script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div></div>
+
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="/" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <div class="nav-dd peptides-parent">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/peptides" class="nav-all">All peptides →</a>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptides <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu" role="menu">
+          <a href="/peptides/ara290">ARA-290</a>
+          <a href="/peptides/bpc157">BPC-157</a>
+          <a href="/peptides/ghk-cu">GHK-Cu</a>
+          <a href="/peptides/kpv">KPV</a>
+          <a href="/peptides/tb500">TB-500</a>
+          <a href="/peptides/aod9604">AOD-9604</a>
+          <a href="/peptides/cagrilintide">Cagrilintide</a>
+          <a href="/peptides/cjc1295">CJC-1295 (No DAC)</a>
+          <a href="/peptides/ipamorelin">Ipamorelin</a>
+          <a href="/peptides/mots-c">MOTS-c</a>
+          <a href="/peptides/tesamorelin">Tesamorelin</a>
+          <a href="/peptides/epitalon">Epitalon</a>
+          <a href="/peptides/foxo4-dri">FOXO4-DRI</a>
+          <a href="/peptides/nad">NAD+</a>
+          <a href="/peptides/selank">Selank</a>
+          <a href="/peptides/semax">Semax</a>
+          <a href="/peptides/ss31">SS-31</a>
+          <a href="/peptides/thymalin">Thymalin</a>
+          <a href="/peptides/dsip">DSIP</a>
+          <a href="/peptides/kisspeptin">Kisspeptin</a>
+          <a href="/peptides/oxytocin">Oxytocin</a>
+          <a href="/peptides/pt141">PT-141</a>
+          <a href="/peptides/ll37">LL-37</a>
+          <a href="/peptides/thymosin-alpha1">Thymosin Alpha-1</a>
+          <a href="/peptides/vip">VIP</a>
+          <a href="/peptides/5-amino-1mq">5-Amino-1MQ</a>
+          <a href="/peptides/follistatin344">Follistatin-344</a>
+          <a href="/peptides/igf1-lr3">IGF-1 LR3</a>
+          <a href="/peptides/melanotan1">Melanotan 1</a>
+          <a href="/peptides/bioregulators">Bioregulators</a>
+          <a href="/peptides/retatrutide">Retatrutide</a>
+          <a href="/peptides/semaglutide">Semaglutide</a>
+          <a href="/peptides/tirzepatide">Tirzepatide</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu blends-sub" role="menu">
+          <a href="/peptides/blend-bpc-tb500">BPC-157 / TB-500</a>
+          <a href="/peptides/blend-glow">GLOW Blend</a>
+          <a href="/peptides/blend-ipa-cjc">Ipamorelin / CJC-1295</a>
+          <a href="/peptides/blend-klow">KLOW Blend</a>
+          <a href="/peptides/blend-tesa-ipa">Tesamorelin / Ipamorelin</a>
+          <a href="/peptides/blend-triple-threat">Triple Threat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="/peptide-calculator">Peptide Calculator</a>
+          <a href="/tdee-calculator">TDEE / Macro Calculator</a>
+          <a href="/glp1-titration">GLP-1 Titration Schedule</a>
+          <a href="/bloodwork">Bloodwork Analyzer</a>
+          </div>
+        </div>
+        <div class="nav-dd catalogs">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Catalogs <span class="dd-caret">&#9662;</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/catalogs" class="nav-all">All catalogs &#8594;</a>
+            <a href="/catalogs/modern-aminos">Modern Aminos</a>
+            <a href="/catalogs/glacier-aminos">Glacier Aminos</a>
+            <a href="/catalogs/peptira">Peptira</a>
+          </div>
+        </div>
+        <a href="/vendors">Vendors</a>
+        <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
+        <a href="/#about">About</a>
+        <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener" class="nav-cta">Free Skool Community</a>
+      </nav>
+    </div>
+  </header>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Vendor catalogs</div>
+      <h1 class="display" style="font-size:clamp(34px,5.4vw,64px)">Every product, <span class="tq">one page.</span></h1>
+      <p class="lead" style="margin-top:20px;max-width:66ch">Browsing a peptide store is slow. Endless category pages, every pack size split into its own listing, and no way to see what a vendor actually carries. These catalogs flatten each store onto a single filterable page and group it by what a compound is <em>for</em> &mdash; not by what format it ships in.</p>
+      <p class="lead" style="margin-top:16px;max-width:66ch">Every link opens that product with my code already applied. Use <strong style="color:var(--gold)">DPRO</strong> at checkout.</p>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:none;padding-top:10px">
+    <div class="wrap">
+      <div class="vcards">
+        <a class="vcard" href="/catalogs/modern-aminos">
+          <h3>Modern Aminos</h3>
+          <div class="vc-n">150 products</div>
+          <p>My first-choice vendor and the brand I work with directly. Same-day shipping before 4pm CT, FedEx 2-day or overnight, third-party tested with COAs on every batch.</p>
+          <div class="vc-go">Browse catalog &#8594;</div>
+        </a>
+        <a class="vcard" href="/catalogs/glacier-aminos">
+          <h3>Glacier Aminos</h3>
+          <div class="vc-n">88 products</div>
+          <p>My other preferred vendor. Same-day shipping before 2pm MT from a US warehouse, an 8-point independent panel on every batch, and a public COA library.</p>
+          <div class="vc-go">Browse catalog &#8594;</div>
+        </a>
+        <a class="vcard" href="/catalogs/peptira">
+          <h3>Peptira</h3>
+          <div class="vc-n">85 products</div>
+          <p>Peptira run their own tablets and capsules alongside the usual vials &mdash; tabletized BPC-157, GHK-Cu and epitalon, plus their own named liquid blends. Purity figures are published per product.</p>
+          <div class="vc-go">Browse catalog &#8594;</div>
+        </a>
+      </div>
+      <p class="disc">I earn a commission on orders placed through these links, at no extra cost to you, and Modern Aminos sponsors my content. Neither changes what I tell you about a compound; the research pages on this site are written independently. Everything listed is sold as research material and none of it is approved for human use. Catalogs are refreshed periodically and each page shows its last verified date.</p>
+    </div>
+  </section>
+
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="/" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="/">Home</a>
+            <a href="/peptides">All Peptides</a>
+            <a href="/peptide-calculator">Calculator</a>
+            <a href="/tdee-calculator">TDEE / Macro Calculator</a>
+            <a href="/glp1-titration">GLP-1 Titration Schedule</a>
+            <a href="/vendors">Trusted Vendors</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+            <a href="/suggestions">Suggestions</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dprohealth" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+<script>
+  // mobile nav
+  document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+  document.querySelectorAll('.nav-dd-btn').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.preventDefault();e.stopPropagation();
+      const dd=btn.closest('.nav-dd');
+      const wasOpen=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!wasOpen){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',(e)=>{
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
+  });
+</script>
+</body>
+</html>

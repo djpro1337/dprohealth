@@ -35,7 +35,8 @@
     } catch (e) {
       return null;
     }
-    return /^\/go\/[^\/]+\/?$/.test(path) ? path.replace(/\/$/, '') : null;
+    // /go/<vendor>  or  /go/<vendor>/<product-slug>  (catalog deep links)
+    return /^\/go\/[^\/]+(\/[^\/]+)?\/?$/.test(path) ? path.replace(/\/$/, '') : null;
   }
 
   var lastEl = null, lastAt = 0;
@@ -55,11 +56,14 @@
 
     if (typeof gtag !== 'function') return;
 
-    var slug = path.split('/')[2].toLowerCase();
+    var parts   = path.split('/');          // ['', 'go', vendor, product?]
+    var slug    = parts[2].toLowerCase();
+    var product = parts[3] ? decodeURIComponent(parts[3]).toLowerCase() : '';
 
     gtag('event', 'affiliate_click', {
       vendor:      VENDORS[slug] || slug,
       vendor_slug: slug,
+      product:     product,                 // '' for a plain vendor link
       link_url:    path,
       page_path:   location.pathname,
       link_text:   (a.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 100)
