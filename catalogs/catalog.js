@@ -55,8 +55,10 @@
 
   function card(i) {
     return '<a class="crow" href="' + i.u + '" target="_blank" rel="sponsored noopener">' +
-             '<span class="crow-n">' + esc(i.n) + '</span>' +
-             '<span class="crow-tag">' + esc(D.labels[i.g] || i.g) + '</span>' +
+             '<span class="crow-main">' +
+               '<span class="crow-n">' + esc(i.n) + '</span>' +
+               (i.d ? '<span class="crow-d">' + esc(i.d) + '</span>' : '') +
+             '</span>' +
              '<span class="crow-go">View <span class="arrow">→</span></span>' +
            '</a>';
   }
@@ -64,7 +66,10 @@
   function render() {
     var list = items.filter(function (i) {
       if (goal !== 'all' && i.g !== goal) return false;
-      return !term || i.n.toLowerCase().indexOf(term) > -1 || i.s.indexOf(term) > -1;
+      if (!term) return true;
+      return i.n.toLowerCase().indexOf(term) > -1 ||
+             i.s.indexOf(term) > -1 ||
+             (i.d || '').toLowerCase().indexOf(term) > -1;
     });
 
     document.getElementById('count').textContent =

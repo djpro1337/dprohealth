@@ -129,11 +129,27 @@ def tag(name, slug, fmt=""):
         if re.search(pat, hay): return t
     return "other"
 
+def dkey(n):
+    t = n.lower()
+    t = re.sub(r"\(.*?\)", "", t)
+    t = re.sub(r"\b\d+(\.\d+)?\s*(mg|mcg|ml|ct|iu)\b", "", t)
+    t = re.sub(r"\b(tablets?|capsules?|caps|spray|drops|raw|60ct|blend)\b", "", t)
+    return re.sub(r"[^a-z0-9]+", "", t)
+
+DESC = {}
+for _line in open(os.path.join(HERE, "descriptions.tsv"), encoding="utf-8"):
+    if "\t" not in _line: continue
+    _k, _d = _line.rstrip("\n").split("\t", 1)
+    DESC[_k.strip()] = _d.strip()
+
 def build(vendor, rows, go):
     items = []
     for name, slug, fmt in rows:
+        d = DESC.get(dkey(name), "")
         items.append({"n": name, "s": slug, "g": tag(name, slug, fmt),
-                      "u": "/go/%s/%s" % (go, slug), **({"f": fmt} if fmt else {})})
+                      "u": "/go/%s/%s" % (go, slug),
+                      **({"d": d} if d else {}),
+                      **({"f": fmt} if fmt else {})})
     items.sort(key=lambda x: x["n"].lower())
     return items
 
@@ -167,5 +183,7 @@ for vendor, rows, go, label, home in [
             "verified": today, "labels": LABELS, "counts": counts, "items": items}
     with open(os.path.join(OUT, "data-%s.json" % vendor), "w") as f:
         json.dump(data, f, separators=(",", ":"))
+    nodesc = [i["n"] for i in items if not i.get("d")]
+    if nodesc: print("   !! no description: " + ", ".join(nodesc))
     print("%-9s %3d items  %s" % (label, len(items),
           " ".join("%s:%d" % (k, v) for k, v in sorted(counts.items(), key=lambda x: -x[1]))))

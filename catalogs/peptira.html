@@ -150,13 +150,14 @@
   .btn-gold:hover{filter:brightness(1.08);transform:translateY(-1px)}
   .cat-meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:18px}
   .cgroup{margin-bottom:38px}
-  .clist{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:8px}
-  .crow{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:13px 15px;text-decoration:none;transition:.16s}
+  .clist{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:10px;align-items:stretch}
+  @media(max-width:760px){.clist{grid-template-columns:1fr}}
+  .crow{display:flex;align-items:flex-start;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:15px 16px;text-decoration:none;transition:.16s}
   .crow:hover{border-color:var(--gold-border);background:var(--bg3);transform:translateY(-1px)}
-  .crow-n{flex:1;color:var(--white);font-size:15px;font-weight:500;line-height:1.3}
-  .crow-tag{display:none;font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-  @media(min-width:900px){.crow-tag{display:inline}}
-  .crow-go{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap;display:flex;align-items:center;gap:5px}
+  .crow-main{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0}
+  .crow-n{color:var(--white);font-size:15.5px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+  .crow-d{color:var(--text);font-size:13.5px;line-height:1.5;font-weight:300}
+  .crow-go{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap;display:flex;align-items:center;gap:5px;margin-top:2px}
   .crow-go .arrow{transition:.16s;display:inline-block}
   .crow:hover .crow-go .arrow{transform:translateX(3px)}
   .cat-empty{color:var(--text);padding:30px 0}
