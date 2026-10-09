@@ -150,7 +150,7 @@ MAP = [
  ("Epithalon", "long", False, "", [
    M("epithalon","Epithalon 10MG",10), M("epithalon","Epithalon 50MG",50),
    G("epi10","",10,"epithalon-10mg-10-pack"), P("epitalon-2","EPIT-10",10)]),
- ("NAD+ (vial)", "long", False, "", [
+ ("NAD+", "long", False, "", [
    M("nad-20ml","500MG (Lyophilized)",500), G("nad-500mg-buffered","",500,"nad-500mg-buffered-10-pack"),
    P("nad-2","NAD-500",500), P("nad-2","NAD-1000",1000)]),
  ("SS-31", "long", False, "Glacier lists it as S-31-S.", [
@@ -206,7 +206,12 @@ for name, group, coded, note, rows in MAP:
         out.append({"n": name, "g": group, "c": coded, "note": note, "o": offers})
 
 from zoneinfo import ZoneInfo
-data = {"verified": datetime.datetime.now(ZoneInfo("America/Chicago")).date().isoformat(), "code": "DPRO",
+# Shown first under "Popular" sort and the Popular chip, in this order.
+POPULAR = ["Retatrutide", "Tesamorelin", "MOTS-c", "NAD+", "Glutathione", "KPV", "BPC-157", "KLOW"]
+names = {i["n"] for i in out}
+for p in POPULAR:
+    if p not in names: missing.append("POPULAR entry not built: " + p)
+data = {"popular": POPULAR, "verified": datetime.datetime.now(ZoneInfo("America/Chicago")).date().isoformat(), "code": "DPRO",
         "vendors": VENDORS, "items": out}
 json.dump(data, open(OUT, "w"), separators=(",", ":"))
 print("%d compounds, %d offers -> %s" % (len(out), sum(len(i["o"]) for i in out), os.path.relpath(OUT)))
