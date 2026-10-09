@@ -1,0 +1,49 @@
+  /* ---- price comparison ---- */
+  .cmp-ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .cmp-ctl .idx-search{flex:1;min-width:220px;margin:0}
+  .seg{display:inline-flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--bg2)}
+  .seg button{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);background:none;border:0;padding:10px 14px;cursor:pointer;transition:.16s}
+  .seg button+button{border-left:1px solid var(--border)}
+  .seg button.on{background:var(--gold);color:#1A1206}
+  .seg button:focus-visible{outline:2px solid var(--tq-mid);outline-offset:-2px}
+  .cmp-g{font-family:'Archivo',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:34px 0 12px}
+  .cmp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:14px}
+  .cmp{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px 16px 10px;min-width:0}
+  .cmp-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
+  .cmp-n{color:var(--white);font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.25;margin:0}
+  .cmp-note,.cmp-coded{display:block;color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.4}
+  .cmp-coded{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--tq-bright)}
+  .cmp-warn{font-size:12px;color:var(--muted);margin:0 0 6px;line-height:1.45}
+  .cmp-win{text-align:right;flex-shrink:0;display:flex;flex-direction:column;gap:2px}
+  .cmp-win .w-l{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .cmp-win .w-v{color:var(--gold);font-weight:600;font-size:14px}
+  .cmp-win .w-p{font-family:'Space Mono',monospace;font-size:12px;color:var(--white)}
+  .cmp-tw{overflow-x:auto;margin:0 -4px}
+  .cmp-t{width:100%;border-collapse:collapse;font-size:13.5px}
+  .cmp-t th{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400;text-align:left;padding:8px 4px;border-bottom:1px solid var(--border)}
+  .cmp-t td{padding:9px 4px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+  .cmp-t tr:last-child td{border-bottom:0}
+  .cmp-t .r-v{color:var(--white);font-weight:500}
+  .cmp-t .r-p,.cmp-t .r-pm{font-family:'Space Mono',monospace;font-size:12.5px;white-space:nowrap}
+  .cmp-t .r-pm{color:var(--white)}
+  .cmp-t .r-sub{display:block;font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);white-space:nowrap}
+  .cmp-t .r-tag{display:inline-block;margin-left:7px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#1A1206;background:var(--gold);padding:2px 5px;border-radius:2px;vertical-align:2px}
+  .cmp-t tr.best td{background:rgba(245,181,68,.07)}
+  .cmp-t tr.best .r-pm{color:var(--gold)}
+  .cmp-t tr.oos td{opacity:.5}
+  .cmp-t .r-go{text-align:right;white-space:nowrap}
+  .cmp-t .r-go a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+  .cmp-t .r-go a:hover{text-decoration:underline;text-underline-offset:3px}
+  .cmp-t .r-go .arrow{display:inline-block;transition:transform .16s}
+  .cmp-t .r-go a:hover .arrow{transform:translateX(3px)}
+  .cmp-t .r-oos{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .cmp-how{margin-top:30px}
+  .cmp-how ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  .cmp-how li{color:var(--text);font-size:14px;padding-left:16px;position:relative}
+  .cmp-how li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--tq-mid)}
+  @media (max-width:760px){
+    .cmp-grid{grid-template-columns:1fr}
+    .cmp-ctl{flex-direction:column;align-items:stretch}
+    .seg{align-self:flex-start}
+    .cmp-t{font-size:13px}
+  }

@@ -32,7 +32,7 @@ http://dprohealth-sight.netlify.app/*   https://dprohealth.com/:splat  301!
 /go/algorx       https://app.algorx.ai/?ref=DAVIDPROCHASKA     302
 
 # ---- Price comparison ------------------------------------------------------
-/go/prices       https://peptiprices.com/dpro                  302
+/go/prices       /compare                      302
 
 # ---- Clean URLs: send old .html addresses to the canonical extensionless ones (301 is correct here — these are our own pages, not affiliate links) ----
 /index.html      /            301

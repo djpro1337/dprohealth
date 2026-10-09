@@ -1,0 +1,43 @@
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Price comparison &middot; <span data-count>&mdash;</span> compounds</div>
+      <h1 class="display" style="font-size:clamp(34px,5.4vw,64px)">Compare <span class="tq">prices.</span></h1>
+      <p class="lead" style="margin-top:20px;max-width:64ch">Modern Aminos, Glacier Aminos and Peptira, side by side. Ranked by price per mg, so a 10mg vial and a 30mg vial compare fairly. The cheapest wins &mdash; no sponsor gets a bump.</p>
+      <div class="codebar">
+        <span class="cb-t">Prices shown are list prices. Code <b>DPRO</b> takes at least 10% off at all three, so the order doesn&rsquo;t change.</span>
+        <button type="button" class="copycode" data-code="DPRO"><span class="cc-t">Code</span>DPRO</button>
+      </div>
+      <span class="cat-meta">Prices verified <span data-verified>&mdash;</span></span>
+    </div>
+  </section>
+
+  <div class="idx-bar">
+    <div class="wrap">
+      <div class="cmp-ctl">
+        <label class="idx-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="q" placeholder="Search a compound&hellip;" autocomplete="off"></label>
+        <div class="seg" id="mode" role="group" aria-label="Price basis">
+          <button type="button" data-m="single" class="on" aria-pressed="true">Single vial</button>
+          <button type="button" data-m="kit" aria-pressed="false">10-vial kit</button>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+
+  <section class="section" style="border-top:none;padding-top:6px">
+    <div class="wrap">
+      <div class="idx-count" id="count"></div>
+      <div id="cmp" data-src="/compare/data.json?v=20261008"></div>
+      <div class="cmp-how">
+        <h2 class="cmp-g">How this works</h2>
+        <ul>
+          <li>Price per mg = vial price &divide; mg in the vial</li>
+          <li>Kit mode uses each vendor&rsquo;s 10-vial price</li>
+          <li>Modern sells single vials only</li>
+          <li>Sold-out sizes drop to the bottom</li>
+          <li>Peptira needs a free account to check out</li>
+        </ul>
+      </div>
+      <p class="disc">I earn a commission on orders placed through these links, at no extra cost to you. The ranking is price only &mdash; whichever vendor is cheapest per mg is listed first, including when that isn&rsquo;t my sponsor.<br><br>Everything listed is sold as research material and none of it is approved for human use. Prices belong to the vendors and change without notice; check the store before you buy.</p>
+    </div>
+  </section>

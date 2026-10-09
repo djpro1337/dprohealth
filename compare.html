@@ -9,9 +9,9 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
 <meta name="theme-color" content="#0E1622">
-<title>Glacier Aminos Catalog &mdash; every product, one page | DPRO Health</title>
-<link rel="canonical" href="https://dprohealth.com/catalogs/glacier-aminos">
-<meta name="description" content="The full Glacier Aminos catalog on one filterable page. Search by name or filter by goal; every link carries code DPRO.">
+<title>Peptide Price Comparison &mdash; Modern, Glacier &amp; Peptira | DPRO Health</title>
+<link rel="canonical" href="https://dprohealth.com/compare">
+<meta name="description" content="Compare peptide prices across Modern Aminos, Glacier Aminos and Peptira. Ranked by price per mg, single vial or 10-vial kit. Code DPRO works at all three.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -185,6 +185,55 @@
   .vcard p{color:var(--text);font-size:14.5px;line-height:1.6;margin-bottom:16px}
   .vcard .vc-go{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
   .vcard.soon{opacity:.5;pointer-events:none}
+  /* ---- price comparison ---- */
+  .cmp-ctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .cmp-ctl .idx-search{flex:1;min-width:220px;margin:0}
+  .seg{display:inline-flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--bg2)}
+  .seg button{font-family:'Space Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text);background:none;border:0;padding:10px 14px;cursor:pointer;transition:.16s}
+  .seg button+button{border-left:1px solid var(--border)}
+  .seg button.on{background:var(--gold);color:#1A1206}
+  .seg button:focus-visible{outline:2px solid var(--tq-mid);outline-offset:-2px}
+  .cmp-g{font-family:'Archivo',sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:34px 0 12px}
+  .cmp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(440px,1fr));gap:14px}
+  .cmp{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:16px 16px 10px;min-width:0}
+  .cmp-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px}
+  .cmp-n{color:var(--white);font-size:17px;font-weight:600;letter-spacing:-.01em;line-height:1.25;margin:0}
+  .cmp-note,.cmp-coded{display:block;color:var(--muted);font-size:12.5px;margin-top:4px;line-height:1.4}
+  .cmp-coded{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--tq-bright)}
+  .cmp-warn{font-size:12px;color:var(--muted);margin:0 0 6px;line-height:1.45}
+  .cmp-win{text-align:right;flex-shrink:0;display:flex;flex-direction:column;gap:2px}
+  .cmp-win .w-l{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .cmp-win .w-v{color:var(--gold);font-weight:600;font-size:14px}
+  .cmp-win .w-p{font-family:'Space Mono',monospace;font-size:12px;color:var(--white)}
+  .cmp-tw{overflow-x:auto;margin:0 -4px}
+  .cmp-t{width:100%;border-collapse:collapse;font-size:13.5px}
+  .cmp-t th{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:400;text-align:left;padding:8px 4px;border-bottom:1px solid var(--border)}
+  .cmp-t td{padding:9px 4px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+  .cmp-t tr:last-child td{border-bottom:0}
+  .cmp-t .r-v{color:var(--white);font-weight:500}
+  .cmp-t .r-p,.cmp-t .r-pm{font-family:'Space Mono',monospace;font-size:12.5px;white-space:nowrap}
+  .cmp-t .r-pm{color:var(--white)}
+  .cmp-t .r-sub{display:block;font-family:'Outfit',sans-serif;font-size:11px;color:var(--muted);white-space:nowrap}
+  .cmp-t .r-tag{display:inline-block;margin-left:7px;font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#1A1206;background:var(--gold);padding:2px 5px;border-radius:2px;vertical-align:2px}
+  .cmp-t tr.best td{background:rgba(245,181,68,.07)}
+  .cmp-t tr.best .r-pm{color:var(--gold)}
+  .cmp-t tr.oos td{opacity:.5}
+  .cmp-t .r-go{text-align:right;white-space:nowrap}
+  .cmp-t .r-go a{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);text-decoration:none}
+  .cmp-t .r-go a:hover{text-decoration:underline;text-underline-offset:3px}
+  .cmp-t .r-go .arrow{display:inline-block;transition:transform .16s}
+  .cmp-t .r-go a:hover .arrow{transform:translateX(3px)}
+  .cmp-t .r-oos{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .cmp-how{margin-top:30px}
+  .cmp-how ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  .cmp-how li{color:var(--text);font-size:14px;padding-left:16px;position:relative}
+  .cmp-how li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--tq-mid)}
+  @media (max-width:760px){
+    .cmp-grid{grid-template-columns:1fr}
+    .cmp-ctl{flex-direction:column;align-items:stretch}
+    .seg{align-self:flex-start}
+    .cmp-t{font-size:13px}
+  }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
@@ -288,21 +337,26 @@
   </header>
   <section class="page-hero">
     <div class="wrap">
-      <div class="eyebrow">Catalog &middot; <span data-count>&mdash;</span> products</div>
-      <h1 class="display" style="font-size:clamp(34px,5.4vw,64px)">Glacier Aminos <span class="tq">catalog.</span></h1>
-      <p class="lead" style="margin-top:20px;max-width:64ch">My other preferred vendor. Same-day shipping before 2pm MT from a US warehouse, an 8-point independent panel on every batch, and a public COA library.</p>
+      <div class="eyebrow">Price comparison &middot; <span data-count>&mdash;</span> compounds</div>
+      <h1 class="display" style="font-size:clamp(34px,5.4vw,64px)">Compare <span class="tq">prices.</span></h1>
+      <p class="lead" style="margin-top:20px;max-width:64ch">Modern Aminos, Glacier Aminos and Peptira, side by side. Ranked by price per mg, so a 10mg vial and a 30mg vial compare fairly. The cheapest wins &mdash; no sponsor gets a bump.</p>
       <div class="codebar">
-        <span class="cb-t">Every link below opens that product with my code already applied. Use <b>DPRO</b> at checkout for your discount.</span>
+        <span class="cb-t">Prices shown are list prices. Code <b>DPRO</b> takes at least 10% off at all three, so the order doesn&rsquo;t change.</span>
         <button type="button" class="copycode" data-code="DPRO"><span class="cc-t">Code</span>DPRO</button>
-        <a class="btn-gold" href="/go/glacier" target="_blank" rel="sponsored noopener">Visit store <span>&#8594;</span></a>
       </div>
-      <span class="cat-meta">Catalog verified <span data-verified>&mdash;</span></span>
+      <span class="cat-meta">Prices verified <span data-verified>&mdash;</span></span>
     </div>
   </section>
 
   <div class="idx-bar">
     <div class="wrap">
-      <label class="idx-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="q" placeholder="Search the catalog&hellip;" autocomplete="off"></label>
+      <div class="cmp-ctl">
+        <label class="idx-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" id="q" placeholder="Search a compound&hellip;" autocomplete="off"></label>
+        <div class="seg" id="mode" role="group" aria-label="Price basis">
+          <button type="button" data-m="single" class="on" aria-pressed="true">Single vial</button>
+          <button type="button" data-m="kit" aria-pressed="false">10-vial kit</button>
+        </div>
+      </div>
       <div class="chips" id="chips"></div>
     </div>
   </div>
@@ -310,11 +364,20 @@
   <section class="section" style="border-top:none;padding-top:6px">
     <div class="wrap">
       <div class="idx-count" id="count"></div>
-      <div id="cat" data-src="/catalogs/data-glacier.json?v=202610071001" data-home="/go/glacier"></div>
-      <p class="disc">I earn a commission on orders placed through these links, at no extra cost to you. That does not change what I tell you about a compound &mdash; the research pages on this site are written independently.<br><br>Everything listed is sold as research material and none of it is approved for human use. Listings and pricing belong to the vendor and change without notice &mdash; this is a directory, not a price list.</p>
+      <div id="cmp" data-src="/compare/data.json?v=2026100802"></div>
+      <div class="cmp-how">
+        <h2 class="cmp-g">How this works</h2>
+        <ul>
+          <li>Price per mg = vial price &divide; mg in the vial</li>
+          <li>Kit mode uses each vendor&rsquo;s 10-vial price</li>
+          <li>Modern sells single vials only</li>
+          <li>Sold-out sizes drop to the bottom</li>
+          <li>Peptira needs a free account to check out</li>
+        </ul>
+      </div>
+      <p class="disc">I earn a commission on orders placed through these links, at no extra cost to you. The ranking is price only &mdash; whichever vendor is cheapest per mg is listed first, including when that isn&rsquo;t my sponsor.<br><br>Everything listed is sold as research material and none of it is approved for human use. Prices belong to the vendors and change without notice; check the store before you buy.</p>
     </div>
   </section>
-
 
   <footer class="foot">
     <div class="wrap">
@@ -379,6 +442,6 @@
     });
   });
 </script>
-<script defer src="/catalogs/catalog.js?v=202610071001"></script>
+<script defer src="/compare/compare.js?v=2026100802"></script>
 </body>
 </html>
