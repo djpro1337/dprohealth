@@ -107,17 +107,27 @@
 
   function vendorRow(v, o, others, best, mg, unsized) {
     var name = esc(D.vendors[v]);
+    if (!o && unsized) {
+      return '<div class="vr">' +
+        '<span class="vr-n">' + name + '<span class="vr-st ' + (unsized.s ? 'in' : 'out') + '">' + (unsized.s ? 'In stock' : 'Sold out') + '</span></span>' +
+        '<span class="vr-p"><b>' + usd(unsized.p) + '</b><i>Size n/a</i></span>' +
+        (unsized.s ? '<button type="button" class="copycode vr-code" data-code="' + D.code + '" title="Copy code"><span class="cc-t">' + D.code + '</span></button>' +
+          '<a class="vr-go" href="' + unsized.u + '" target="_blank" rel="sponsored noopener">Buy <span class="arrow">→</span></a>'
+          : '<span></span><span class="vr-go off">—</span>') + '</div>';
+    }
     if (!o) {
       var txt = unsized ? 'Size not listed &middot; ' + usd(unsized.p)
               : others.length ? 'No ' + mg + 'mg &middot; has ' + others.map(function (x) { return x.mg + 'mg'; }).join(', ')
               : 'Not carried';
       var go = unsized && unsized.s ? '<a class="vr-go" href="' + unsized.u + '" target="_blank" rel="sponsored noopener">View <span class="arrow">→</span></a>' : '';
-      return '<div class="vr none"><span class="vr-n">' + name + '</span><span class="vr-x">' + txt + '</span>' + go + '</div>';
+      return '<div class="vr none"><span class="vr-n">' + name + '</span><span class="vr-x">' + txt + '</span>' +
+        (go ? '<button type="button" class="copycode vr-code" data-code="' + D.code + '" title="Copy code"><span class="cc-t">' + D.code + '</span></button>' + go : '') + '</div>';
     }
     var st = !o.s ? 'Sold out' : mode !== 'kit' ? 'In stock' : (o.k ? '10 for ' + usd(o.k) : 'No kit &middot; single');
     return '<div class="vr' + (best ? ' best' : '') + (o.s ? '' : ' oos') + '">' +
       '<span class="vr-n">' + name + '<span class="vr-st ' + (o.s ? 'in' : 'out') + '">' + st + '</span></span>' +
       '<span class="vr-p"><b>' + usd(vial(o)) + '</b><i>' + usd(perMg(o)) + '/mg</i></span>' +
+      (o.s ? '<button type="button" class="copycode vr-code" data-code="' + D.code + '" title="Copy code"><span class="cc-t">' + D.code + '</span></button>' : '<span></span>') +
       (o.s ? '<a class="vr-go" href="' + o.u + '" target="_blank" rel="sponsored noopener" aria-label="Buy at ' + name + '">Buy <span class="arrow">→</span></a>'
            : '<span class="vr-go off">—</span>') +
     '</div>';
