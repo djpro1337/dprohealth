@@ -316,6 +316,13 @@
   .vendor.pref-v{border-color:rgba(245,181,68,.5)!important}
   .dpro-cta{color:#1A1206!important;border:1px solid var(--gold)!important;background:var(--gold)!important;font-weight:700;border-radius:3px!important}
   .dpro-cta:hover{background:#FFC55A!important;border-color:#FFC55A!important}
+
+  /* ---- Nav CTA glow (Peptide Price Comparison) ---- */
+  .cta-glow{position:relative;box-shadow:0 0 0 1px rgba(245,181,68,.55),0 0 14px 2px rgba(245,181,68,.45),0 0 32px 6px rgba(245,181,68,.18);animation:ctaGlow 2.6s ease-in-out infinite}
+  .cta-glow:hover{box-shadow:0 0 0 1px rgba(255,197,90,.8),0 0 20px 4px rgba(255,197,90,.6),0 0 44px 10px rgba(255,197,90,.25)}
+  @keyframes ctaGlow{0%,100%{box-shadow:0 0 0 1px rgba(245,181,68,.5),0 0 10px 1px rgba(245,181,68,.35),0 0 24px 4px rgba(245,181,68,.12)}50%{box-shadow:0 0 0 1px rgba(245,181,68,.75),0 0 20px 4px rgba(245,181,68,.6),0 0 42px 10px rgba(245,181,68,.25)}}
+  @media (prefers-reduced-motion:reduce){.cta-glow{animation:none}}
+  
 </style>
 <style>
 /* compact spacing to keep sheet to 2 print pages */
@@ -410,9 +417,9 @@ h2{margin-bottom:12px}
         </div>
       </div>
       <a href="/vendors">Vendors</a>
-      <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Retatrutide Handbook</a>
+      <a href="/resources">Resources</a>
       <a href="../index.html#about">About</a>
-      <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener" class="dpro-cta">Free Skool Community</a>
+      <a href="/compare" class="dpro-cta cta-glow">Peptide Price Comparison</a>
     </nav>
   </div>
 </header>

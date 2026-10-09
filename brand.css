@@ -413,3 +413,9 @@ details .ans{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65
 .buy-btn:hover .bb-name .bb-arrow{transform:translateX(5px)}
 .buy-btn .bb-sub{font-family:'Outfit';font-weight:300;font-size:12.5px;color:var(--text);margin-top:-6px}
 .buy-btn .bb-code{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--gold-ink);background:var(--gold);padding:9px 14px;border-radius:5px;white-space:nowrap;align-self:flex-start}
+
+/* ---- Nav CTA glow (Peptide Price Comparison) ---- */
+.cta-glow{position:relative;box-shadow:0 0 0 1px rgba(245,181,68,.55),0 0 14px 2px rgba(245,181,68,.45),0 0 32px 6px rgba(245,181,68,.18);animation:ctaGlow 2.6s ease-in-out infinite}
+.cta-glow:hover{box-shadow:0 0 0 1px rgba(255,197,90,.8),0 0 20px 4px rgba(255,197,90,.6),0 0 44px 10px rgba(255,197,90,.25)}
+@keyframes ctaGlow{0%,100%{box-shadow:0 0 0 1px rgba(245,181,68,.5),0 0 10px 1px rgba(245,181,68,.35),0 0 24px 4px rgba(245,181,68,.12)}50%{box-shadow:0 0 0 1px rgba(245,181,68,.75),0 0 20px 4px rgba(245,181,68,.6),0 0 42px 10px rgba(245,181,68,.25)}}
+@media (prefers-reduced-motion:reduce){.cta-glow{animation:none}}
