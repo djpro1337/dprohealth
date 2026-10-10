@@ -73,6 +73,11 @@
     document.getElementById('q').addEventListener('input', function () {
       term = this.value.trim().toLowerCase(); render();
     });
+    // ?q=BPC from the peptide calculator pre-fills the search
+    try {
+      var qp = new URLSearchParams(location.search).get('q');
+      if (qp) { document.getElementById('q').value = qp; term = qp.trim().toLowerCase(); }
+    } catch (e) {}
 
     seg('mode', mode, function (v) { mode = v; try { localStorage.setItem('dpro-cmp-mode', v); } catch (e) {} });
     var so = document.getElementById('sort');
