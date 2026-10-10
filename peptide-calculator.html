@@ -11,72 +11,211 @@
 <meta name="theme-color" content="#0E1622">
 <title>Peptide Calculator — DPRO Health</title>
 <link rel="canonical" href="https://dprohealth.com/peptide-calculator">
-<meta name="description" content="Free peptide reconstitution calculator. Enter vial amount, bacteriostatic water, and desired dose to get your concentration and exact units to draw. From DPRO Health.">
+<meta name="description" content="Free peptide calculator: units to draw, blends like KLOW and GLOW, premixed liquids, reverse solving and BAC water. See it on a real syringe, plan your cycle and price it out. From DPRO Health.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="brand.css">
 <style>
-  .page-hero{padding:104px 0 50px}
-  .calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;align-items:stretch}
-  @media(max-width:860px){.calc-grid{grid-template-columns:1fr}}
-  .howto{margin-bottom:40px}
-  .howto-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:24px}
-  @media(max-width:720px){.howto-steps{grid-template-columns:1fr 1fr}}
-  .howto-step{background:var(--bg2);border:1px solid var(--border);padding:24px}
-  .howto-step .hs-num{font-family:'Archivo';font-weight:800;font-size:13px;color:var(--tq-bright);margin-bottom:10px}
-  .howto-step .hs-title{font-family:'Archivo';font-weight:700;font-size:15px;color:var(--white);margin-bottom:6px}
-  .howto-step .hs-text{font-size:13px;font-weight:300;color:var(--text);line-height:1.55}
+  .page-hero{padding:104px 0 40px}
+  .calc-sec{padding-top:34px}
+  #calc{opacity:0;transition:opacity .25s}
+  #calc.ready{opacity:1}
 
-  .calc-panel{background:var(--bg2);border:1px solid var(--border);padding:40px}
-  .field{margin-bottom:26px}
-  .field:last-child{margin-bottom:0}
-  .field label{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
-  .field .hint{font-family:'Outfit';font-size:12px;font-weight:300;color:var(--muted);margin-top:8px;letter-spacing:0;text-transform:none}
-  .input-row{display:flex;gap:0;align-items:stretch}
-  .input-row input{
-    flex:1;width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);
-    font-family:'Archivo',sans-serif;font-weight:600;font-size:20px;padding:14px 16px;border-radius:3px 0 0 3px;outline:none;transition:border-color .2s;min-width:0
+  /* tabs */
+  .ctabs{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:10px;padding:2px;margin-bottom:2px}
+  .ctab{background:var(--bg2);border:none;border-radius:8px;padding:14px 10px;cursor:pointer;text-align:left;transition:background .18s,box-shadow .18s;min-width:0}
+  .ctab .ct-n{display:block;font-family:'Archivo';font-weight:700;font-size:14.5px;color:var(--white);white-space:nowrap}
+  .ctab .ct-s{display:block;font-family:'Outfit';font-size:12px;font-weight:300;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ctab:hover{background:var(--bg3)}
+  .ctab.on{background:linear-gradient(160deg,rgba(6,182,212,.22),rgba(6,182,212,.08));box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .ctab.on .ct-n{color:var(--tq-bright)}
+  .ctab.on .ct-s{color:var(--text)}
+  @media(max-width:980px){
+    .ctabs{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .ctabs::-webkit-scrollbar{display:none}
+    .ctab{flex:0 0 auto;min-width:150px}
   }
-  .input-row input:focus{border-color:var(--tq-mid)}
-  .input-row.single input{border-radius:3px}
-  .unit-select{
-    background:var(--bg3);border:1px solid var(--border);border-left:none;color:var(--off-white);
-    font-family:'Space Mono',monospace;font-size:13px;padding:0 14px;border-radius:0 3px 3px 0;outline:none;cursor:pointer
-  }
-  .seg{display:flex;gap:2px;background:var(--border);border-radius:4px;padding:2px}
-  .seg button{
-    flex:1;background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:11px;
-    letter-spacing:.1em;text-transform:uppercase;padding:11px 8px;border-radius:3px;cursor:pointer;transition:.2s
-  }
-  .seg button.active{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
 
-  /* results */
-  .result-panel{background:linear-gradient(160deg,#152131,#0E1622);border:1px solid var(--tq-border);padding:40px;display:flex;flex-direction:column}
-  .result-big{margin-bottom:auto}
-  .draw-units{font-family:'Archivo';font-weight:900;font-size:clamp(46px,7vw,72px);line-height:.95;color:var(--gold);letter-spacing:-.02em}
-  .draw-units small{font-family:'Outfit';font-weight:400;font-size:18px;color:var(--text);letter-spacing:0}
-  .draw-sub{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:10px}
-  .result-rows{margin-top:30px;border-top:1px solid var(--border);padding-top:24px;display:flex;flex-direction:column;gap:16px}
+  .calc-layout{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:2px;align-items:start}
+  @media(max-width:900px){.calc-layout{grid-template-columns:1fr}}
+  .calc-in{background:var(--bg2);border:1px solid var(--border);padding:34px 36px 38px;min-height:100%}
+  @media(max-width:600px){.calc-in{padding:26px 20px 30px}}
+  .tp-head{margin-bottom:22px}
+  .tp-head h3{font-family:'Archivo';font-weight:800;font-size:24px;color:var(--white);letter-spacing:-.01em}
+  .tp-head p{font-size:14px;font-weight:300;color:var(--text);margin-top:6px;line-height:1.55}
+
+  .lbl{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin:22px 0 9px}
+  .lbl .opt{color:var(--muted);letter-spacing:.06em;text-transform:none;font-family:'Outfit';font-size:12px}
+  .irow{display:flex;gap:8px;align-items:stretch}
+  .irow input,.calc-in .csearch input,.brow input,.lrow input{
+    flex:1;width:100%;min-width:0;background:var(--bg);border:1px solid var(--border);color:var(--white);
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:18px;padding:13px 15px;border-radius:6px;outline:none;transition:border-color .2s}
+  .irow input:focus,.csearch input:focus,.brow input:focus,.lrow input:focus{border-color:var(--tq-mid)}
+  .irow input::placeholder,.csearch input::placeholder,.brow input::placeholder,.lrow input::placeholder{color:#3f5466;font-weight:500}
+  .unit-tag{display:flex;align-items:center;padding:0 14px;font-family:'Space Mono',monospace;font-size:12px;color:var(--text);background:var(--bg3);border:1px solid var(--border);border-radius:6px;white-space:nowrap}
+  .sel{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:'Outfit';font-size:15px;padding:13px 14px;border-radius:6px;outline:none;cursor:pointer}
+  .sel.sm{width:auto;padding:9px 12px;font-size:14px}
+  .sel:focus{border-color:var(--tq-mid)}
+
+  .seg{display:flex;gap:2px;background:var(--border);border-radius:7px;padding:2px}
+  .seg button{flex:1;background:var(--bg);border:none;color:var(--text);font-family:'Outfit';font-weight:500;font-size:14px;padding:11px 10px;border-radius:5px;cursor:pointer;transition:.18s;line-height:1.2}
+  .seg button:hover{color:var(--white)}
+  .seg button.on{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .seg.useg{flex:0 0 auto}
+  .seg.useg button{font-family:'Space Mono',monospace;font-size:12px;padding:0 13px;min-width:46px}
+  .seg.syr button{font-family:'Archivo';font-weight:700;font-size:15px;padding:12px 6px}
+  .seg.syr button small{display:block;font-family:'Space Mono',monospace;font-weight:400;font-size:10px;color:var(--muted);margin-top:3px}
+  .seg.syr button.on small{color:var(--tq-bright);opacity:.8}
+  @media(max-width:480px){.seg.syr.five{flex-wrap:wrap}.seg.syr.five button{flex:1 1 30%}}
+
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .chips:empty{display:none}
+  .chip{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--text);border:1px solid var(--border);background:var(--bg);padding:7px 12px;border-radius:999px;cursor:pointer;transition:.18s}
+  .chip:hover{border-color:var(--tq-mid);color:var(--tq-bright)}
+  .chip.static{cursor:default}
+  .chip.static:hover{border-color:var(--border);color:var(--text)}
+  .sizes{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:10px}
+  .sizes:empty{display:none}
+  .sz-l{font-size:12px;font-weight:300;color:var(--muted);margin-right:2px}
+
+  .csearch{position:relative}
+  .cs-list{position:absolute;z-index:30;left:0;right:0;top:calc(100% + 6px);background:var(--navy);border:1px solid var(--tq-border);border-radius:8px;padding:6px;box-shadow:0 24px 50px -18px rgba(0,0,0,.8);max-height:320px;overflow:auto}
+  .cs-list button{display:flex;justify-content:space-between;gap:12px;width:100%;text-align:left;background:none;border:none;color:var(--off-white);font-family:'Outfit';font-size:14.5px;padding:9px 11px;border-radius:6px;cursor:pointer}
+  .cs-list button span{font-family:'Space Mono',monospace;font-size:10.5px;color:var(--muted);white-space:nowrap}
+  .cs-list button:hover,.cs-list button.hi{background:rgba(6,182,212,.12);color:var(--tq-bright)}
+
+  /* guided */
+  .gstep{display:none;gap:16px;padding:22px 0;border-top:1px solid var(--border);animation:gsin .35s ease}
+  .gstep.shown{display:flex}
+  .gstep:first-of-type{border-top:none;padding-top:4px}
+  @keyframes gsin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .gs-num{flex:0 0 32px;height:32px;border-radius:50%;display:grid;place-items:center;font-family:'Archivo';font-weight:800;font-size:14px;color:var(--tq-bright);background:var(--tq-dim);box-shadow:inset 0 0 0 1px var(--tq-border);transition:.2s}
+  .gstep.done .gs-num{background:var(--tq-mid);color:var(--bg);box-shadow:none}
+  .gs-body{flex:1;min-width:0}
+  .gs-q{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white);margin:4px 0 12px}
+  .gs-help{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:300;color:var(--text);margin-bottom:14px}
+  .gs-help.sm{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+  .gs-help:empty{display:none}
+  .gs-help .vial-ico{flex:0 0 22px;height:30px;border-radius:3px 3px 5px 5px;background:linear-gradient(#2a3e54 0 22%,rgba(34,211,238,.18) 22%);box-shadow:inset 0 0 0 1px var(--tq-border);position:relative}
+  .gs-help .vial-ico i{position:absolute;left:4px;right:4px;top:12px;height:8px;background:var(--off-white);border-radius:1px;opacity:.8}
+  .g-blend{display:none}
+  .is-blend .g-blend{display:block}
+  .is-blend .g-single{display:none}
+  .iu-only{display:none}
+  .linkbtn{background:none;border:none;padding:0;color:var(--tq-bright);font:inherit;font-weight:500;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+  .linkbtn:hover{color:var(--gold)}
+
+  /* blend / liquid rows */
+  .brow,.lrow{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr) auto auto;gap:8px;margin-top:8px}
+  .brow select,.lrow select{background:var(--bg3);border:1px solid var(--border);color:var(--off-white);font-family:'Space Mono',monospace;font-size:12px;padding:0 8px;border-radius:6px;outline:none}
+  .rm{background:none;border:1px solid var(--border);color:var(--muted);width:40px;border-radius:6px;font-size:18px;cursor:pointer}
+  .rm:hover{color:#fca5a5;border-color:rgba(239,68,68,.4)}
+  @media(max-width:480px){.brow,.lrow{grid-template-columns:1fr 1fr auto}.brow input[data-r="n"],.lrow input[data-r="n"]{grid-column:1/-1}}
+  .addrow{width:100%;margin-top:10px;background:none;border:1px dashed var(--tq-border);color:var(--tq-bright);font-family:'Outfit';font-weight:500;font-size:14px;padding:12px;border-radius:6px;cursor:pointer}
+  .addrow:hover{background:var(--tq-dim)}
+  .tabp[data-tab="liquid"]:not(.is-blend) .blend-only,.tabp[data-tab="liquid"]:not(.is-blend) .lrow:nth-child(n+2){display:none}
+  .tabp[data-tab="liquid"]:not(.is-blend) .lrow .rm{visibility:hidden}
+  .divider{display:flex;align-items:center;gap:12px;margin:20px 0 4px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+  .byrow{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:13px;color:var(--text)}
+
+  /* quick solve */
+  .qs-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  @media(max-width:560px){.qs-cards{grid-template-columns:1fr}}
+  .qs-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px 14px;text-align:left;cursor:pointer;transition:.18s}
+  .qs-card b{display:block;font-family:'Archivo';font-weight:700;font-size:15px;color:var(--white)}
+  .qs-card span{display:block;font-family:'Outfit';font-style:italic;font-weight:300;font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+  .qs-card:hover{border-color:var(--tq-border)}
+  .qs-card.on{border-color:var(--tq-mid);background:var(--tq-dim);box-shadow:0 0 0 3px rgba(6,182,212,.08)}
+  .qs-card.on b{color:var(--tq-bright)}
+  .qs-fields{margin-top:8px;padding-top:4px}
+
+  /* bac table */
+  .bac-table{margin-top:24px}
+  .bac-table:empty{display:none}
+  .bac-head,.bac-row{display:grid;grid-template-columns:.8fr 1.3fr .9fr 1.3fr;gap:10px;align-items:center}
+  .bac-head{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);padding:0 14px 8px}
+  .bac-row{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:12px 14px;margin-top:6px;cursor:pointer;text-align:left;transition:.15s;font-family:'Outfit';color:var(--text);font-size:14px}
+  .bac-row:hover{border-color:var(--tq-border)}
+  .bac-row.on{border-color:var(--tq-mid);background:var(--tq-dim)}
+  .bac-row .bw{font-family:'Archivo';font-weight:700;color:var(--white)}
+  .bac-row .bu{font-family:'Archivo';font-weight:700;color:var(--white)}
+  .bac-row .bt{font-family:'Space Mono',monospace;font-size:10.5px;justify-self:end;text-align:right}
+  .bt.good{color:var(--green)} .bt.mid{color:var(--text)} .bt.bad{color:#fca5a5}
+  @media(max-width:480px){.bac-head,.bac-row{grid-template-columns:.8fr 1fr .8fr}.bac-head span:nth-child(2),.bac-row .bc{display:none}.bac-head span:last-child{display:none}.bac-row .bt{grid-column:1/-1;justify-self:start}}
+
+  /* result */
+  .calc-out{background:linear-gradient(165deg,#17263a,#0E1622 70%);border:1px solid var(--tq-border);padding:34px 32px;position:sticky;top:90px}
+  @media(max-width:900px){.calc-out{position:static}}
+  @media(max-width:600px){.calc-out{padding:26px 20px}}
+  .r-empty{text-align:center;padding:40px 10px}
+  .r-empty-ico{width:76px;height:76px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;background:var(--tq-dim);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .r-empty p{font-size:14px;font-weight:300;color:var(--text);max-width:280px;margin:0 auto;line-height:1.6}
+  .r-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:12px}
+  .r-big{font-family:'Archivo';font-weight:900;font-size:clamp(50px,7vw,76px);line-height:.92;color:var(--gold);letter-spacing:-.025em}
+  .r-big small{font-family:'Outfit';font-weight:400;font-size:20px;color:var(--off-white);letter-spacing:0}
+  .r-sub{font-family:'Outfit';font-size:14px;color:var(--text);margin-top:10px}
+  .r-syr{margin:22px -4px 4px}
+  svg.syringe{width:100%;height:auto;display:block}
+  svg.syringe .sx-t{font-family:'Space Mono',monospace;font-size:14px;fill:#A9BCC8}
+  svg.syringe .sx-l{font-family:'Archivo';font-weight:800;font-size:19px}
+  svg.syringe .sx-u{font-family:'Space Mono',monospace;font-size:11.5px;fill:#5B7385;letter-spacing:.06em}
+  .r-checks{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:7px}
+  .ck{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;font-weight:300;color:var(--off-white);line-height:1.5;padding:9px 12px;border-radius:6px;background:rgba(255,255,255,.025)}
+  .ck b{font-weight:600;color:var(--white)}
+  .ck-i{flex:0 0 18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;margin-top:2px}
+  .ck.ok .ck-i{background:rgba(74,222,128,.15);color:var(--green)}
+  .ck.warn{background:rgba(245,181,68,.07)} .ck.warn .ck-i{background:rgba(245,181,68,.2);color:var(--gold)}
+  .ck.err{background:rgba(239,68,68,.08)} .ck.err .ck-i{background:rgba(239,68,68,.2);color:#fca5a5}
+  .ck.tip{background:rgba(6,182,212,.07)} .ck.tip .ck-i{background:rgba(6,182,212,.2);color:var(--tq-bright)}
+  .r-rows,.r-parts{margin-top:20px;border-top:1px solid var(--border);padding-top:16px;display:flex;flex-direction:column;gap:11px}
   .rr{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
   .rr .k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--text)}
-  .rr .v{font-family:'Archivo';font-weight:700;font-size:18px;color:var(--white)}
-  .rr .v small{font-family:'Outfit';font-weight:300;font-size:13px;color:var(--text)}
-  .err{color:#fca5a5;font-family:'Outfit';font-size:13px;font-weight:300}
+  .rr .v{font-family:'Archivo';font-weight:700;font-size:16.5px;color:var(--white);text-align:right}
+  .r-parts .rr .k{text-transform:none;letter-spacing:0;font-family:'Outfit';font-size:14px;color:var(--off-white)}
+  .rp-h{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:2px}
+  .r-sheet{display:inline-block;margin-top:18px;font-family:'Outfit';font-weight:500;font-size:14px;color:var(--tq-bright);text-decoration:none}
+  .r-sheet:hover{color:var(--gold)}
+  #r-actions{display:flex;gap:8px;margin-top:22px}
+  .ract{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--bg);border:1px solid var(--border);color:var(--off-white);font-family:'Outfit';font-weight:500;font-size:13.5px;padding:11px 10px;border-radius:6px;cursor:pointer;transition:.18s}
+  .ract:hover{border-color:var(--tq-mid);color:var(--tq-bright)}
+  .ract.ok{border-color:var(--green);color:var(--green)}
 
-  /* syringe visualizer */
-  .syringe-wrap{margin-top:34px}
-  .syringe-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:14px}
-  svg.syringe{width:100%;height:auto;display:block}
+  #r-cycle{margin-top:24px;border-top:1px solid var(--tq-border);padding-top:20px}
+  .cy-h{font-family:'Archivo';font-weight:800;font-size:17px;color:var(--white);margin-bottom:12px}
+  .cy-ctrl{display:flex;gap:10px;flex-wrap:wrap}
+  .cy-ctrl label{display:flex;flex-direction:column;gap:6px;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .cy-ctrl label:first-child{flex:1;min-width:150px}
+  .cy-ctrl label:first-child .sel{width:100%}
+  .cy-ctrl input{width:84px;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:'Archivo';font-weight:600;font-size:15px;padding:8px 12px;border-radius:6px;outline:none}
+  .cy-ctrl input:focus{border-color:var(--tq-mid)}
+  .cy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:14px}
+  .cy-s{background:rgba(255,255,255,.03);border:1px solid var(--border);padding:12px 10px;text-align:center}
+  .cy-n{font-family:'Archivo';font-weight:800;font-size:24px;color:var(--white)}
+  .cy-k{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+  .cy-note{font-size:12.5px;font-weight:300;color:var(--text);margin-top:10px;line-height:1.55}
+  .cy-cost{margin-top:16px}
+  .cy-v{display:grid;grid-template-columns:1fr auto auto 14px;gap:12px;align-items:center;padding:11px 12px;margin-top:6px;border:1px solid var(--border);border-radius:6px;background:var(--bg);text-decoration:none;transition:.18s}
+  .cy-v:hover{border-color:var(--tq-border);transform:translateY(-1px)}
+  .cy-v.best{border-color:var(--gold-border);background:rgba(245,181,68,.06)}
+  .cv-n{font-family:'Outfit';font-weight:500;font-size:14px;color:var(--white)}
+  .cv-n em{font-style:normal;font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold);padding:2px 6px;border-radius:3px;margin-left:6px;vertical-align:1px}
+  .cv-n i{font-style:normal;font-size:11px;color:#fca5a5;margin-left:4px}
+  .cv-p{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)}
+  .cv-t{font-family:'Archivo';font-weight:800;font-size:16px;color:var(--white)}
+  .cv-a{color:var(--tq-bright)}
+  .cy-fine{font-size:11.5px;font-weight:300;color:var(--muted);margin-top:10px;line-height:1.55}
+  .cy-fine b{color:var(--text);font-weight:600}
+  .cy-fine a{color:var(--tq-bright);text-decoration:none}
+  @media(max-width:420px){.cv-p{display:none}.cy-v{grid-template-columns:1fr auto 14px}}
 
-  .note-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tq-mid);padding:24px 28px;margin-top:2px}
+  .calc-notes{gap:2px;margin-top:2px}
+  .note-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tq-mid);padding:24px 28px}
   .note-card .nc-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:10px}
   .note-card p{font-size:14px;font-weight:300;color:var(--text);line-height:1.6}
   .note-card p strong{color:var(--white);font-weight:500}
 
-  .preset-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-  .preset{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--text);border:1px solid var(--border);background:var(--bg);padding:8px 13px;border-radius:3px;cursor:pointer;transition:.2s}
-  .preset:hover{border-color:var(--tq-mid);color:var(--tq-bright)}
   .vendor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
   @media(max-width:720px){.vendor-grid{grid-template-columns:1fr}}
   .vendor{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 28px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;flex-wrap:wrap}
@@ -87,6 +226,7 @@
   .vendor:hover .v-name .arrow{transform:translateX(4px)}
   .vendor .v-sub{font-family:'Outfit';font-size:12.5px;font-weight:300;color:var(--text);margin-top:4px}
   .vendor .v-code{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;white-space:nowrap;color:var(--gold-ink);border:1px solid var(--gold);background:var(--gold);padding:8px 13px;border-radius:3px;font-weight:700}
+
 
   /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
   .nav-dd{position:relative;display:inline-block}
@@ -266,12 +406,13 @@
     </div>
   </header>
 
+
   <!-- HERO -->
   <section class="page-hero">
     <div class="wrap">
-      <div class="eyebrow">Free Tool · Reconstitution</div>
+      <div class="eyebrow">Free Tool · Reconstitution &amp; Dosing Math</div>
       <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">Peptide <span class="tq">Calculator</span></h1>
-      <p class="lead" style="margin-top:22px">Reconstituting a peptide vial? Enter your numbers below and get your concentration and the exact units to draw on an insulin syringe — with a visual to match. Built for accuracy, simplified for real life.</p>
+      <p class="lead" style="margin-top:22px">Step-by-step for first-timers, plus blends, premixed liquids, reverse solving and BAC water. See exactly where to draw on your syringe, catch mistakes before they happen, and plan and price your whole cycle.</p>
     </div>
   </section>
 
@@ -306,147 +447,230 @@
   </div>
 
   <!-- CALCULATOR -->
-  <section class="section" style="padding-top:30px">
+  <section class="section calc-sec" id="calculator">
     <div class="wrap">
-      <div class="howto">
-        <div class="eyebrow">How to use it</div>
-        <h2 class="heading" style="font-size:clamp(24px,3vw,34px)">Four numbers, <span class="tq">exact dose</span></h2>
-        <p class="card-text" style="font-size:15px;margin-top:10px;max-width:680px">Reconstituting a peptide means mixing the powder in your vial with bacteriostatic water so you can draw an accurate dose. Enter your numbers below — or tap a preset — and the calculator does the rest, including showing exactly where to fill your syringe.</p>
-        <div class="howto-steps">
-          <div class="howto-step">
-            <div class="hs-num">01</div>
-            <div class="hs-title">Peptide in vial</div>
-            <div class="hs-text">Enter the total mg (or mcg) of peptide listed on your vial label.</div>
-          </div>
-          <div class="howto-step">
-            <div class="hs-num">02</div>
-            <div class="hs-title">Add BAC water</div>
-            <div class="hs-text">Enter how many mL of bacteriostatic water you'll mix into the vial. More water = easier-to-measure draws.</div>
-          </div>
-          <div class="howto-step">
-            <div class="hs-num">03</div>
-            <div class="hs-title">Desired dose</div>
-            <div class="hs-text">Enter the dose you want per injection, in mcg or mg.</div>
-          </div>
-          <div class="howto-step">
-            <div class="hs-num">04</div>
-            <div class="hs-title">Read your draw</div>
-            <div class="hs-text">Get the units to draw on your insulin syringe, plus concentration and doses per vial.</div>
-          </div>
-        </div>
-      </div>
-      <div class="calc-grid">
-
-        <!-- INPUTS -->
-        <div class="calc-panel">
-          <div class="field">
-            <label>Peptide in vial</label>
-            <div class="input-row">
-              <input id="vialAmt" type="number" inputmode="decimal" min="0" step="any" value="10">
-              <select class="unit-select" id="vialUnit">
-                <option value="mg" selected>mg</option>
-                <option value="mcg">mcg</option>
-              </select>
-            </div>
-            <div class="hint">Total amount of peptide in the vial (from the label).</div>
-          </div>
-
-          <div class="field">
-            <label>Bacteriostatic water added</label>
-            <div class="input-row single">
-              <input id="waterMl" type="number" inputmode="decimal" min="0" step="any" value="2">
-              <select class="unit-select" id="waterUnit"><option value="ml" selected>mL</option></select>
-            </div>
-            <div class="hint">How much BAC water you mix into the vial.</div>
-          </div>
-
-          <div class="field">
-            <label>Desired dose</label>
-            <div class="input-row">
-              <input id="doseAmt" type="number" inputmode="decimal" min="0" step="any" value="1">
-              <select class="unit-select" id="doseUnit">
-                <option value="mcg">mcg</option>
-                <option value="mg" selected>mg</option>
-              </select>
-            </div>
-            <div class="hint">The dose you want to inject each time.</div>
-          </div>
-
-          <div class="field">
-            <label>Syringe size</label>
-            <div class="seg" id="syringeSeg">
-              <button data-units="30" data-ml="0.3">0.3 mL · 30u</button>
-              <button data-units="50" data-ml="0.5">0.5 mL · 50u</button>
-              <button data-units="100" data-ml="1.0" class="active">1.0 mL · 100u</button>
-            </div>
-            <div class="hint">Standard U-100 insulin syringe (100 units = 1 mL).</div>
-          </div>
-
-          <div class="field">
-            <label>Quick presets</label>
-            <div class="preset-row">
-              <button class="preset" data-v="10" data-w="2" data-d="250" data-vu="mg" data-du="mcg">BPC-157 · 10mg</button>
-              <button class="preset" data-v="10" data-w="2" data-d="250" data-vu="mg" data-du="mcg">TB-500 · 10mg</button>
-              <button class="preset" data-v="10" data-w="2" data-d="250" data-vu="mg" data-du="mcg">KPV · 10mg</button>
-              <button class="preset" data-v="10" data-w="1" data-d="5"   data-vu="mg" data-du="mg">MOTS-c · 10mg</button>
-              <button class="preset" data-v="40" data-w="2" data-d="5"   data-vu="mg" data-du="mg">MOTS-c · 40mg</button>
-              <button class="preset" data-v="10" data-w="2" data-d="1"   data-vu="mg" data-du="mg">Tesamorelin · 10mg</button>
-            </div>
-          </div>
+      <div id="calc">
+        <div class="ctabs" role="tablist" aria-label="Calculator type">
+          <button class="ctab on" data-tab="guided" role="tab" type="button"><span class="ct-n">Step-by-Step</span><span class="ct-s">First time? Start here</span></button>
+          <button class="ctab" data-tab="single" role="tab" type="button"><span class="ct-n">Single Peptide</span><span class="ct-s">One compound per vial</span></button>
+          <button class="ctab" data-tab="blend" role="tab" type="button"><span class="ct-n">Blend</span><span class="ct-s">KLOW, GLOW, BPC/TB…</span></button>
+          <button class="ctab" data-tab="quick" role="tab" type="button"><span class="ct-n">Quick Solve</span><span class="ct-s">Work it backwards</span></button>
+          <button class="ctab" data-tab="liquid" role="tab" type="button"><span class="ct-n">Premixed &amp; Aminos</span><span class="ct-s">Liquids, droppers</span></button>
+          <button class="ctab" data-tab="bac" role="tab" type="button"><span class="ct-n">BAC Water</span><span class="ct-s">How much to add</span></button>
         </div>
 
-        <!-- RESULTS -->
-        <div class="result-panel">
-          <div class="result-big">
-            <div class="syringe-label">Draw to</div>
-            <div class="draw-units" id="outUnits">—<small> units</small></div>
-            <div class="draw-sub" id="outErr"></div>
+        <div class="calc-layout">
+          <div class="calc-in">
+
+            <!-- ============ GUIDED ============ -->
+            <div class="tabp" data-tab="guided" role="tabpanel">
+              <div class="tp-head"><h3>Step-by-step</h3><p>Answer each question. The next one opens when you're ready.</p></div>
+
+              <div class="gstep shown">
+                <div class="gs-num">1</div>
+                <div class="gs-body">
+                  <div class="gs-q">What's in your vial?</div>
+                  <div class="gs-help"><span class="vial-ico" aria-hidden="true"><i></i></span>Check the vial label or COA for the amount of peptide.</div>
+                  <div class="seg wide" data-k="gtype"><button type="button" data-v="single" class="on">Single peptide</button><button type="button" data-v="blend">Blend</button></div>
+                  <div class="g-single">
+                    <label class="lbl">Peptide <span class="opt">(optional)</span></label>
+                    <div class="csearch"><input data-k="name" placeholder="Search… BPC-157, Retatrutide" autocomplete="off"><div class="cs-list" hidden></div></div>
+                    <label class="lbl">Amount in the vial</label>
+                    <div class="irow"><input data-k="total" inputmode="decimal" placeholder="e.g. 10"><div class="seg useg" data-k="vunit"><button type="button" data-v="mg" class="on">mg</button><button type="button" data-v="mcg">mcg</button><button type="button" data-v="IU">IU</button></div></div>
+                    <div class="sizes"></div>
+                  </div>
+                  <div class="g-blend">
+                    <label class="lbl">Which blend?</label>
+                    <select data-k="blend" class="sel"></select>
+                    <div class="gblend-parts chips"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="gstep">
+                <div class="gs-num">2</div>
+                <div class="gs-body">
+                  <div class="gs-q">How much do you want per dose?</div>
+                  <div class="irow"><input data-k="dose" inputmode="decimal" placeholder="e.g. 250"><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div><span class="iu-only unit-tag">IU</span></div>
+                  <div class="gs-help sm">1 mg = 1,000 mcg. Blends: this is the whole-blend amount.</div>
+                </div>
+              </div>
+
+              <div class="gstep">
+                <div class="gs-num">3</div>
+                <div class="gs-body">
+                  <div class="gs-q">Which syringe are you using?</div>
+                  <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
+                  <div class="gs-help sm">U-100 insulin syringes: 100 units = 1 mL. The capacity is printed on the barrel.</div>
+                </div>
+              </div>
+
+              <div class="gstep">
+                <div class="gs-num">4</div>
+                <div class="gs-body">
+                  <div class="gs-q">How much bacteriostatic water did you add?</div>
+                  <div class="chips"><button type="button" class="chip" data-set="water=1">1 mL</button><button type="button" class="chip" data-set="water=2">2 mL</button><button type="button" class="chip" data-set="water=3">3 mL</button></div>
+                  <div class="irow"><input data-k="water" inputmode="decimal" placeholder="mL of water"><span class="unit-tag">mL</span></div>
+                  <div class="gs-help sm" data-help></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============ SINGLE ============ -->
+            <div class="tabp" data-tab="single" role="tabpanel" hidden>
+              <div class="tp-head"><h3>Single peptide</h3><p>One compound per vial: powder you mix, or a liquid that comes premixed.</p></div>
+              <label class="lbl">Peptide <span class="opt">(optional, fills in vial sizes and prices)</span></label>
+              <div class="csearch"><input data-k="name" placeholder="Search… Tesamorelin, MOTS-c" autocomplete="off"><div class="cs-list" hidden></div></div>
+              <label class="lbl">Vial contents</label>
+              <div class="seg wide" data-k="vtype"><button type="button" data-v="powder" class="on">Powder · I mix it</button><button type="button" data-v="liquid">Premixed liquid</button></div>
+              <div data-show="powder">
+                <label class="lbl">Amount in the vial</label>
+                <div class="irow"><input data-k="total" inputmode="decimal" placeholder="e.g. 10"><div class="seg useg" data-k="vunit"><button type="button" data-v="mg" class="on">mg</button><button type="button" data-v="mcg">mcg</button><button type="button" data-v="IU">IU</button></div></div>
+                <div class="sizes"></div>
+                <label class="lbl">Bacteriostatic water added</label>
+                <div class="irow"><input data-k="water" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
+              </div>
+              <div data-show="liquid" style="display:none">
+                <label class="lbl">Concentration (per mL)</label>
+                <div class="irow"><input data-k="conc" inputmode="decimal" placeholder="e.g. 5"><span class="unit-tag">per mL</span></div>
+                <label class="lbl">Vial volume <span class="opt">(optional, for doses per vial)</span></label>
+                <div class="irow"><input data-k="bottle" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
+              </div>
+              <label class="lbl">Dose</label>
+              <div class="irow"><input data-k="dose" inputmode="decimal" placeholder="e.g. 250"><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div><span class="iu-only unit-tag">IU</span></div>
+              <label class="lbl">Syringe</label>
+              <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
+            </div>
+
+            <!-- ============ BLEND ============ -->
+            <div class="tabp" data-tab="blend" role="tabpanel" hidden>
+              <div class="tp-head"><h3>Peptide blend</h3><p>See exactly how much of <em>each</em> peptide is in every draw.</p></div>
+              <label class="lbl">Quick fill a known blend</label>
+              <select data-k="preset" class="sel"></select>
+              <div class="divider"><span>or enter each peptide</span></div>
+              <div class="brows"></div>
+              <button type="button" class="addrow" data-add="brow">+ Add another peptide</button>
+              <label class="lbl">Bacteriostatic water added</label>
+              <div class="irow"><input data-k="water" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
+              <label class="lbl">Dose</label>
+              <div class="irow"><input data-k="dose" inputmode="decimal" placeholder="e.g. 500"><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div></div>
+              <div class="byrow"><span>Measured as</span><select data-k="by" class="sel sm"><option value="total">Total blend</option></select></div>
+              <label class="lbl">Syringe</label>
+              <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
+            </div>
+
+            <!-- ============ QUICK SOLVE ============ -->
+            <div class="tabp" data-tab="quick" role="tabpanel" hidden>
+              <div class="tp-head"><h3>Quick Solve</h3><p>Tell us what you're trying to figure out. We'll only ask for what's needed.</p></div>
+              <div class="qs-cards">
+                <button type="button" class="qs-card" data-mode="units"><b>Units to draw</b><span>"I know my dose, not the units"</span></button>
+                <button type="button" class="qs-card" data-mode="dose"><b>What's in my draw</b><span>"I draw X units. How much is that?"</span></button>
+                <button type="button" class="qs-card" data-mode="water"><b>Water to add</b><span>"I want my dose at X units"</span></button>
+              </div>
+              <div class="qs-fields" style="display:none">
+                <div data-q="units dose">
+                  <label class="lbl">Vial type</label>
+                  <div class="seg wide" data-k="vtype"><button type="button" data-v="powder" class="on">Powder + BAC water</button><button type="button" data-v="liquid">Premixed liquid</button></div>
+                </div>
+                <div data-q="units dose water" data-show="powder">
+                  <label class="lbl">Amount in the vial (before water)</label>
+                  <div class="irow"><input data-k="total" inputmode="decimal" placeholder="e.g. 10"><div class="seg useg" data-k="vunit"><button type="button" data-v="mg" class="on">mg</button><button type="button" data-v="mcg">mcg</button></div></div>
+                </div>
+                <div data-q="units dose" data-show="liquid">
+                  <label class="lbl">Concentration (per mL)</label>
+                  <div class="irow"><input data-k="conc" inputmode="decimal" placeholder="e.g. 5"><span class="unit-tag">per mL</span></div>
+                </div>
+                <div data-q="units dose" data-show="powder">
+                  <label class="lbl">BAC water added</label>
+                  <div class="irow"><input data-k="water" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
+                </div>
+                <div data-q="units water">
+                  <label class="lbl">Dose you want</label>
+                  <div class="irow"><input data-k="dose" inputmode="decimal" placeholder="e.g. 250"><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div></div>
+                </div>
+                <div data-q="dose water">
+                  <label class="lbl" data-q="dose">Units you draw</label>
+                  <label class="lbl" data-q="water">Units you want that dose to be</label>
+                  <div class="irow"><input data-k="units" inputmode="decimal" placeholder="e.g. 10"><span class="unit-tag">units</span></div>
+                </div>
+                <div data-q="units dose water">
+                  <label class="lbl">Syringe</label>
+                  <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============ LIQUIDS ============ -->
+            <div class="tabp" data-tab="liquid" role="tabpanel" hidden>
+              <div class="tp-head"><h3>Premixed liquids &amp; aminos</h3><p>Already a liquid, like L-carnitine, B12, NAD+ or glutathione. Dose by amount, or see what's in the volume you draw.</p></div>
+              <label class="lbl">Quick fill a common liquid</label>
+              <div class="liq-presets chips"></div>
+              <label class="lbl">Single compound or blend?</label>
+              <div class="seg wide" data-k="ltype"><button type="button" data-v="single" class="on">Single</button><button type="button" data-v="blend">Blend</button></div>
+              <label class="lbl">Compound &amp; concentration</label>
+              <div class="lrows"></div>
+              <button type="button" class="addrow blend-only" data-add="lrow">+ Add another compound</button>
+              <label class="lbl">Bottle volume <span class="opt">(optional, for doses per bottle)</span></label>
+              <div class="irow"><input data-k="bottle" inputmode="decimal" placeholder="e.g. 10"><span class="unit-tag">mL</span></div>
+              <label class="lbl">Calculate by</label>
+              <div class="seg wide" data-k="how"><button type="button" data-v="amount" class="on">Amount I want</button><button type="button" data-v="volume">Volume I draw</button></div>
+              <div data-how="amount">
+                <div class="lby-wrap byrow" style="display:none"><span>Dose by</span><select data-k="lby" class="sel sm"></select></div>
+                <div class="irow"><input data-k="ldose" inputmode="decimal" placeholder="e.g. 500"><div class="seg useg" data-k="ldunit"><button type="button" data-v="mg" class="on">mg</button><button type="button" data-v="mcg">mcg</button></div></div>
+              </div>
+              <div data-how="volume" style="display:none">
+                <div class="irow"><input data-k="vol" inputmode="decimal" placeholder="e.g. 0.5"><div class="seg useg" data-k="volu"><button type="button" data-v="ml" class="on">mL</button><button type="button" data-v="units">units</button><button type="button" data-v="drops">drops</button></div></div>
+              </div>
+              <label class="lbl">Measuring with</label>
+              <div class="seg syr five" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 u</small></button><button type="button" data-v="50">0.5 mL<small>50 u</small></button><button type="button" data-v="100" class="on">1 mL<small>100 u</small></button><button type="button" data-v="300">3 mL<small>300 u</small></button><button type="button" data-v="dropper">Dropper<small>oral</small></button></div>
+            </div>
+
+            <!-- ============ BAC WATER ============ -->
+            <div class="tabp" data-tab="bac" role="tabpanel" hidden>
+              <div class="tp-head"><h3>How much BAC water?</h3><p>Haven't mixed yet? See how every water amount plays out, then pick the one that puts your dose on a clean, easy-to-read mark.</p></div>
+              <label class="lbl">Amount in the vial</label>
+              <div class="irow"><input data-k="total" inputmode="decimal" placeholder="e.g. 10"><div class="seg useg" data-k="vunit"><button type="button" data-v="mg" class="on">mg</button><button type="button" data-v="mcg">mcg</button><button type="button" data-v="IU">IU</button></div></div>
+              <label class="lbl">Dose</label>
+              <div class="irow"><input data-k="dose" inputmode="decimal" placeholder="e.g. 250"><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div><span class="iu-only unit-tag">IU</span></div>
+              <label class="lbl">Syringe</label>
+              <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
+              <div class="bac-table"></div>
+            </div>
+
           </div>
 
-          <div class="result-rows">
-            <div class="rr"><span class="k">Concentration</span><span class="v" id="outConc">— <small></small></span></div>
-            <div class="rr"><span class="k">Volume per dose</span><span class="v" id="outVol">— <small>mL</small></span></div>
-            <div class="rr"><span class="k">Doses per vial</span><span class="v" id="outDoses">—</span></div>
-          </div>
-
-          <div class="syringe-wrap">
-            <div class="syringe-label">Syringe fill</div>
-            <svg class="syringe" viewBox="0 0 600 90" xmlns="http://www.w3.org/2000/svg" aria-label="Insulin syringe fill level">
-              <!-- needle -->
-              <line x1="6" y1="45" x2="40" y2="45" stroke="#3A5060" stroke-width="3"/>
-              <!-- barrel -->
-              <rect x="40" y="26" width="500" height="38" rx="4" fill="#0A0E12" stroke="rgba(255,255,255,0.12)"/>
-              <!-- fill -->
-              <rect id="fillRect" x="42" y="28" width="0" height="34" rx="3" fill="url(#tqgrad)"/>
-              <!-- ticks -->
-              <g id="ticks"></g>
-              <!-- plunger -->
-              <rect x="540" y="20" width="14" height="50" rx="3" fill="#1B2A3D" stroke="rgba(255,255,255,0.12)"/>
-              <rect x="554" y="40" width="40" height="10" rx="3" fill="#1B2A3D" stroke="rgba(255,255,255,0.12)"/>
-              <defs>
-                <linearGradient id="tqgrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stop-color="#E9A530"/>
-                  <stop offset="1" stop-color="#F5B544"/>
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
+          <!-- ============ RESULT ============ -->
+          <aside class="calc-out" id="calc-result" aria-live="polite">
+            <div id="r-main"></div>
+            <div id="r-actions" style="display:none">
+              <button type="button" class="ract" id="r-share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a4 4 0 005.66 0l3-3a4 4 0 00-5.66-5.66l-1 1M14 10a4 4 0 00-5.66 0l-3 3a4 4 0 005.66 5.66l1-1"/></svg><span>Copy share link</span></button>
+              <button type="button" class="ract" id="r-card"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 9v6M9 12l3 3 3-3"/></svg><span>Save dose card</span></button>
+            </div>
+            <div id="r-cycle" style="display:none">
+              <div class="cy-h">Cycle planner</div>
+              <div class="cy-ctrl">
+                <label><span>How often</span><select id="cy-freq" class="sel sm"></select></label>
+                <label><span>Weeks</span><input id="cy-weeks" inputmode="numeric" value="8"></label>
+              </div>
+              <div id="cy-out"></div>
+            </div>
+          </aside>
         </div>
-      </div>
 
-      <!-- HOW IT WORKS / DISCLAIMER -->
-      <div class="grid g2" style="gap:2px;margin-top:2px">
-        <div class="note-card">
-          <div class="nc-label">How the math works</div>
-          <p>Concentration = peptide amount ÷ water volume. Your draw volume = desired dose ÷ concentration. On a U-100 insulin syringe, <strong>1 mL = 100 units</strong>, so units to draw = draw volume (mL) × 100. Always double-check against your vial's label.</p>
-        </div>
-        <div class="note-card" style="border-left-color:#ef4444">
-          <div class="nc-label" style="color:#fca5a5">Important disclaimer</div>
-          <p>This calculator is an <strong>educational tool only</strong> and does not constitute medical advice. Dosing decisions should be made with a qualified healthcare professional. Peptides and related compounds may be subject to legal and regulatory restrictions in your region. Verify all calculations independently before use.</p>
+        <div class="grid g2 calc-notes">
+          <div class="note-card">
+            <div class="nc-label">How the math works</div>
+            <p>Strength = amount in the vial ÷ water added. Draw volume = dose ÷ strength. On a U-100 insulin syringe <strong>1 mL = 100 units</strong>, so units = draw volume × 100. The calculator also checks that your draw lands on a mark you can actually read.</p>
+          </div>
+          <div class="note-card" style="border-left-color:#ef4444">
+            <div class="nc-label" style="color:#fca5a5">Important disclaimer</div>
+            <p>This calculator is an <strong>educational tool only</strong> and is not medical advice. Presets fill in what's in a vial, never a dose. Make dosing decisions with a qualified healthcare professional. Peptides may be legally restricted where you live. Double-check every number against your vial label.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
 
   <!-- TRUSTED VENDORS -->
   <section class="section alt" id="vendors">
@@ -536,114 +760,10 @@
 
 </div>
 
+
+<script src="/js/calc-data.js?v=20261010"></script>
+<script src="/js/calc.js?v=20261010"></script>
 <script>
-(function(){
-  const $ = id => document.getElementById(id);
-  let syringeUnits = 100; // active syringe capacity in units
-
-  // syringe segmented control
-  document.querySelectorAll('#syringeSeg button').forEach(b=>{
-    b.addEventListener('click',()=>{
-      document.querySelectorAll('#syringeSeg button').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      syringeUnits = parseFloat(b.dataset.units);
-      buildTicks();
-      calc();
-    });
-  });
-
-  // presets
-  document.querySelectorAll('.preset').forEach(p=>{
-    p.addEventListener('click',()=>{
-      $('vialAmt').value=p.dataset.v; $('vialUnit').value=p.dataset.vu;
-      $('waterMl').value=p.dataset.w;
-      $('doseAmt').value=p.dataset.d; $('doseUnit').value=p.dataset.du;
-      calc();
-    });
-  });
-
-  ['vialAmt','vialUnit','waterMl','doseAmt','doseUnit'].forEach(id=>{
-    $(id).addEventListener('input',calc);
-    $(id).addEventListener('change',calc);
-  });
-
-  function toMcg(val,unit){ return unit==='mg' ? val*1000 : val; }
-
-  function buildTicks(){
-    const g=$('ticks'); g.innerHTML='';
-    const x0=42, w=496; // barrel inner
-    const steps=10;
-    for(let i=0;i<=steps;i++){
-      const x=x0+(w*i/steps);
-      const tall=(i%5===0);
-      const line=document.createElementNS('http://www.w3.org/2000/svg','line');
-      line.setAttribute('x1',x); line.setAttribute('x2',x);
-      line.setAttribute('y1', tall?28:32); line.setAttribute('y2', tall?62:58);
-      line.setAttribute('stroke','rgba(255,255,255,0.18)');
-      line.setAttribute('stroke-width', tall?1.4:0.8);
-      g.appendChild(line);
-      if(tall){
-        const t=document.createElementNS('http://www.w3.org/2000/svg','text');
-        t.setAttribute('x',x); t.setAttribute('y',80);
-        t.setAttribute('fill','#3A5060'); t.setAttribute('font-size','9');
-        t.setAttribute('font-family','Space Mono, monospace');
-        t.setAttribute('text-anchor','middle');
-        t.textContent=Math.round(syringeUnits*i/steps);
-        g.appendChild(t);
-      }
-    }
-  }
-
-  function calc(){
-    const vialAmt = parseFloat($('vialAmt').value);
-    const vialUnit= $('vialUnit').value;
-    const water   = parseFloat($('waterMl').value);
-    const doseAmt = parseFloat($('doseAmt').value);
-    const doseUnit= $('doseUnit').value;
-    const err=$('outErr');
-
-    const reset=(msg)=>{
-      $('outUnits').innerHTML='—<small> units</small>';
-      $('outConc').innerHTML='— <small></small>';
-      $('outVol').innerHTML='— <small>mL</small>';
-      $('outDoses').textContent='—';
-      $('fillRect').setAttribute('width',0);
-      err.innerHTML = msg ? '<span class="err">'+msg+'</span>' : '';
-    };
-
-    if(!(vialAmt>0)||!(water>0)||!(doseAmt>0)){ reset(''); return; }
-
-    const vialMcg = toMcg(vialAmt,vialUnit);
-    const doseMcg = toMcg(doseAmt,doseUnit);
-    const concMcgPerMl = vialMcg/water;            // mcg per mL
-    const volMl = doseMcg/concMcgPerMl;            // mL per dose
-    const units = volMl*100;                       // U-100 syringe
-    const doses = Math.floor(vialMcg/doseMcg);
-
-    // concentration display: mg/mL if >=1000 mcg/mL else mcg/mL
-    let concStr;
-    if(concMcgPerMl>=1000){ concStr=(concMcgPerMl/1000).toLocaleString(undefined,{maximumFractionDigits:2})+' <small>mg/mL</small>'; }
-    else { concStr=concMcgPerMl.toLocaleString(undefined,{maximumFractionDigits:1})+' <small>mcg/mL</small>'; }
-
-    $('outConc').innerHTML=concStr;
-    $('outVol').innerHTML=volMl.toLocaleString(undefined,{maximumFractionDigits:3})+' <small>mL</small>';
-    $('outDoses').textContent = isFinite(doses)?doses:'—';
-    $('outUnits').innerHTML=units.toLocaleString(undefined,{maximumFractionDigits:1})+'<small> units</small>';
-
-    // fill bar (cap at syringe size, warn if over)
-    const x0=42, w=496;
-    const frac=Math.min(units/syringeUnits,1);
-    $('fillRect').setAttribute('width', w*frac);
-    if(units>syringeUnits){
-      err.innerHTML='<span class="err">Dose needs '+units.toFixed(1)+'u — exceeds this syringe. Use a larger syringe or add more water.</span>';
-    } else {
-      err.innerHTML='On a '+syringeUnits+'-unit syringe';
-    }
-  }
-
-  buildTicks();
-  calc();
-})();
 
   // Nav dropdowns (tap to toggle on mobile, hover on desktop via CSS)
   document.querySelectorAll('.nav-dd-btn').forEach(function(btn){
