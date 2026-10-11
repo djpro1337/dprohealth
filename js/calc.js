@@ -405,6 +405,14 @@
     } else if (R.cmp && !PRICES) {
       h += '<div class="cy-fine">Loading prices…</div>';
     }
+    if (R.kind !== 'liquid' && R.dim === 'mass') {
+      var fmap = { '1d': 'daily', '2d': '2xdaily', '52': '5on2off', 'eod': 'eod', '3w': '3x', '2w': '2x', '1w': 'weekly' };
+      var du = R.doseUnit === 'mg' ? 'mg' : 'mcg';
+      var hand = { name: R.cmp || (R.kind === 'blend' ? R.label : ''), vial: String(Math.round(R.total / 10) / 100), water: String(R.vol), unit: du, dose: String(du === 'mg' ? R.dose / 1000 : R.dose), freq: fmap[f] || 'daily', wk: String(Math.round(w)) };
+      var bl = (window.DPRO_CALC_DATA.blends || []).filter(function (b) { return b.cmp === R.cmp && b.n === R.label; })[0];
+      if (bl) hand.name = bl.n;
+      h += '<a class="cy-plan" href="/cycle-planner#add=' + enc(hand) + '">Plan the full cycle with a calendar &amp; PDF →</a>';
+    }
     out.innerHTML = h;
   }
   function stat(v, k) { return '<div class="cy-s"><div class="cy-n">' + v + '</div><div class="cy-k">' + k + '</div></div>'; }
