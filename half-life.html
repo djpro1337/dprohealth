@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
+<meta name="theme-color" content="#0E1622">
+<title>Half-Life Visualizer: Peptides, GLP-1s &amp; PEDs — DPRO Health</title>
+<link rel="canonical" href="https://dprohealth.com/half-life">
+<meta name="description" content="Free half-life visualizer for peptides, GLP-1s, testosterone esters, anabolic steroids, AIs and SERMs. See how doses stack up, when levels reach steady state and how long washout takes, with sourced half-lives.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="brand.css">
+<style>
+  .page-hero{padding:104px 0 40px}
+  .hl-sec{padding-top:30px}
+  #hl{opacity:0;transition:opacity .25s}
+  #hl.ready{opacity:1}
+
+  .hl-intro{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+  @media(max-width:860px){.hl-intro{grid-template-columns:1fr}}
+  .hi{background:var(--bg2);border:1px solid var(--border);padding:24px 26px}
+  .hi-h{font-family:'Archivo';font-weight:700;font-size:16px;color:var(--white);display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .hi-h span{font-family:'Space Mono',monospace;font-size:11px;color:var(--tq-bright)}
+  .hi p{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.6}
+  .ev{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.04em;padding:2px 7px;border-radius:999px;margin:2px 2px 2px 0;white-space:nowrap;vertical-align:1px}
+  .ev-h{background:rgba(74,222,128,.12);color:var(--green);box-shadow:inset 0 0 0 1px rgba(74,222,128,.3)}
+  .ev-a{background:rgba(245,181,68,.12);color:var(--gold);box-shadow:inset 0 0 0 1px rgba(245,181,68,.3)}
+  .ev-e{background:rgba(167,139,250,.12);color:var(--violet);box-shadow:inset 0 0 0 1px rgba(167,139,250,.3)}
+
+  .hl-layout{display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:2px;align-items:start}
+  @media(max-width:900px){.hl-layout{grid-template-columns:1fr}}
+  .hl-set{background:var(--bg2);border:1px solid var(--border);padding:28px 30px 32px}
+  .hl-out{background:linear-gradient(165deg,#17263a,#0E1622 70%);border:1px solid var(--tq-border);padding:28px 30px 30px;min-width:0}
+  @media(max-width:600px){.hl-set,.hl-out{padding:22px 18px 26px}}
+
+  .lbl{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--tq-bright);margin:20px 0 9px}
+  .lbl .opt{color:var(--muted);letter-spacing:.06em;text-transform:none;font-family:'Outfit';font-size:12px}
+  .inp{width:100%;min-width:0;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:'Archivo',sans-serif;font-weight:600;font-size:17px;padding:12px 14px;border-radius:6px;outline:none;transition:border-color .2s}
+  .inp:focus{border-color:var(--tq-mid)}
+  .inp[readonly]{color:var(--text);background:rgba(255,255,255,.02)}
+  .inp::placeholder{color:#3f5466;font-weight:500}
+  .irow{display:flex;gap:8px;align-items:stretch}
+  .sel{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--white);font-family:'Outfit';font-size:15px;padding:12px 13px;border-radius:6px;outline:none;cursor:pointer}
+  .sel:focus{border-color:var(--tq-mid)}
+  .hint{font-size:12px;font-weight:300;color:var(--muted);margin-top:7px}
+  .seg{display:flex;gap:2px;background:var(--border);border-radius:7px;padding:2px}
+  .seg button{flex:1;background:var(--bg);border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:12px;padding:0 13px;min-width:46px;border-radius:5px;cursor:pointer;transition:.18s}
+  .seg button.on{background:var(--tq-dim);color:var(--tq-bright);box-shadow:inset 0 0 0 1px var(--tq-border)}
+  .seg.useg{flex:0 0 auto}
+  #hl-ymode button{padding:8px 12px;white-space:nowrap}
+
+  .hl-hrow{display:flex;justify-content:space-between;align-items:flex-end}
+  .hl-hrow .lbl{margin-bottom:9px}
+  .tog{display:inline-flex;align-items:center;gap:8px;font-family:'Outfit';font-size:13px;color:var(--text);cursor:pointer;margin-bottom:6px;user-select:none}
+  .tog input{position:absolute;opacity:0;pointer-events:none}
+  .tog span{width:36px;height:20px;border-radius:999px;background:var(--bg3);box-shadow:inset 0 0 0 1px var(--border);position:relative;transition:.2s;flex:0 0 auto}
+  .tog span::after{content:'';position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:var(--muted);transition:.2s}
+  .tog input:checked + span{background:var(--tq-mid)}
+  .tog input:checked + span::after{left:19px;background:#fff}
+  .tog input:disabled + span{opacity:.5}
+  .tog input:focus-visible + span{outline:2px solid var(--tq-bright);outline-offset:2px}
+  .hl-src{font-size:12.5px;font-weight:300;color:var(--text);line-height:1.55;margin-top:9px}
+  .hl-src em{color:var(--muted)}
+  .hl-wash{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px;padding-top:18px;border-top:1px solid var(--border)}
+  .hl-wash b{display:block;font-family:'Archivo';font-weight:700;font-size:14.5px;color:var(--white)}
+  .hl-wash span{font-size:12px;font-weight:300;color:var(--muted)}
+  .hl-wash .tog{margin:0}
+
+  .hl-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .sc{display:inline-flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'Outfit';font-weight:500;font-size:13px;padding:7px 10px;border-radius:999px;cursor:pointer;transition:.18s}
+  .sc i{width:9px;height:9px;border-radius:50%;background:var(--c)}
+  .sc.on{border-color:var(--c);color:var(--white);background:rgba(255,255,255,.04)}
+  .sc .x{margin-left:2px;color:var(--muted);font-size:15px;line-height:1;padding:0 2px}
+  .sc .x:hover{color:#fca5a5}
+  .sc.add{border-style:dashed;border-color:var(--tq-border);color:var(--tq-bright)}
+  .sc.add:hover{background:var(--tq-dim)}
+
+  .hl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+  .hl-head h3{display:flex;align-items:center;gap:10px;font-family:'Archivo';font-weight:800;font-size:21px;color:var(--white)}
+  .hl-head p{font-size:13.5px;font-weight:300;color:var(--text);margin-top:4px}
+  .hl-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:13px;color:var(--off-white)}
+  .hl-legend:empty{display:none}
+  .hl-legend span{display:inline-flex;align-items:center;gap:7px}
+  .hl-legend i{width:14px;height:3px;border-radius:2px}
+  .hl-chart-wrap{position:relative;margin-top:16px;min-height:260px}
+  #hl-chart svg{display:block;overflow:visible}
+  .hl-ax{font-family:'Space Mono',monospace;font-size:10.5px;fill:#7d93a3}
+  .hl-axt{letter-spacing:.14em;font-size:9.5px;fill:#5B7385}
+  .hl-tip{position:absolute;top:8px;pointer-events:none;background:rgba(11,18,32,.96);border:1px solid var(--tq-border);border-radius:8px;padding:10px 12px;min-width:170px;box-shadow:0 12px 30px -10px rgba(0,0,0,.7);z-index:5}
+  .hl-tip .tt{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .hl-tip .tr{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--off-white);margin-top:3px}
+  .hl-tip .tr i{width:10px;height:3px;border-radius:2px;flex:0 0 auto}
+  .hl-tip .tr b{margin-left:auto;padding-left:12px;font-family:'Archivo';font-weight:700;color:var(--white)}
+  .hl-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1.5px dashed var(--border);border-radius:10px;text-align:center;padding:20px}
+  .hl-empty p{font-size:14px;font-weight:300;color:var(--text)}
+  .hl-empty[hidden]{display:none}
+
+  #hl-stats{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+  .hs{border:1px solid var(--border);border-left:3px solid var(--c);background:rgba(255,255,255,.02);padding:16px 18px;border-radius:0 8px 8px 0}
+  .hs-h{display:flex;align-items:center;gap:9px;font-family:'Archivo';font-weight:700;font-size:16px;color:var(--white)}
+  .hs-k{width:20px;height:20px;border-radius:50%;background:var(--c);color:#0b1220;font-size:11px;font-weight:800;display:grid;place-items:center}
+  .hs p{font-size:13.5px;font-weight:300;color:var(--off-white);line-height:1.6;margin-top:8px}
+  .hs p b{color:var(--white);font-weight:600}
+  .hs-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;margin-top:12px}
+  @media(max-width:1100px){.hs-grid{grid-template-columns:repeat(3,1fr)}}
+  .hc{background:rgba(255,255,255,.03);padding:10px 8px;text-align:center}
+  .hv{font-family:'Archivo';font-weight:800;font-size:16px;color:var(--white)}
+  .hk{font-family:'Space Mono',monospace;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:3px}
+  .hl-actions{display:flex;margin-top:16px}
+  .ract{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--bg);border:1px solid var(--border);color:var(--off-white);font-family:'Outfit';font-weight:500;font-size:13.5px;padding:10px 14px;border-radius:6px;cursor:pointer;transition:.18s}
+  .ract:hover{border-color:var(--tq-mid);color:var(--tq-bright)}
+  .ract.ok{border-color:var(--green);color:var(--green)}
+
+  .hl-learn{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:2px}
+  @media(max-width:760px){.hl-learn{grid-template-columns:1fr}}
+  .hl-learn > div{background:var(--bg2);border:1px solid var(--border);padding:24px 28px}
+  .hl-learn ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+  .hl-learn li{font-size:14px;font-weight:300;color:var(--text);line-height:1.5;padding-left:14px;position:relative}
+  .hl-learn li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--tq-mid)}
+  .hl-learn li b{color:var(--white);font-weight:600}
+  .nc-label{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--tq-bright);margin-bottom:12px}
+  .note-card{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tq-mid);padding:22px 28px}
+  .note-card p{font-size:14px;font-weight:300;color:var(--text);line-height:1.6}
+  .note-card p strong{color:var(--white);font-weight:500}
+
+  .hl-faq{margin-top:64px;max-width:860px}
+  .hl-faq h2{margin-bottom:18px}
+  .hl-faq details{border-bottom:1px solid var(--border)}
+  .hl-faq summary{list-style:none;cursor:pointer;padding:18px 34px 18px 0;font-family:'Archivo';font-weight:600;font-size:17px;color:var(--white);position:relative}
+  .hl-faq summary::-webkit-details-marker{display:none}
+  .hl-faq summary::after{content:'+';position:absolute;right:4px;top:14px;font-size:22px;font-weight:400;color:var(--tq-bright);transition:transform .2s}
+  .hl-faq details[open] summary::after{transform:rotate(45deg)}
+  .hl-faq details p{font-size:14.5px;font-weight:300;color:var(--text);line-height:1.65;padding:0 0 20px}
+  .hl-rel{margin-top:48px}
+  .hl-related{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px}
+  .rl{display:block;background:var(--bg2);border:1px solid var(--border);padding:18px 20px;text-decoration:none;transition:.18s}
+  .rl:hover{border-color:var(--tq-border);background:var(--bg3);transform:translateY(-2px)}
+  .rl b{display:block;font-family:'Archivo';font-weight:700;font-size:15px;color:var(--tq-bright)}
+  .rl span{display:block;font-size:12.5px;font-weight:300;color:var(--text);margin-top:4px}
+
+  .vendor-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+  @media(max-width:720px){.vendor-grid{grid-template-columns:1fr}}
+  .vendor{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px 28px;background:var(--bg2);border:1px solid var(--border);text-decoration:none;transition:background .2s,border-color .2s,transform .2s;flex-wrap:wrap}
+  .vendor:hover{background:var(--bg3);border-color:var(--gold-border);transform:translateY(-2px)}
+  .vendor .v-left{min-width:0}
+  .vendor .v-name{font-family:'Archivo';font-weight:700;font-size:17px;color:var(--white);display:flex;align-items:center;gap:10px}
+  .vendor .v-name .arrow{color:var(--tq-bright);font-size:14px;transition:transform .25s}
+  .vendor:hover .v-name .arrow{transform:translateX(4px)}
+  .vendor .v-sub{font-family:'Outfit';font-size:12.5px;font-weight:300;color:var(--text);margin-top:4px}
+  .vendor .v-code{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;white-space:nowrap;color:var(--gold-ink);border:1px solid var(--gold);background:var(--gold);padding:8px 13px;border-radius:3px;font-weight:700}
+
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+<script defer src="/js/affiliate-track.js"></script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div><div class="grain"></div></div>
+<div class="shell">
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <div class="nav-dd peptides-parent">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/peptides" class="nav-all">All peptides →</a>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptides <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu" role="menu">
+          <a href="peptides/ara290.html">ARA-290</a>
+          <a href="peptides/bpc157.html">BPC-157</a>
+          <a href="peptides/ghk-cu.html">GHK-Cu</a>
+          <a href="peptides/kpv.html">KPV</a>
+          <a href="peptides/tb500.html">TB-500</a>
+          <a href="peptides/aod9604.html">AOD-9604</a>
+          <a href="peptides/cagrilintide.html">Cagrilintide</a>
+          <a href="peptides/cjc1295.html">CJC-1295 (No DAC)</a>
+          <a href="peptides/ipamorelin.html">Ipamorelin</a>
+          <a href="peptides/mots-c.html">MOTS-c</a>
+          <a href="peptides/tesamorelin.html">Tesamorelin</a>
+          <a href="peptides/epitalon.html">Epitalon</a>
+          <a href="peptides/foxo4-dri.html">FOXO4-DRI</a>
+          <a href="peptides/nad.html">NAD+</a>
+          <a href="peptides/selank.html">Selank</a>
+          <a href="peptides/semax.html">Semax</a>
+          <a href="peptides/ss31.html">SS-31</a>
+          <a href="peptides/thymalin.html">Thymalin</a>
+          <a href="peptides/dsip.html">DSIP</a>
+          <a href="peptides/kisspeptin.html">Kisspeptin</a>
+          <a href="peptides/oxytocin.html">Oxytocin</a>
+          <a href="peptides/pt141.html">PT-141</a>
+          <a href="peptides/ll37.html">LL-37</a>
+          <a href="peptides/thymosin-alpha1.html">Thymosin Alpha-1</a>
+          <a href="peptides/vip.html">VIP</a>
+          <a href="peptides/5-amino-1mq.html">5-Amino-1MQ</a>
+          <a href="peptides/follistatin344.html">Follistatin-344</a>
+          <a href="peptides/igf1-lr3.html">IGF-1 LR3</a>
+          <a href="peptides/melanotan1.html">Melanotan 1</a>
+          <a href="peptides/bioregulators.html">Bioregulators</a>
+          <a href="peptides/retatrutide.html">Retatrutide</a>
+          <a href="peptides/semaglutide.html">Semaglutide</a>
+          <a href="peptides/tirzepatide.html">Tirzepatide</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu blends-sub" role="menu">
+          <a href="peptides/blend-bpc-tb500.html">BPC-157 / TB-500</a>
+          <a href="peptides/blend-glow.html">GLOW Blend</a>
+          <a href="peptides/blend-ipa-cjc.html">Ipamorelin / CJC-1295</a>
+          <a href="peptides/blend-klow.html">KLOW Blend</a>
+          <a href="peptides/blend-tesa-ipa.html">Tesamorelin / Ipamorelin</a>
+          <a href="peptides/blend-triple-threat.html">Triple Threat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="peptide-calculator.html">Peptide Calculator</a>
+          <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+          <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+          <a href="/half-life">Half-Life Visualizer</a>
+          <a href="/bloodwork">Bloodwork Analyzer</a>
+          </div>
+        </div>
+        <div class="nav-dd catalogs">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Catalogs <span class="dd-caret">&#9662;</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/catalogs" class="nav-all">All catalogs &#8594;</a>
+            <a href="/catalogs/modern-aminos">Modern Aminos</a>
+            <a href="/catalogs/glacier-aminos">Glacier Aminos</a>
+            <a href="/catalogs/peptira">Peptira</a>
+            <a href="/compare" class="nav-all">Compare prices &#8594;</a>
+          </div>
+        </div>
+        <a href="/vendors">Vendors</a>
+        <a href="/resources">Resources</a>
+        <a href="index.html#about">About</a>
+        <a href="/compare" class="nav-cta cta-glow">Peptide Price Comparison</a>
+      </nav>
+    </div>
+  </header>
+
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow">Free Tool · Half-Life &amp; Dosing Frequency</div>
+      <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">Half-Life <span class="tq">Visualizer</span></h1>
+      <p class="lead" style="margin-top:22px">Peptides, GLP-1s, testosterone, anabolics, AIs and SERMs. See how a compound's half-life shapes what's in your system: how doses stack up, when levels settle, and how long it takes to clear. Compare up to three schedules side by side.</p>
+    </div>
+  </section>
+
+  <section class="section hl-sec">
+    <div class="wrap">
+      <div class="hl-intro">
+        <div class="hi"><div class="hi-h"><span>01</span>What is half-life?</div><p>The time it takes for half of a compound to leave your body. After one half-life 50% is left, after two 25%, and after five only about 3%.</p></div>
+        <div class="hi"><div class="hi-h"><span>02</span>Why it matters</div><p>Dose faster than a compound clears and it builds up. Dose slower and levels fall to almost nothing between doses. Half-life explains why some compounds are dosed daily and others weekly.</p></div>
+        <div class="hi"><div class="hi-h"><span>03</span>Where the numbers come from</div><p>Every half-life shows its source and how strong the evidence is: <span class="ev ev-h">Human data</span> <span class="ev ev-a">Animal data only</span> <span class="ev ev-e">Estimate</span></p></div>
+      </div>
+
+      <div id="hl">
+        <div class="hl-layout">
+          <!-- SETTINGS -->
+          <div class="hl-set" id="hl-set">
+            <div class="hl-chips" id="hl-chips"></div>
+            <label class="lbl" for="hl-comp">Compound</label>
+            <select id="hl-comp" class="sel"></select>
+            <div id="hl-cname" hidden><label class="lbl">Name <span class="opt">(optional)</span></label><input class="inp" placeholder="e.g. My compound"></div>
+
+            <div class="hl-hrow">
+              <label class="lbl" for="hl-h">Half-life (hours)</label>
+              <label class="tog"><input type="checkbox" id="hl-ov"><span></span>Override</label>
+            </div>
+            <input id="hl-h" class="inp" inputmode="decimal" placeholder="e.g. 2">
+            <div class="hl-src" id="hl-src"></div>
+
+            <label class="lbl" for="hl-dose">Dose per injection</label>
+            <div class="irow"><input id="hl-dose" class="inp" inputmode="decimal" placeholder="e.g. 250"><div class="seg useg" id="hl-unit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div></div>
+
+            <label class="lbl" for="hl-freq">How often</label>
+            <select id="hl-freq" class="sel"></select>
+
+            <label class="lbl" for="hl-n">Number of doses</label>
+            <input id="hl-n" class="inp" inputmode="numeric" placeholder="7">
+            <div class="hint" id="hl-span"></div>
+
+            <div class="hl-wash">
+              <div><b>Show washout</b><span>5 half-lives after the last dose</span></div>
+              <label class="tog"><input type="checkbox" id="hl-wash" checked><span></span></label>
+            </div>
+          </div>
+
+          <!-- CHART -->
+          <div class="hl-out">
+            <div class="hl-head">
+              <div>
+                <h3><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#F5B544" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>Exposure curve</h3>
+                <p id="hl-sub"></p>
+              </div>
+              <div class="seg useg" id="hl-ymode"><button type="button" data-v="abs" class="on">Amount</button><button type="button" data-v="rel">× one dose</button></div>
+            </div>
+            <div class="hl-legend" id="hl-legend"></div>
+            <div class="hl-chart-wrap">
+              <div id="hl-chart"></div>
+              <div class="hl-tip" id="hl-tip" hidden></div>
+              <div class="hl-empty" id="hl-empty" hidden>
+                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="#5B7385" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-8 4 16 3-8h6"/></svg>
+                <p>Pick a compound and enter your dose to see the curve.</p>
+              </div>
+            </div>
+            <div id="hl-stats"></div>
+            <div class="hl-actions"><button type="button" class="ract" id="hl-share"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a4 4 0 005.66 0l3-3a4 4 0 00-5.66-5.66l-1 1M14 10a4 4 0 00-5.66 0l-3 3a4 4 0 005.66 5.66l1-1"/></svg><span>Copy share link</span></button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNDERSTANDING -->
+      <div class="hl-learn">
+        <div>
+          <div class="nc-label">What the chart shows</div>
+          <ul>
+            <li><b>Peaks:</b> the highest level, right after each dose.</li>
+            <li><b>Lows:</b> the lowest level, right before the next dose.</li>
+            <li><b>Build-up:</b> early doses stack until levels level off.</li>
+            <li><b>Washout:</b> after you stop, about 5 half-lives to clear.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="nc-label">Key ideas</div>
+          <ul>
+            <li><b>Steady state:</b> what goes in equals what clears, after ~5 half-lives.</li>
+            <li><b>Build-up factor:</b> how much higher steady state is than one dose.</li>
+            <li><b>Short half-life:</b> clears fast, so levels swing hard between doses.</li>
+            <li><b>Long half-life:</b> steadier levels, but takes weeks to clear.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-card" style="border-left-color:#ef4444;margin-top:2px">
+        <div class="nc-label" style="color:#fca5a5">How to read this</div>
+        <p>This is a <strong>simplified educational model</strong>: one compartment, with each dose absorbed instantly. Real absorption takes time (hours to days for weekly GLP-1s), so real peaks are lower and later than shown. Individual results vary. It shows the shape of how a compound behaves, not your actual blood levels. It is not medical advice. Many hormones and anabolic steroids listed here are prescription-only or controlled substances. They're included for education, because people use them, and DPRO Health does not sell or source them.</p>
+      </div>
+
+      <!-- FAQ -->
+      <div class="hl-faq">
+        <h2 class="heading" style="font-size:clamp(24px,3vw,34px)">Frequently asked <span class="tq">questions</span></h2>
+        <details><summary>What exactly is a half-life?</summary><p>The time it takes for the amount of a compound in your body to fall by half. It follows a fixed pattern: 50% remains after one half-life, 25% after two, 12.5% after three, and about 3% after five. That's why "5 half-lives" is the usual rule of thumb for "mostly gone."</p></details>
+        <details><summary>Why does half-life matter for dosing frequency?</summary><p>It decides how much is still around when the next dose lands. If the interval is long compared with the half-life, each dose starts from nearly zero and levels swing from high to low. If the interval is short compared with the half-life, doses overlap and levels climb until they plateau.</p></details>
+        <details><summary>What is build-up (accumulation)?</summary><p>When you dose again before the last dose has cleared, the leftovers add up. Levels keep rising with each dose until the amount clearing between doses equals one dose. The build-up factor tells you how much higher that plateau is than a single dose. Weekly semaglutide, for example, builds to roughly double a single dose.</p></details>
+        <details><summary>What is steady state, and why does it take so long for weekly compounds?</summary><p>Steady state takes about 5 half-lives no matter how often you dose. A compound with a 2-hour half-life gets there in about 10 hours. One with a 7-day half-life takes about 5 weeks. That's one reason weekly GLP-1s are increased slowly: each dose change takes weeks to fully show up.</p></details>
+        <details><summary>What is washout?</summary><p>How long it takes to clear a compound after your last dose: about 5 half-lives to drop roughly 97%. For BPC-157 that's a few hours. For semaglutide or testosterone cypionate, it's over a month.</p></details>
+        <details><summary>How do esters work (enanthate, cypionate, decanoate…)?</summary><p>An ester is a chain attached to the hormone that makes it release slowly from an oil injection. For injectables, the half-life listed is how long the depot takes to release and clear, not the hormone itself (free testosterone clears in minutes). Longer esters mean fewer injections and steadier levels, but they also take longer to settle and longer to wash out.</p></details>
+        <details><summary>Why are some numbers marked "Estimate" or "Animal data only"?</summary><p>Many research peptides have never had a proper human pharmacokinetic study. When the only data is from rats or dogs, or there's no published data at all, we say so instead of presenting a number as fact. Use the Override switch if you have a better figure.</p></details>
+      </div>
+
+      <!-- RELATED -->
+      <div class="hl-rel">
+        <div class="nc-label">Keep going</div>
+        <div class="hl-related" id="hl-related"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED VENDORS -->
+  <section class="section alt" id="vendors">
+    <div class="wrap">
+      <div class="eyebrow">Where to buy · Trusted Vendors</div>
+      <h2 class="heading">Sourcing <span class="tq">matters</span></h2>
+      <p class="lead" style="margin-bottom:40px">Quality and purity are everything with peptides. These are vendors I trust and personally work with. Codes below save you money — and yes, some are affiliate links that support the channel at no extra cost to you.</p>
+      <div class="vendor-grid">
+        <a href="/go/modern" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Modern Aminos <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10-15% off</div>
+        </a>
+        <a href="/go/glacier" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Glacier Aminos <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10-15% off</div>
+        </a>
+        <a href="/go/peptira" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Peptira <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="/go/algorx" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">AlgoRx <span class="arrow">→</span></div>
+            <div class="v-sub">Bloodwork, prescriptions &amp; telehealth</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+        <a href="/go/aminowell" target="_blank" rel="noopener" class="vendor">
+          <div class="v-left">
+            <div class="v-name">Amino Well <span class="arrow">→</span></div>
+            <div class="v-sub">Peptides &amp; research compounds</div>
+          </div>
+          <div class="v-code">DPRO · 10% off</div>
+        </a>
+</div>
+      <p class="card-text" style="font-size:12.5px;color:var(--muted);margin-top:24px;max-width:700px">Disclosure: some links above are affiliate or referral links. Always verify a vendor's testing and purity standards yourself. Nothing here is medical advice — see the disclaimer above.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="index.html" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="index.html">Home</a>
+            <a href="peptide-calculator.html">Calculator</a>
+            <a href="tdee-calculator.html">TDEE / Macro Calculator</a>
+            <a href="glp1-titration.html">GLP-1 Titration Schedule</a>
+            <a href="/half-life">Half-Life Visualizer</a>
+            <a href="#vendors">Trusted Vendors</a>
+            <a href="/resources">Resources</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+            <a href="suggestions.html">Suggestions</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dprohealth" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+
+<script src="/js/halflife-data.js?v=20261010"></script>
+<script src="/js/halflife.js?v=20261010"></script>
+<script>
+
+  // Nav dropdowns (tap to toggle on mobile, hover on desktop via CSS)
+  document.querySelectorAll('.nav-dd-btn').forEach(function(btn){
+    btn.addEventListener('click',function(e){
+      e.preventDefault();e.stopPropagation();
+      var dd=btn.closest('.nav-dd');var was=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!was){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(function(d){d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('#navlinks a').forEach(function(a){a.addEventListener('click',function(){document.getElementById('navlinks').classList.remove('open');});});
+
+  // nested flyout: tap-to-open on mobile
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
+  });
+</script>
+</body>
+</html>
