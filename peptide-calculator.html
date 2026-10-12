@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="favicon-192x192.png">
 <meta name="theme-color" content="#0E1622">
-<title>Peptide Calculator — DPRO Health</title>
+<title>Peptide Calculator 2.0 — DPRO Health</title>
 <link rel="canonical" href="https://dprohealth.com/peptide-calculator">
 <meta name="description" content="Free peptide calculator: units to draw, blends like KLOW and GLOW, premixed liquids, reverse solving and BAC water. See it on a real syringe, plan your cycle and price it out. From DPRO Health.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +23,7 @@
   #calc.ready{opacity:1}
 
   /* tabs */
-  .ctabs{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:10px;padding:2px;margin-bottom:2px}
+  .ctabs{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:10px;padding:2px;margin-bottom:2px}
   .ctab{background:var(--bg2);border:none;border-radius:8px;padding:14px 10px;cursor:pointer;text-align:left;transition:background .18s,box-shadow .18s;min-width:0}
   .ctab .ct-n{display:block;font-family:'Archivo';font-weight:700;font-size:14.5px;color:var(--white);white-space:nowrap}
   .ctab .ct-s{display:block;font-family:'Outfit';font-size:12px;font-weight:300;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -31,7 +31,7 @@
   .ctab.on{background:linear-gradient(160deg,rgba(6,182,212,.22),rgba(6,182,212,.08));box-shadow:inset 0 0 0 1px var(--tq-border)}
   .ctab.on .ct-n{color:var(--tq-bright)}
   .ctab.on .ct-s{color:var(--text)}
-  @media(max-width:980px){
+  @media(max-width:1180px){
     .ctabs{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
     .ctabs::-webkit-scrollbar{display:none}
     .ctab{flex:0 0 auto;min-width:150px}
@@ -118,6 +118,15 @@
   .tabp[data-tab="liquid"]:not(.is-blend) .lrow .rm{visibility:hidden}
   .divider{display:flex;align-items:center;gap:12px;margin:20px 0 4px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
   .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+  .bd-head{display:flex;justify-content:space-between;align-items:flex-end}
+  .bd-head .seg{margin-bottom:8px;height:34px}
+  .bd-hint{font-size:13px;font-weight:300;color:var(--text);margin:-2px 0 4px;line-height:1.5}
+  .bd-hint b{color:var(--white);font-weight:600}
+  .bd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10px;align-items:center;margin-top:8px}
+  .bd-n{font-family:'Archivo';font-weight:700;font-size:15px;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bd .irow input{font-size:17px;padding:11px 13px}
+  .bd-empty{font-size:13px;font-weight:300;color:var(--muted);padding:6px 0}
+  .hint{font-size:12px;font-weight:300;color:var(--muted)}
   .byrow{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:13px;color:var(--text)}
 
   /* quick solve */
@@ -415,8 +424,8 @@
   <section class="page-hero">
     <div class="wrap">
       <div class="eyebrow">Free Tool · Reconstitution &amp; Dosing Math</div>
-      <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">Peptide <span class="tq">Calculator</span></h1>
-      <p class="lead" style="margin-top:22px">Step-by-step for first-timers, plus blends, premixed liquids, reverse solving and BAC water. See exactly where to draw on your syringe, catch mistakes before they happen, and plan and price your whole cycle.</p>
+      <h1 class="display" style="font-size:clamp(36px,5.5vw,64px)">Peptide Calculator <span class="tq">2.0</span></h1>
+      <p class="lead" style="margin-top:22px">Step-by-step for first-timers, plus blends, units-to-dose, premixed liquids, reverse solving and BAC water. See exactly where to draw on your syringe, catch mistakes before they happen, and plan and price your whole cycle.</p>
     </div>
   </section>
 
@@ -458,6 +467,7 @@
           <button class="ctab on" data-tab="guided" role="tab" type="button"><span class="ct-n">Step-by-Step</span><span class="ct-s">First time? Start here</span></button>
           <button class="ctab" data-tab="single" role="tab" type="button"><span class="ct-n">Single Peptide</span><span class="ct-s">One compound per vial</span></button>
           <button class="ctab" data-tab="blend" role="tab" type="button"><span class="ct-n">Blend</span><span class="ct-s">KLOW, GLOW, BPC/TB…</span></button>
+          <button class="ctab" data-tab="u2d" role="tab" type="button"><span class="ct-n">Units → Dose</span><span class="ct-s">Already mixed? Check a draw</span></button>
           <button class="ctab" data-tab="quick" role="tab" type="button"><span class="ct-n">Quick Solve</span><span class="ct-s">Work it backwards</span></button>
           <button class="ctab" data-tab="liquid" role="tab" type="button"><span class="ct-n">Premixed &amp; Aminos</span><span class="ct-s">Liquids, droppers</span></button>
           <button class="ctab" data-tab="bac" role="tab" type="button"><span class="ct-n">BAC Water</span><span class="ct-s">How much to add</span></button>
@@ -556,9 +566,40 @@
               <button type="button" class="addrow" data-add="brow">+ Add another peptide</button>
               <label class="lbl">Bacteriostatic water added</label>
               <div class="irow"><input data-k="water" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
-              <label class="lbl">Dose</label>
-              <div class="irow"><input data-k="dose" inputmode="decimal" placeholder="e.g. 500"><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div></div>
-              <div class="byrow"><span>Measured as</span><select data-k="by" class="sel sm"><option value="total">Total blend</option></select></div>
+              <div class="bd-head"><label class="lbl">Dose per injection</label><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div></div>
+              <p class="bd-hint">Enter a dose for <b>any</b> peptide. The others fill in automatically, locked to the blend's ratio.</p>
+              <div class="bdoses"></div>
+              <input type="hidden" data-k="banc" value="0"><input type="hidden" data-k="bval" value="">
+              <label class="lbl">Syringe</label>
+              <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
+            </div>
+
+            <!-- ============ UNITS → DOSE ============ -->
+            <div class="tabp" data-tab="u2d" role="tabpanel" hidden>
+              <div class="tp-head"><h3>Units → Dose</h3><p>Already mixed? Enter what's in the vial and how many units you draw, and see exactly what dose you're getting.</p></div>
+              <label class="lbl">Peptide <span class="opt">(optional)</span></label>
+              <div class="csearch"><input data-k="name" placeholder="Search… BPC-157, GHK-Cu" autocomplete="off"><div class="cs-list" hidden></div></div>
+              <label class="lbl">Compound type</label>
+              <div class="seg wide" data-k="ctype"><button type="button" data-v="std" class="on">Standard (mg / mcg)</button><button type="button" data-v="iu">IU-based (HGH, hCG)</button><button type="button" data-v="blend">Blend</button></div>
+              <div data-ct="std">
+                <label class="lbl">Amount in the vial</label>
+                <div class="irow"><input data-k="total" inputmode="decimal" placeholder="e.g. 5"><div class="seg useg" data-k="vunit"><button type="button" data-v="mg" class="on">mg</button><button type="button" data-v="mcg">mcg</button></div></div>
+                <div class="sizes"></div>
+              </div>
+              <div data-ct="iu" style="display:none">
+                <label class="lbl">IU in the vial</label>
+                <div class="irow"><input data-k="iu" inputmode="decimal" placeholder="e.g. 10"><span class="unit-tag">IU</span></div>
+              </div>
+              <div data-ct="blend" style="display:none">
+                <label class="lbl">Which blend?</label>
+                <select data-k="ublend" class="sel"></select>
+                <div class="u2d-parts chips"></div>
+              </div>
+              <label class="lbl">Bacteriostatic water added</label>
+              <div class="irow"><input data-k="water" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
+              <label class="lbl">Units drawn per injection</label>
+              <div class="irow"><input data-k="units" inputmode="decimal" placeholder="e.g. 10"><span class="unit-tag">units</span></div>
+              <div class="hint" style="margin-top:8px">100 units = 1 mL on a U-100 insulin syringe.</div>
               <label class="lbl">Syringe</label>
               <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
             </div>
