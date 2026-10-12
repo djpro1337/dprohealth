@@ -125,6 +125,12 @@
   .bd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:10px;align-items:center;margin-top:8px}
   .bd-n{font-family:'Archivo';font-weight:700;font-size:15px;color:var(--white);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .bd .irow input{font-size:17px;padding:11px 13px}
+  .bd{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+  .bd-note{grid-column:2;font-size:11.5px;font-weight:300;color:var(--muted);margin-top:-4px;min-height:0}
+  .bd-note:empty{display:none}
+  .bd.auto input::placeholder{color:var(--tq-bright);opacity:.75;font-weight:600}
+  .bd.conf input{border-color:rgba(245,181,68,.6)}
+  .bd.conf .bd-note{color:var(--gold)}
   .bd-empty{font-size:13px;font-weight:300;color:var(--muted);padding:6px 0}
   .hint{font-size:12px;font-weight:300;color:var(--muted)}
   .byrow{display:flex;align-items:center;gap:10px;margin:10px 0;font-size:13px;color:var(--text)}
@@ -567,9 +573,9 @@
               <label class="lbl">Bacteriostatic water added</label>
               <div class="irow"><input data-k="water" inputmode="decimal" placeholder="e.g. 2"><span class="unit-tag">mL</span></div>
               <div class="bd-head"><label class="lbl">Dose per injection</label><div class="seg useg" data-k="dunit"><button type="button" data-v="mcg" class="on">mcg</button><button type="button" data-v="mg">mg</button></div></div>
-              <p class="bd-hint">Enter a dose for <b>any</b> peptide. The others fill in automatically, locked to the blend's ratio.</p>
+              <p class="bd-hint">Enter the dose you want for <b>one or more</b> peptides. Leave the rest blank and they fill in from the blend's ratio. If your numbers can't all be hit with one draw, we'll show you why and what you'd actually get.</p>
               <div class="bdoses"></div>
-              <input type="hidden" data-k="banc" value="0"><input type="hidden" data-k="bval" value="">
+              <input type="hidden" data-k="banc" value=""><input type="hidden" data-k="bval" value=""><input type="hidden" data-k="bent" value="{}">
               <label class="lbl">Syringe</label>
               <div class="seg syr" data-k="syr"><button type="button" data-v="30">0.3 mL<small>30 units</small></button><button type="button" data-v="50">0.5 mL<small>50 units</small></button><button type="button" data-v="100" class="on">1 mL<small>100 units</small></button><button type="button" data-v="300">3 mL<small>300 units</small></button></div>
             </div>
@@ -808,8 +814,8 @@
 </div>
 
 
-<script src="/js/calc-data.js?v=20261010"></script>
-<script src="/js/calc.js?v=20261010"></script>
+<script src="/js/calc-data.js?v=20261011b"></script>
+<script src="/js/calc.js?v=20261011b"></script>
 <script>
 
   // Nav dropdowns (tap to toggle on mobile, hover on desktop via CSS)

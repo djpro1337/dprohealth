@@ -221,25 +221,109 @@
       return { n: $('[data-r="n"]', r).value.trim(), v: num($('[data-r="v"]', r).value), u: $('[data-r="u"]', r).value };
     });
   }
-  function refreshDoseBy(p, rows) {
-    var sel = field(p, 'by'), cur = sel.value, h = '<option value="total">Total blend</option>';
-    rows.forEach(function (r, i) { if (r.n) h += '<option value="' + i + '">' + esc(r.n) + '</option>'; });
-    if (sel.getAttribute('data-h') !== h) { sel.innerHTML = h; sel.setAttribute('data-h', h); sel.value = cur; if (sel.value !== cur) sel.value = 'total'; }
+  // Blend doses: one box per peptide. People can type a dose into any or all of them.
+  // One draw always holds every peptide in the vial's ratio, so if their numbers don't fit
+  // that ratio we explain it and offer fixes (match one peptide, closest fit, or a unit slip).
+  function bEntries(p) { try { return JSON.parse(val(p, 'bent') || '{}') || {}; } catch (e) { return {}; } }
+  function bSetEntries(p, o) { setVal(p, 'bent', JSON.stringify(o)); }
+  function blendSolve(p, rows) {
+    var ent = bEntries(p), unit = val(p, 'dunit'), E = [];
+    // migrate the older single-anchor format
+    if (!Object.keys(ent).length && ok(n(p, 'bval'))) { ent[val(p, 'banc') || '0'] = val(p, 'bval'); bSetEntries(p, ent); setVal(p, 'bval', ''); }
+    rows.forEach(function (r, i) { var d = num(ent[i]); if (ok(r.v) && ok(d)) E.push({ i: i, d: toBase(d, unit), amt: toBase(r.v, r.u), n: r.n || ('Peptide ' + (i + 1)) }); });
+    if (!E.length) return null;
+    var mode = val(p, 'banc'), scale, anchor = null;   // scale = draw fraction of the vial (dose_i = scale × amt_i)
+    if (mode === 'fit' && E.length > 1) {
+      var num_ = 0, den = 0;  // least squares on relative error
+      E.forEach(function (e) { num_ += e.amt / e.d; den += (e.amt * e.amt) / (e.d * e.d); });
+      scale = num_ / den;
+    } else {
+      anchor = E.filter(function (e) { return String(e.i) === mode; })[0] || E[E.length - 1];
+      scale = anchor.d / anchor.amt; mode = String(anchor.i);
+    }
+    var conf = E.filter(function (e) { var exp = scale * e.amt; return Math.abs(e.d - exp) / exp > 0.02; });
+    return { E: E, scale: scale, anchor: anchor, fit: mode === 'fit' && E.length > 1, conf: conf, unit: unit };
+  }
+  function renderBlendDoses(p, rows, sol) {
+    var box = $('.bdoses', p), unit = val(p, 'dunit'), sig = rows.map(function (r) { return r.n + '|' + (ok(r.v) ? 1 : 0); }).join(',') + unit;
+    if (box.getAttribute('data-sig') !== sig) {
+      var foc = document.activeElement && box.contains(document.activeElement) ? document.activeElement.getAttribute('data-bd') : null, ent = bEntries(p);
+      box.innerHTML = rows.map(function (r, i) {
+        if (!ok(r.v)) return '';
+        return '<div class="bd" data-row="' + i + '"><span class="bd-n">' + esc(r.n || ('Peptide ' + (i + 1))) + '</span><div class="irow"><input data-bd="' + i + '" inputmode="decimal" value="' + esc(ent[i] || '') + '" aria-label="Dose of ' + esc(r.n || ('peptide ' + (i + 1))) + '"><span class="unit-tag">' + unit + '</span></div><span class="bd-note"></span></div>';
+      }).join('') || '<p class="bd-empty">Add the peptides in your vial above, then enter the dose you want of any (or all) of them.</p>';
+      box.setAttribute('data-sig', sig);
+      if (foc != null) { var f = $('[data-bd="' + foc + '"]', box); if (f) { f.focus(); var l = f.value.length; try { f.setSelectionRange(l, l); } catch (e) {} } }
+    }
+    var ent2 = bEntries(p);
+    $$('[data-bd]', box).forEach(function (inp) {
+      var i = +inp.getAttribute('data-bd'), r = rows[i], row = inp.closest('.bd'), note = $('.bd-note', row);
+      if (document.activeElement !== inp && inp.value !== (ent2[i] || '')) inp.value = ent2[i] || '';
+      var got = sol ? sol.scale * toBase(r.v, r.u) : NaN, gotU = unit === 'mg' ? got / 1000 : got;
+      var shown = isFinite(gotU) ? Number(gotU.toFixed(gotU >= 100 ? 1 : gotU >= 1 ? 3 : 4)) : '';
+      inp.placeholder = shown !== '' ? '= ' + shown : '0';
+      var isConf = sol && sol.conf.some(function (c) { return c.i === i; });
+      row.classList.toggle('conf', !!isConf);
+      row.classList.toggle('auto', !ok(num(ent2[i])) && shown !== '');
+      note.textContent = isConf ? 'You\'d actually get ' + fmt(got, 'mass') : (!ok(num(ent2[i])) && shown !== '' ? 'Fills in from the ratio' : '');
+    });
+  }
+  function ratioText(rows) {
+    var a = rows.filter(function (r) { return ok(r.v); }).map(function (r) { return toBase(r.v, r.u); }), m = Math.min.apply(null, a);
+    return a.map(function (x) { return nice(x / m); }).join(' : ');
   }
   TABS.blend = function (p) {
-    var rows = blendRows(p); refreshDoseBy(p, rows);
+    var rows = blendRows(p), sol = blendSolve(p, rows); renderBlendDoses(p, rows, sol);
     var parts = rows.filter(function (r) { return ok(r.v); }).map(function (r) { return { n: r.n || 'Peptide', amt: toBase(r.v, r.u) }; });
     var total = parts.reduce(function (a, q) { return a + q.amt; }, 0);
-    var water = n(p, 'water'), dunit = val(p, 'dunit'), d = toBase(n(p, 'dose'), dunit), by = val(p, 'by');
+    var water = n(p, 'water'), dunit = val(p, 'dunit');
     var b = blendById(val(p, 'preset'));
-    if (!(parts.length && ok(total) && ok(water) && ok(d))) return null;
-    var dose = d, label = b ? b.n : parts.map(function (q) { return q.n; }).join(' / ');
-    if (by !== 'total') {
-      var r = rows[+by]; if (!r || !ok(r.v)) return null;
-      dose = d * total / toBase(r.v, r.u); // scale whole-blend draw so this component hits d
-    }
+    if (!(parts.length && ok(total) && ok(water) && sol)) return null;
+    var dose = sol.scale * total;
+    var label = b ? b.n : parts.map(function (q) { return q.n; }).join(' / ');
     var R = build({ label: label, cmp: b && b.cmp, page: b && b.p, kind: 'blend', dim: 'mass', total: total, vol: water, dose: dose, doseUnit: dunit, syr: syrOf(p), parts: parts, canWater: true });
-    R.byNote = by !== 'total' ? rows[+by].n : null;
+    R.byNote = sol.fit ? 'closest fit' : sol.anchor.n;
+    R.blendSol = sol; R.ratio = ratioText(rows);
+    return R;
+  };
+  function blendChecks(R) {
+    var s = R.blendSol, out = [];
+    if (!s || !s.conf.length) return out;
+    var unitOf = function (mcg) { return s.unit === 'mg' ? nice(mcg / 1000) : nice(mcg); };
+    // likely unit slip: the peptide they just typed is ~1000× off from the others → suggest fixing that one
+    if (!s.fit) {
+      var slip = s.conf.filter(function (c) { var r = c.d / (s.scale * c.amt); return Math.abs(r - 1000) / 1000 < 0.05 || Math.abs(r - 0.001) / 0.001 < 0.05; })[0];
+      if (slip) {
+        var want = slip.d * s.anchor.amt / slip.amt;   // anchor value that would match the other entry
+        out.push({ l: 'warn', h: 'Did you mean <b>' + unitOf(want) + ' ' + s.unit + '</b> of ' + esc(s.anchor.n) + '? It\'s about 1,000× off from your other dose, which usually means mg and mcg got mixed up.', fix: { t: 'Use ' + unitOf(want) + ' ' + s.unit, a: 'bset', v: s.anchor.i + ':' + unitOf(want).replace(/,/g, '') } });
+      }
+    }
+    var head = s.fit ? 'Showing the <b>closest fit</b> to the doses you entered.' : 'Showing the draw that gives <b>' + esc(s.anchor.n) + ' ' + unitOf(s.anchor.d) + ' ' + s.unit + '</b>.';
+    out.push({ l: 'warn', h: 'Those doses don\'t fit this blend. Every draw has all the peptides in the vial\'s <b>' + R.ratio + '</b> ratio, so you can\'t set each one separately. ' + head });
+    var opts = s.E.filter(function (e) { return s.fit || e.i !== s.anchor.i; }).map(function (e) {
+      return '<button type="button" class="linkbtn" data-fix="banc" data-v="' + e.i + '">Match ' + esc(e.n) + ' ' + unitOf(e.d) + ' ' + s.unit + '</button>';
+    });
+    if (!s.fit && s.E.length > 1) opts.push('<button type="button" class="linkbtn" data-fix="banc" data-v="fit">Closest fit to all</button>');
+    out.push({ l: 'tip', h: 'Other options: ' + opts.join(' · ') + '. To set each peptide independently you\'d need them in separate vials.' });
+    return out;
+  }
+
+  /* Units → Dose: already mixed, what's in my draw? */
+  TABS.u2d = function (p) {
+    var ct = val(p, 'ctype');
+    $$('[data-ct]', p).forEach(function (el) { el.style.display = el.getAttribute('data-ct').split(' ').indexOf(ct) > -1 ? '' : 'none'; });
+    var water = n(p, 'water'), units = n(p, 'units'), total, dim = 'mass', parts = [], label = val(p, 'name') || 'Your vial', cmp = null, page = null;
+    if (ct === 'iu') { total = n(p, 'iu'); dim = 'iu'; }
+    else if (ct === 'blend') {
+      var b = blendById(val(p, 'ublend')), box = $('.u2d-parts', p);
+      box.innerHTML = b ? b.parts.map(function (q) { return '<span class="chip static">' + esc(q[0]) + ' ' + q[1] + ' mg</span>'; }).join('') : '';
+      if (b) { total = b.parts.reduce(function (a, q) { return a + q[1] * 1000; }, 0); parts = b.parts.map(function (q) { return { n: q[0], amt: q[1] * 1000 }; }); label = b.n; cmp = b.cmp; page = b.p; }
+    } else {
+      total = toBase(n(p, 'total'), val(p, 'vunit'));
+      var c = findCompound(val(p, 'name')); if (c) { cmp = c.n; page = c.p; }
+    }
+    if (!(ok(total) && ok(water) && ok(units))) return null;
+    var R = build({ label: label, cmp: cmp, page: page, kind: ct === 'blend' ? 'blend' : 'powder', dim: dim, total: total, vol: water, units: units, primary: 'dose', syr: syrOf(p), parts: parts, canWater: false });
     return R;
   };
 
@@ -336,7 +420,7 @@
     else if (R.primary === 'water') { big = nice(R.vol) + ' <small>mL water</small>'; sub = 'Then ' + nice(R.units) + ' units = ' + fmt(R.dose, R.dim); }
     else if (R.device === 'dropper') { big = nice(R.drawMl) + ' <small>mL</small>'; sub = 'With a dropper · ' + fmt(R.dose, R.dim) + (R.keyName ? ' ' + esc(R.keyName) : ''); }
     else { big = nice(R.units) + ' <small>units</small>'; sub = nice(R.drawMl) + ' mL · ' + fmt(R.dose, R.dim) + (R.byNote ? ' of blend' : '') + ' on a ' + SYR[R.syr].label + ' syringe'; }
-    var cks = checks(R), h = '';
+    var cks = (R.blendSol ? blendChecks(R) : []).concat(checks(R)), h = '';
     h += '<div class="r-label">' + esc(R.label) + '</div>';
     h += '<div class="r-big">' + big + '</div><div class="r-sub">' + sub + '</div>';
     if (R.device !== 'dropper') h += '<div class="r-syr">' + syringeSVG(R) + '</div>';
@@ -345,6 +429,8 @@
         (c.fix ? ' <button type="button" class="linkbtn" data-fix="' + c.fix.a + '" data-v="' + c.fix.v + '">' + c.fix.t + '</button>' : '') + '</span></li>';
     }).join('') + '</ul>';
     h += '<div class="r-rows">';
+    if (R.primary === 'dose' && R.dim === 'mass') h += row('Same as', R.dose >= 1000 ? nice(R.dose) + ' mcg' : nice(R.dose / 1000) + ' mg');
+    if (R.primary === 'dose') h += row('Draw', nice(R.units) + ' units = ' + nice(R.drawMl) + ' mL');
     h += row('Strength', fmtConc(R.conc, R.dim));
     if (R.kind !== 'liquid' || ok(R.perVial)) h += row(R.kind === 'liquid' ? 'Bottle holds' : 'Vial holds', fmt(R.total, R.dim) + (R.kind !== 'liquid' ? ' in ' + nice(R.vol) + ' mL' : (R.parts.length > 1 && R.keyName ? ' ' + esc(R.keyName) : '')));
     if (ok(R.perVial)) h += row('Doses per ' + (R.kind === 'liquid' ? 'bottle' : 'vial'), nice(Math.floor(R.perVial * 100) / 100));
@@ -433,6 +519,8 @@
     var p = $('.tabp[data-tab="' + current + '"]'), a = b.getAttribute('data-fix'), v = b.getAttribute('data-v');
     if (a === 'syr') setVal(p, 'syr', v);
     if (a === 'doseUnit') setVal(p, current === 'liquid' ? 'ldunit' : 'dunit', v);
+    if (a === 'banc') { setVal(p, 'banc', v); if (v !== 'fit') { var en1 = bEntries(p), keep = {}; keep[v] = en1[v]; bSetEntries(p, keep); } }
+    if (a === 'bset') { var kv = v.split(':'), en2 = bEntries(p); en2[kv[0]] = kv[1]; bSetEntries(p, en2); setVal(p, 'banc', kv[0]); }
     if (a === 'water') { if (current === 'bac') p.setAttribute('data-pick', v); else setVal(p, 'water', v); }
     update();
   });
@@ -453,6 +541,7 @@
     update();
   });
   root.addEventListener('input', function (e) {
+    if (e.target.matches('[data-bd]')) { var bp0 = e.target.closest('.tabp'), ix = e.target.getAttribute('data-bd'), en = bEntries(bp0); if (e.target.value.trim()) en[ix] = e.target.value; else delete en[ix]; bSetEntries(bp0, en); setVal(bp0, 'banc', ix); update(); return; }
     if (e.target.closest('.csearch')) return; // handled below
     if (e.target.closest('[data-tab="bac"]') && e.target.matches('[data-k="total"],[data-k="dose"]')) $('.tabp[data-tab="bac"]').removeAttribute('data-pick');
     update();
@@ -533,7 +622,7 @@
   var bp = $('.tabp[data-tab="blend"]');
   var pre = field(bp, 'preset');
   pre.innerHTML = '<option value="">Pick a known blend…</option>' + D.blends.map(function (b) { return '<option value="' + b.id + '">' + esc(b.n) + '</option>'; }).join('') + '<option value="">Custom (enter below)</option>';
-  pre.addEventListener('change', function () { var b = blendById(pre.value); if (b) setRows(bp, 'brow', b.parts); });
+  pre.addEventListener('change', function () { var b = blendById(pre.value); if (b) { setRows(bp, 'brow', b.parts); $('.bdoses', bp).removeAttribute('data-sig'); } });
   setRows(bp, 'brow', [['', ''], ['', '']]);
   var gp = $('.tabp[data-tab="guided"]'), gsel = field(gp, 'blend');
   gsel.innerHTML = '<option value="">Pick your blend…</option>' + D.blends.map(function (b) { return '<option value="' + b.id + '">' + esc(b.n) + '</option>'; }).join('');
@@ -542,6 +631,8 @@
     box.innerHTML = b ? b.parts.map(function (q) { return '<span class="chip static">' + esc(q[0]) + ' ' + q[1] + ' mg</span>'; }).join('') : '';
   });
 
+  var up = $('.tabp[data-tab="u2d"]'), usel = field(up, 'ublend');
+  usel.innerHTML = '<option value="">Pick your blend…</option>' + D.blends.map(function (b) { return '<option value="' + b.id + '">' + esc(b.n) + '</option>'; }).join('');
   var lp = $('.tabp[data-tab="liquid"]');
   setRows(lp, 'lrow', [['', '']]);
   $('.liq-presets', lp).innerHTML = D.liquids.map(function (l) { return '<button type="button" class="chip" data-liq="' + l.id + '">' + esc(l.n) + '</button>'; }).join('');
@@ -570,15 +661,12 @@
     var p = $('.tabp[data-tab="' + s.t + '"]');
     if (s.rows) setRows(p, s.t === 'blend' ? 'brow' : 'lrow', s.rows);
     Object.keys(s.v || {}).forEach(function (k) { setVal(p, k, s.v[k]); });
-    if (s.t === 'blend') field(p, 'by').value = s.v.by || 'total';
     if (s.t === 'guided' && s.v.blend) gsel.dispatchEvent(new Event('change'));
     if (s.m) { p.setAttribute('data-mode', s.m); $$('.qs-card', p).forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-mode') === s.m); }); }
     if (s.pk) p.setAttribute('data-pick', s.pk);
     if (s.cy) { $('#cy-freq').value = s.cy[0] || '1d'; $('#cy-weeks').value = s.cy[1] || ''; }
     var nm = field(p, 'name'); if (nm) sizeChips(p, findCompound(nm.value));
     showTab(s.t);
-    // blend "by" options appear after first update
-    if (s.t === 'blend' && s.v.by) { field(p, 'by').value = s.v.by; update(); }
     return true;
   }
   function enc(s) { return btoa(unescape(encodeURIComponent(JSON.stringify(s)))).replace(/=+$/, ''); }
