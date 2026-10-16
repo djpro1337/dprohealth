@@ -112,6 +112,8 @@
         else if (p.units < 2) o.w.push({ l: 'warn', t: damt(o, p.dose) + ' is only ' + nice(p.units, 1) + ' units, which is hard to measure. Try more water.' });
         if (p.dose > o.vialMcg) o.w.push({ l: 'err', t: damt(o, p.dose) + ' is more than a whole ' + nice(vial) + ' mg vial.' });
       });
+      var vmax = (/nad|glutathione/i.test(o.name) || o.vialMcg >= 300000) ? 5 : 3;
+      if (water > vmax + 0.01) o.w.push({ l: 'tip', t: 'Make sure your vial can hold ' + nice(water) + ' mL of water. Most peptide vials hold about 3 mL; NAD+, glutathione and other large vials often hold 5 mL or more.' });
       if (o.openMax > 30) o.w.push({ l: 'tip', t: 'A mixed vial stays in use for up to ' + o.openMax + ' days. Many people aim to finish a mixed vial within about 4 weeks, so a smaller vial size may fit better. Check storage guidance for your compound.' });
       if (!ev.length) o.w.push({ l: 'warn', t: 'No doses land in this window. Check the schedule and start week.' });
     });
@@ -185,7 +187,7 @@
       '<div class="ci-grid">' +
         '<div><label class="lbl">Vial size</label><div class="irow"><input data-f="vial" inputmode="decimal" placeholder="e.g. 10" value="' + esc(it.vial) + '"><span class="unit-tag">mg</span></div><div class="chips sizes">' + sizeChips(it) + '</div></div>' +
         '<div><label class="lbl">BAC water per vial</label><div class="irow"><input data-f="water" inputmode="decimal" placeholder="e.g. 2" value="' + esc(it.water) + '"><span class="unit-tag">mL</span></div><div class="chips">' +
-          [1, 2, 3].map(function (w) { return '<button type="button" class="chip' + (num(it.water) === w ? ' on' : '') + '" data-set="water" data-v="' + w + '">' + w + ' mL</button>'; }).join('') + '</div></div>' +
+          [1, 2, 3, 5].map(function (w) { return '<button type="button" class="chip' + (num(it.water) === w ? ' on' : '') + '" data-set="water" data-v="' + w + '">' + w + ' mL</button>'; }).join('') + '</div></div>' +
       '</div>' +
       '<div class="ph-head"><label class="lbl">Dose per injection</label><div class="seg useg" data-f="unit"><button type="button" data-v="mcg"' + (it.unit === 'mcg' ? ' class="on"' : '') + '>mcg</button><button type="button" data-v="mg"' + (it.unit === 'mg' ? ' class="on"' : '') + '>mg</button></div></div>' +
       '<div class="ph-list">' + ph + '</div>' +

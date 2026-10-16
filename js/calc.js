@@ -78,9 +78,11 @@
   }
 
   /* best water amount for this vial + dose on this syringe */
-  function suggestWater(total, dose, cap, cur) {
+  // most peptide vials hold ~3 mL; NAD+, glutathione and other big-mg vials often come in 5 mL+ vials
+  function vialMax(name, totalMcg) { return (/nad|glutathione/i.test(name || '') || totalMcg >= 300000) ? 5 : 3; }
+  function suggestWater(total, dose, cap, cur, maxVial) {
     var s = SYR[cap], best = null;
-    var maxW = Math.max(3, cur || 0);
+    var maxW = Math.max(maxVial || 3, cur || 0);
     for (var w = 0.5; w <= maxW + 0.001; w += 0.5) {
       var u = dose * w / total * 100;
       if (u < 5 || u > cap * 0.9) continue;
@@ -126,10 +128,10 @@
     // water suggestion for powders when something's off
     var bad = out.some(function (c) { return c.l !== 'ok'; });
     if (R.kind !== 'liquid' && R.primary === 'units' && bad && R.dose <= R.total) {
-      var sg = suggestWater(R.total, R.dose, R.syr, R.vol) || (biggerSyringe(R.units) ? suggestWater(R.total, R.dose, biggerSyringe(R.units), R.vol) : null);
+      var vm = vialMax(R.cmp || R.label, R.total), sg = suggestWater(R.total, R.dose, R.syr, R.vol, vm) || (biggerSyringe(R.units) ? suggestWater(R.total, R.dose, biggerSyringe(R.units), R.vol, vm) : null);
       if (sg && Math.abs(sg.w - R.vol) > 0.01) out.push({ l: 'tip', h: 'Easier: mix with <b>' + nice(sg.w) + ' mL</b> water instead and draw <b>' + nice(sg.u) + ' units</b>.', fix: R.canWater ? { t: 'Use ' + nice(sg.w) + ' mL', a: 'water', v: sg.w } : null });
     }
-    if (R.kind !== 'liquid' && R.vol > 3.01) out.push({ l: 'tip', h: 'Make sure your vial holds ' + nice(R.vol) + ' mL — many peptide vials are 3 mL.' });
+    if (R.kind !== 'liquid' && R.vol > vialMax(R.cmp || R.label, R.total) + 0.01) out.push({ l: 'tip', h: 'Make sure your vial can hold ' + nice(R.vol) + ' mL. Most peptide vials hold about 3 mL; NAD+, glutathione and other large vials often hold 5 mL or more.' });
     if (R.perVial < 1 && R.dose <= R.total) out.push({ l: 'warn', h: 'Less than one dose per vial.' });
     return out;
   }
@@ -191,7 +193,7 @@
     // help-me-pick hint
     var hp = $('[data-help]', p);
     if (hp) {
-      var sg = ok(total) && ok(dose) ? suggestWater(total, dose, syrOf(p), 2) : null;
+      var sg = ok(total) && ok(dose) ? suggestWater(total, dose, syrOf(p), 2, vialMax(cmp || name, total)) : null;
       hp.innerHTML = sg ? 'Not mixed yet? <button type="button" class="linkbtn" data-fix="water" data-v="' + sg.w + '">Use ' + nice(sg.w) + ' mL</button> — your dose lands at ' + nice(sg.u) + ' units' + (sg.exact ? ', right on a mark' : '') + '.' : '';
     }
     if (!(ok(total) && ok(dose) && ok(water))) return null;
@@ -388,7 +390,7 @@
     $('.iu-only', p).style.display = dim === 'iu' ? '' : 'none';
     var total = toBase(n(p, 'total'), unit), dose = toBase(n(p, 'dose'), dunit), cap = syrOf(p), tb = $('.bac-table', p);
     if (!(ok(total) && ok(dose))) { tb.innerHTML = ''; return null; }
-    var s = SYR[cap], pick = num(p.getAttribute('data-pick')), sg = suggestWater(total, dose, cap, 2), rows = '';
+    var s = SYR[cap], pick = num(p.getAttribute('data-pick')), sg = suggestWater(total, dose, cap, 2, vialMax('', total)), rows = '';
     if (!ok(pick)) pick = sg ? sg.w : 2;
     [0.5, 1, 1.5, 2, 2.5, 3, 4, 5].forEach(function (w) {
       var u = dose * w / total * 100, tick = Math.round(u / s.res) * s.res, half = s.res >= 2 ? Math.round(u / (s.res / 2)) * (s.res / 2) : tick, tag, cls;
