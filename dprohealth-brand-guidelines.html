@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DPRO Health — Brand Guidelines</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #0E1622;
+  --bg2:       #152131;
+  --bg3:       #1B2A3D;
+  --tq-deep:   #0E7490;
+  --tq-mid:    #06B6D4;
+  --tq-bright: #22D3EE;
+  --tq-light:  #67E8F9;
+  --tq-glow:   rgba(6,182,212,0.12);
+  --tq-dim:    rgba(6,182,212,0.07);
+  --tq-border: rgba(34,211,238,0.16);
+  --navy:      #0F172A;
+  --navy-mid:  #1E3A5F;
+  --white:     #F0F4F6;
+  --off-white: #C8D4DA;
+  --text:      #A9BCC8;
+  --muted:     #5B7385;
+  --border:    rgba(255,255,255,0.08);
+  --border2:   rgba(255,255,255,0.04);
+  --gold:      #F5B544;
+  --violet:    #A78BFA;
+  --green:     #4ADE80;
+  --light:     #EEF3F6;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CURSOR ── */
+.cur   { position:fixed; width:6px; height:6px; background:var(--tq-bright); border-radius:50%; pointer-events:none; z-index:9999; transition:transform .15s; top:0; left:0; }
+.cur-r { position:fixed; width:28px; height:28px; border:1px solid rgba(34,211,238,.4); border-radius:50%; pointer-events:none; z-index:9998; transition:width .2s,height .2s; top:0; left:0; }
+
+/* ── SIDEBAR NAV ── */
+.sidebar {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: 220px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0;
+  overflow-y: auto;
+}
+
+.sidebar-logo {
+  padding: 0 28px 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+
+.sb-wordmark {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.sb-d   { color: var(--white); }
+.sb-pro { color: var(--tq-mid); }
+.sb-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .18em;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+.sb-section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .18em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 0 28px 8px;
+  margin-top: 8px;
+}
+
+.sb-link {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text);
+  text-decoration: none;
+  padding: 8px 28px;
+  border-left: 2px solid transparent;
+  transition: color .2s, border-color .2s, background .2s;
+  letter-spacing: .01em;
+}
+.sb-link:hover { color: var(--white); background: rgba(6,182,212,.04); border-left-color: var(--tq-dim); }
+.sb-link.active { color: var(--tq-bright); border-left-color: var(--tq-mid); background: var(--tq-dim); }
+
+.sb-version {
+  margin-top: auto;
+  padding: 20px 28px 0;
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 8px;
+  letter-spacing: .12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  line-height: 1.8;
+}
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-left: 220px;
+  min-height: 100vh;
+}
+
+/* ── COVER PAGE ── */
+.cover {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+  overflow: hidden;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.cover-slash {
+  position: absolute;
+  top: -10%; right: -5%;
+  width: 60%; height: 130%;
+  background: linear-gradient(155deg,
+    rgba(6,182,212,.09) 0%,
+    rgba(14,116,144,.05) 45%,
+    transparent 72%);
+  transform: skewX(-9deg);
+  pointer-events: none;
+}
+.cover-glow {
+  position: absolute;
+  bottom: -200px; right: -60px;
+  width: 700px; height: 700px;
+  background: radial-gradient(ellipse, rgba(6,182,212,.14) 0%, transparent 60%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cover-corner {
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 180px;
+  background: linear-gradient(180deg, var(--tq-mid), transparent);
+}
+
+.cover-eye {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .22em;
+  color: var(--tq-bright);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex; align-items: center; gap: 12px;
+  opacity: 0; animation: fadeUp .7s .1s forwards;
+}
+.cover-eye::before { content:''; width:20px; height:1px; background:var(--tq-mid); }
+
+.cover-wordmark {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-size: clamp(72px, 11vw, 150px);
+  line-height: .88;
+  letter-spacing: -.03em;
+  opacity: 0; animation: fadeUp .7s .25s forwards;
+}
+.cw-d   { color: var(--white); }
+.cw-pro { color: var(--tq-mid); }
+.cw-h {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: clamp(22px,3.5vw,48px);
+  letter-spacing: .14em;
+  color: var(--off-white);
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.cover-rule {
+  width: 64px; height: 2px;
+  background: linear-gradient(90deg, var(--tq-deep), var(--tq-bright));
+  margin: 32px 0;
+  opacity: 0; animation: growW .8s .5s forwards;
+  transform: scaleX(0); transform-origin: left;
+}
+
+.cover-title {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: clamp(18px,2.5vw,28px);
+  color: var(--off-white);
+  letter-spacing: -.01em;
+  opacity: 0; animation: fadeUp .7s .55s forwards;
+}
+
+.cover-meta {
+  margin-top: 48px;
+  display: flex; gap: 32px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp .7s .7s forwards;
+}
+.cover-meta-item {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.cm-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .18em;
+  color: var(--muted); text-transform: uppercase;
+}
+.cm-value {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 500; font-size: 14px;
+  color: var(--text);
+}
+
+/* ── SECTION PAGES ── */
+.page {
+  padding: 72px 80px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.page-num {
+  position: absolute;
+  top: 32px; right: 80px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .2em;
+  color: var(--muted); text-transform: uppercase;
+}
+
+.page-eye {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px; letter-spacing: .22em;
+  color: var(--tq-bright); text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 12px;
+}
+.page-eye::before { content:''; width:16px; height:1px; background:var(--tq-mid); }
+
+.page-heading {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px,4vw,52px);
+  letter-spacing: -.025em; line-height: 1;
+  margin-bottom: 12px;
+}
+.page-heading span { color: var(--tq-bright); }
+
+.page-intro {
+  font-size: 15px; font-weight: 300;
+  color: var(--text); line-height: 1.7;
+  max-width: 580px; margin-bottom: 52px;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tq-deep), transparent);
+  opacity: .3;
+  margin: 48px 0;
+}
+
+/* ── BRAND OVERVIEW ── */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.ov-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 36px;
+}
+.ov-card-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .2em;
+  color: var(--tq-bright); text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.ov-card-label::before { content:''; width:12px; height:1px; background:var(--tq-mid); }
+.ov-card-text {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400; font-size: 15px;
+  color: var(--white); line-height: 1.65;
+}
+.ov-card-text em { font-style: normal; color: var(--tq-bright); }
+.ov-card-text strong { font-weight: 600; color: var(--white); }
+
+/* Mission statement big */
+.mission-big {
+  background: var(--navy);
+  border: 1px solid rgba(6,182,212,.15);
+  padding: 52px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+.mission-big::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(6,182,212,.1) 0%, transparent 65%);
+  border-radius: 50%;
+}
+.mission-qm {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800; font-size: 100px;
+  color: var(--tq-mid); opacity: .12;
+  line-height: .7; margin-bottom: -12px;
+  position: relative;
+}
+.mission-statement {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px,2.8vw,34px);
+  line-height: 1.22; letter-spacing: -.015em;
+  color: var(--white);
+  max-width: 800px;
+  position: relative;
+}
+.mission-statement em { font-style: normal; color: var(--tq-bright); }
+
+.tagline-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 2px;
+}
+.tl-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 24px 28px;
+  position: relative;
+  transition: background .2s, border-color .2s;
+}
+.tl-card.primary { border-color: var(--tq-border); background: var(--tq-dim); }
+.tl-card-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .15em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.tl-card.primary .tl-card-label { color: var(--tq-bright); }
+.tl-text {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700; font-size: 18px;
+  color: var(--white); line-height: 1.2;
+}
+.tl-card.primary .tl-text { color: var(--tq-bright); }
+.tl-primary-badge {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--tq-mid);
+  color: var(--bg);
+  font-family: 'Space Mono', monospace;
+  font-size: 7px; letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+}
+
+/* ── AUDIENCE ── */
+.audience-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 2px;
+}
+.aud-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 28px;
+}
+.aud-icon {
+  font-size: 22px; margin-bottom: 12px;
+}
+.aud-title {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700; font-size: 16px;
+  color: var(--white); margin-bottom: 8px;
+}
+.aud-body {
+  font-size: 13px; font-weight: 300;
+  color: var(--text); line-height: 1.6;
+}
+
+.pain-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+.pain-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 22px 26px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.pain-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--tq-mid); flex-shrink: 0; margin-top: 6px;
+}
+.pain-text { font-size: 13px; font-weight: 300; color: var(--text); line-height: 1.55; }
+.pain-text strong { color: var(--white); font-weight: 500; }
+
+/* ── BRAND PERSONALITY ── */
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  gap: 2px;
+  margin-bottom: 40px;
+}
+.persona-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 24px 20px;
+  text-align: center;
+  transition: background .2s, border-color .2s;
+}
+.persona-card:hover { background: var(--bg3); border-color: var(--tq-border); }
+.persona-word {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800; font-size: 14px;
+  color: var(--tq-bright); margin-bottom: 8px;
+  letter-spacing: .02em;
+}
+.persona-not {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .1em;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.persona-opp {
+  font-size: 12px; font-weight: 300;
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--muted);
+}
+
+.voice-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+}
+.voice-col {
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 28px;
+}
+.voice-col-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 8px; letter-spacing: .18em;
+  text-transform: uppercase; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.voice-col.do .voice-col-label { color: var(--tq-bright); }
+.voice-col.dont .voice-col-label { color: #ef4444; }
+
+.voice-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--border2);
+  font-size: 13px; font-weight: 300;
+  color: var(--text); line-height: 1.5;
+}
+.voice-item:last-child { border-bottom: none; }
+.vi-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.do .vi-dot { background:var(--tq-mid); }
+.dont .vi-dot { background:#ef4444; }
+
+/* ── COLOR SYSTEM ── */
+.color-row {
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  height: 180px; gap: 2px;
+  margin-bottom: 32px;
+}
+.swatch {
+  display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 14px;
+  transition: filter .2s;
+}
+.swatch:hover { filter: brightness(1.1); }
+.sw-role { font-family:'Space Mono',monospace; font-size:7px; letter-spacing:.12em; text-transform:uppercase; opacity:.5; margin-bottom:3px; }
+.sw-name { font-family:'Outfit',monospace; font-weight:600; font-size:11px; margin-bottom:2px; }
+.sw-hex  { font-family:'Space Mono',monospace; font-size:9px; opacity:.45; }
+
+.color-usage {
+  display: grid; grid-template-columns:1fr 1fr; gap: 2px;
+}
+.cu-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 24px 28px;
+}
+.cu-label {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.18em; color:var(--tq-bright);
+  text-transform:uppercase; margin-bottom:12px;
+}
+.cu-list { display:flex; flex-direction:column; gap:8px; }
+.cu-item {
+  display:flex; align-items:center; gap:12px;
+  font-size:13px; font-weight:300; color:var(--text);
+}
+.cu-swatch { width:12px; height:12px; flex-shrink:0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.18); }
+
+.color-sub { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--tq-bright); margin:0 0 12px; }
+.cat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-bottom:32px; }
+.cat-card { background:var(--bg3); border:1px solid var(--border); overflow:hidden; }
+.cat-thumb { height:70px; }
+.cat-in { padding:14px 16px; }
+.cat-tag { font-family:'Space Mono',monospace; font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+.cat-hex { font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); margin-top:4px; }
+.cat-use { font-size:12px; color:var(--text); margin-top:6px; line-height:1.5; }
+.color-rules { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:2px; }
+@media(max-width:820px){ .cat-row{grid-template-columns:repeat(2,minmax(0,1fr))} .color-rules{grid-template-columns:1fr} .color-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;height:auto!important} .color-row .swatch{min-height:120px} }
+
+/* ── TYPOGRAPHY ── */
+.font-showcase {
+  display: grid; grid-template-columns:1fr 1fr 1fr; gap:2px; margin-bottom:2px;
+}
+.font-card {
+  background:var(--bg2); border:1px solid var(--border); padding:32px;
+}
+.font-card-label {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.18em; color:var(--muted);
+  text-transform:uppercase; margin-bottom:18px;
+  padding-bottom:14px; border-bottom:1px solid var(--border);
+}
+.font-name {
+  font-family:'Archivo',sans-serif; font-weight:800;
+  font-size:28px; color:var(--white); margin-bottom:4px;
+  letter-spacing:-.02em;
+}
+.font-meta {
+  font-family:'Space Mono',monospace; font-size:9px;
+  color:var(--tq-bright); letter-spacing:.1em; margin-bottom:16px;
+}
+.font-use {
+  font-size:12px; font-weight:300;
+  color:var(--text); line-height:1.6;
+}
+
+.type-scale {
+  background:var(--bg2); border:1px solid var(--border);
+  padding:36px;
+}
+.ts-row {
+  display:flex; align-items:baseline; gap:24px;
+  padding:14px 0; border-bottom:1px solid var(--border2);
+}
+.ts-row:last-child { border-bottom:none; }
+.ts-label {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.15em; color:var(--muted);
+  text-transform:uppercase; width:130px; flex-shrink:0;
+}
+.ts-sample { color:var(--white); }
+
+/* ── LOGO SYSTEM ── */
+.logo-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
+}
+.logo-box {
+  padding:48px 32px;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:6px;
+  position:relative; border:1px solid var(--border);
+}
+.logo-box-label {
+  position:absolute; bottom:12px; left:16px;
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.14em; color:var(--muted); text-transform:uppercase;
+}
+.icon-mark {
+  width:60px; height:60px;
+  background:linear-gradient(135deg,var(--tq-deep),var(--tq-mid));
+  display:flex; align-items:center; justify-content:center; position:relative;
+}
+.icon-mark::after {
+  content:''; position:absolute; bottom:-4px; right:-4px;
+  width:11px; height:11px;
+  border-right:2px solid var(--tq-bright);
+  border-bottom:2px solid var(--tq-bright);
+}
+
+.logo-rules {
+  display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:2px;
+}
+.lr-card {
+  background:var(--bg2); border:1px solid var(--border); padding:24px 28px;
+}
+.lr-label {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.18em; color:var(--tq-bright);
+  text-transform:uppercase; margin-bottom:12px;
+}
+.lr-list { display:flex; flex-direction:column; gap:8px; }
+.lr-item {
+  display:flex; align-items:flex-start; gap:10px;
+  font-size:13px; font-weight:300; color:var(--text); line-height:1.5;
+}
+.lr-dot { width:4px; height:4px; border-radius:50%; background:var(--tq-mid); flex-shrink:0; margin-top:6px; }
+
+/* ── BRAND ARCHITECTURE ── */
+.arch-diagram {
+  display:flex; flex-direction:column; gap:2px; margin-bottom:40px;
+}
+.arch-tier {
+  display:grid; align-items:stretch;
+}
+.arch-tier-1 { grid-template-columns:1fr; }
+.arch-tier-2 { grid-template-columns:1fr 1fr; }
+.arch-tier-3 { grid-template-columns:repeat(5,1fr); }
+
+.arch-card {
+  padding:22px 26px;
+  border:1px solid var(--border);
+  position:relative;
+}
+.arch-card-eye {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.15em; color:var(--tq-bright);
+  text-transform:uppercase; margin-bottom:6px;
+}
+.arch-card-name {
+  font-family:'Archivo',sans-serif; font-weight:800;
+  font-size:16px; color:var(--white); margin-bottom:4px;
+  letter-spacing:-.01em;
+}
+.arch-card-url {
+  font-family:'Space Mono',monospace; font-size:9px;
+  color:var(--muted); letter-spacing:.05em;
+}
+.arch-card-desc {
+  font-size:12px; font-weight:300;
+  color:var(--text); margin-top:8px; line-height:1.5;
+}
+
+.arch-card.tier-1 { background:var(--navy); border-color:rgba(6,182,212,.2); }
+.arch-card.tier-2 { background:var(--bg3); }
+.arch-card.tier-3 { background:var(--bg2); }
+
+.arch-connector {
+  display:flex; justify-content:center; padding:6px 0;
+  font-family:'Space Mono',monospace; font-size:9px;
+  color:var(--tq-deep); letter-spacing:.1em;
+}
+
+/* ── CONTENT PILLARS ── */
+.pillars-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
+}
+.pillar-card {
+  background:var(--bg2); border:1px solid var(--border);
+  padding:28px; transition:background .2s, border-color .2s;
+}
+.pillar-card:hover { background:var(--bg3); border-color:var(--tq-border); }
+.pillar-num {
+  font-family:'Space Mono',monospace; font-size:9px;
+  letter-spacing:.12em; color:var(--tq-mid);
+  margin-bottom:10px;
+}
+.pillar-name {
+  font-family:'Archivo',sans-serif; font-weight:700;
+  font-size:17px; color:var(--white); margin-bottom:10px;
+}
+.pillar-items {
+  list-style:none; display:flex; flex-direction:column; gap:6px;
+}
+.pillar-items li {
+  font-size:12px; font-weight:300; color:var(--text);
+  padding-left:14px; position:relative; line-height:1.5;
+}
+.pillar-items li::before {
+  content:'';
+  position:absolute; left:0; top:7px;
+  width:4px; height:4px; border-radius:50%;
+  background:var(--tq-deep);
+}
+
+/* ── PLATFORM STRATEGY ── */
+.platform-grid {
+  display:grid; grid-template-columns:repeat(5,1fr); gap:2px; margin-bottom:2px;
+}
+.plat-card {
+  background:var(--bg2); border:1px solid var(--border); padding:22px 18px;
+}
+.plat-name {
+  font-family:'Archivo',sans-serif; font-weight:700;
+  font-size:14px; color:var(--white); margin-bottom:6px;
+}
+.plat-role {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.1em; color:var(--tq-bright);
+  text-transform:uppercase; margin-bottom:10px;
+}
+.plat-note {
+  font-size:12px; font-weight:300; color:var(--text); line-height:1.55;
+}
+
+/* ── OFFER STACK ── */
+.offer-stack {
+  display:flex; flex-direction:column; gap:2px; margin-bottom:40px;
+}
+.offer-tier {
+  display:grid; grid-template-columns:80px 1fr 160px;
+  align-items:center; gap:0;
+  background:var(--bg2); border:1px solid var(--border);
+  overflow:hidden;
+}
+.offer-tier-label {
+  padding:22px 20px;
+  font-family:'Space Mono',monospace; font-size:9px;
+  letter-spacing:.12em; color:var(--bg);
+  text-transform:uppercase; text-align:center;
+  height:100%;
+  display:flex; align-items:center; justify-content:center;
+}
+.offer-tier.free  .offer-tier-label { background:var(--muted); }
+.offer-tier.mid   .offer-tier-label { background:var(--tq-deep); }
+.offer-tier.high  .offer-tier-label { background:var(--tq-mid); }
+.offer-tier.elite .offer-tier-label { background:var(--navy-mid); }
+
+.offer-content { padding:20px 24px; }
+.offer-name {
+  font-family:'Archivo',sans-serif; font-weight:700;
+  font-size:16px; color:var(--white); margin-bottom:4px;
+}
+.offer-desc {
+  font-size:12px; font-weight:300; color:var(--text); line-height:1.5;
+}
+.offer-price {
+  padding:20px 24px; text-align:right;
+  border-left:1px solid var(--border);
+}
+.offer-price-num {
+  font-family:'Archivo',sans-serif; font-weight:800;
+  font-size:22px; color:var(--tq-bright); line-height:1;
+}
+.offer-price-note {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.1em; color:var(--muted);
+  text-transform:uppercase; margin-top:3px;
+}
+
+/* ── FOOTER ── */
+.doc-footer {
+  background:var(--navy);
+  padding:48px 80px;
+  border-top:1px solid rgba(6,182,212,.15);
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:40px;
+}
+.df-col-label {
+  font-family:'Space Mono',monospace; font-size:8px;
+  letter-spacing:.18em; color:var(--tq-bright);
+  text-transform:uppercase; margin-bottom:14px;
+}
+.df-col-content {
+  font-size:13px; font-weight:300; color:var(--text); line-height:1.65;
+}
+.df-col-content strong { color:var(--white); font-weight:500; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes growW  { from{transform:scaleX(0);opacity:0} to{transform:scaleX(1);opacity:1} }
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .sidebar{display:none}
+  .main{margin-left:0}
+  .cover,.page{padding:60px 32px}
+  .overview-grid,.voice-grid,.color-usage,.logo-rules,.type-scale,.font-showcase{grid-template-columns:1fr}
+  .persona-grid,.platform-grid{grid-template-columns:repeat(2,1fr)}
+  .pillars-grid,.audience-grid,.logo-grid,.tagline-options{grid-template-columns:1fr}
+  .arch-tier-2,.arch-tier-3{grid-template-columns:1fr}
+  .offer-tier{grid-template-columns:60px 1fr}
+  .offer-price{display:none}
+  .pain-grid{grid-template-columns:1fr}
+  .doc-footer{grid-template-columns:1fr; padding:48px 32px}
+  .color-row{grid-template-columns:repeat(3,1fr); height:auto}
+  .swatch{aspect-ratio:1}
+}
+</style>
+</head>
+<body>
+
+<div class="cur"  id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- ══ SIDEBAR ══ -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sb-wordmark"><span class="sb-d">D</span><span class="sb-pro">PRO</span></div>
+    <div class="sb-tag">Brand Guidelines · 2025</div>
+  </div>
+
+  <div class="sb-section-label">Foundation</div>
+  <a href="#cover"        class="sb-link active">Cover</a>
+  <a href="#overview"     class="sb-link">Brand Overview</a>
+  <a href="#audience"     class="sb-link">Target Audience</a>
+  <a href="#personality"  class="sb-link">Brand Personality</a>
+
+  <div class="sb-section-label" style="margin-top:16px;">Visual Identity</div>
+  <a href="#colors"       class="sb-link">Color System</a>
+  <a href="#typography"   class="sb-link">Typography</a>
+  <a href="#logo"         class="sb-link">Logo System</a>
+
+  <div class="sb-section-label" style="margin-top:16px;">Strategy</div>
+  <a href="#architecture" class="sb-link">Brand Architecture</a>
+  <a href="#pillars"      class="sb-link">Content Pillars</a>
+  <a href="#platforms"    class="sb-link">Platform Strategy</a>
+  <a href="#offers"       class="sb-link">Offer Stack</a>
+
+  <div class="sb-version">
+    Version 1.0<br>
+    David Prochaska<br>
+    IFBB Pro · Founder
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+
+<!-- ════════════════════════════
+     COVER
+════════════════════════════ -->
+<section class="cover" id="cover">
+  <div class="cover-slash"></div>
+  <div class="cover-glow"></div>
+  <div class="cover-corner"></div>
+
+  <div class="cover-eye">Brand Guidelines — Official Document</div>
+
+  <div class="cover-wordmark">
+    <span class="cw-d">D</span><span class="cw-pro">PRO</span>
+    <span class="cw-h">Health</span>
+  </div>
+
+  <div class="cover-rule"></div>
+
+  <div class="cover-title">Brand Identity & Strategy Guidelines</div>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="cm-label">Founder</span>
+      <span class="cm-value">David Prochaska</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cm-label">Credential</span>
+      <span class="cm-value">IFBB Professional</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cm-label">Domain</span>
+      <span class="cm-value">dprohealth.com</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cm-label">Version</span>
+      <span class="cm-value">1.0 — 2025</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="cm-label">Community</span>
+      <span class="cm-value">Optimized Living</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     01. BRAND OVERVIEW
+════════════════════════════ -->
+<section class="page" id="overview">
+  <div class="page-num">01 — Brand Overview</div>
+  <div class="page-eye">Foundation</div>
+  <h2 class="page-heading">Brand <span>Overview</span></h2>
+  <p class="page-intro">Everything that DPRO Health is, stands for, and communicates — documented in one place for consistent use across all platforms, content, and collaborations.</p>
+
+  <!-- Mission -->
+  <div class="mission-big">
+    <div class="mission-qm">"</div>
+    <div class="mission-statement">
+      DPRO Health turns complex health and optimization research into something real people can <em>understand and actually use</em>.
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Overview cards -->
+  <div class="overview-grid">
+    <div class="ov-card">
+      <div class="ov-card-label">Brand Name</div>
+      <div class="ov-card-text">
+        <strong>DPRO Health</strong> — D from David, PRO from Prochaska. The name is personal without being generic, and carries the IFBB Pro credential built into its DNA. Always written as <em>DPRO Health</em> — never "Dpro" or "dpro" or "D-Pro."
+      </div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-label">The Origin Story</div>
+      <div class="ov-card-text">
+        David Prochaska is an <em>IFBB Professional</em> who crossed over from competitive bodybuilding into the science of health optimization, longevity, and peptide therapy. DPRO Health is the translation of that elite-level knowledge into something practical for real people with real lives.
+      </div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-label">The Core Promise</div>
+      <div class="ov-card-text">
+        Elite knowledge, made accessible. The same tools, protocols, and strategies used at the highest level of physical optimization — <em>simplified, explained, and actionable</em> for men and women who want results without the guesswork.
+      </div>
+    </div>
+    <div class="ov-card">
+      <div class="ov-card-label">The Differentiator</div>
+      <div class="ov-card-text">
+        David is an <em>IFBB Pro who crossed over</em>. That's the credibility bridge nobody else in the peptide and hormone optimization space has. He's lived the extreme end of physical performance — and now translates it for the real world.
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Taglines -->
+  <div class="page-eye" style="margin-bottom:10px;">Primary Tagline</div>
+  <div class="tagline-options">
+    <div class="tl-card primary">
+      <div class="tl-card-label">Primary Tagline ✦ Use everywhere</div>
+      <div class="tl-text">From Research to Results.</div>
+      <div class="tl-primary-badge">Primary</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-card-label">Alternative A</div>
+      <div class="tl-text">Built to Perform. Built to Last.</div>
+    </div>
+    <div class="tl-card">
+      <div class="tl-card-label">Alternative B</div>
+      <div class="tl-text">Elite Knowledge. Real Life Results.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     02. TARGET AUDIENCE
+════════════════════════════ -->
+<section class="page" id="audience" style="background:var(--bg2);">
+  <div class="page-num">02 — Target Audience</div>
+  <div class="page-eye">Audience</div>
+  <h2 class="page-heading">Who We <span>Serve</span></h2>
+  <p class="page-intro">Men and women ages 30–55 who are successful in career or family life but feel like they're slowly losing control of how they look, feel, and perform.</p>
+
+  <div class="audience-grid">
+    <div class="aud-card">
+      <div class="aud-icon">💼</div>
+      <div class="aud-title">The Executive</div>
+      <div class="aud-body">High performer at work, but feeling the gap between career output and physical energy. Wants to lead from a position of strength — mentally and physically.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-icon">👨‍👩‍👧</div>
+      <div class="aud-title">The Busy Parent</div>
+      <div class="aud-body">Everyone else comes first. Sleep is compromised. The gym happens when it can. Wants to feel like themselves again and set the right example for their kids.</div>
+    </div>
+    <div class="aud-card">
+      <div class="aud-icon">🎯</div>
+      <div class="aud-title">The Optimizer</div>
+      <div class="aud-body">Already doing the basics — sleeping, training, eating clean. But wants to go deeper. Peptides, hormones, longevity protocols. They'll pay for real expertise.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="page-eye" style="margin-bottom:16px;">What They're Struggling With</div>
+  <div class="pain-grid">
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Energy declining</strong> — the afternoon crash, waking unrefreshed, running on caffeine</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Focus and mental edge slipping</strong> — brain fog, distractibility, can't think clearly</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Hormones out of balance</strong> — doctor says "normal" but they feel far from it</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Metabolism slowing</strong> — eating clean but body composition keeps shifting wrong</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Confidence eroding</strong> — not recognizing themselves in the mirror or in the room</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Recovery taking longer</strong> — injuries linger, soreness doesn't clear, body doesn't bounce back</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Motivation flatlined</strong> — driven people who suddenly don't feel driven anymore</div></div>
+    <div class="pain-card"><div class="pain-dot"></div><div class="pain-text"><strong>Information overload</strong> — drowning in conflicting advice, wants one trusted source</div></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="ov-card" style="border-left:3px solid var(--tq-mid);">
+    <div class="ov-card-label">The Key Insight</div>
+    <div class="ov-card-text">
+      This audience is <em>successful, overwhelmed, and wants certainty</em>. They will pay for clarity. Especially when you simplify things, educate well, sound confident, look the part, and have lived it. <em>That's the exact profile of DPRO Health.</em>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     03. BRAND PERSONALITY
+════════════════════════════ -->
+<section class="page" id="personality">
+  <div class="page-num">03 — Brand Personality</div>
+  <div class="page-eye">Personality & Voice</div>
+  <h2 class="page-heading">How We <span>Sound</span></h2>
+  <p class="page-intro">DPRO Health communicates like a trusted expert who's also a real person — confident, direct, science-backed, and relatable. Think Apple meets Peter Attia with the approachability of a coach who's been through it.</p>
+
+  <div class="persona-grid">
+    <div class="persona-card">
+      <div class="persona-word">Confident</div>
+      <div class="persona-not">Not</div>
+      <div class="persona-opp">Arrogant</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-word">Scientific</div>
+      <div class="persona-not">Not</div>
+      <div class="persona-opp">Clinical</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-word">Experienced</div>
+      <div class="persona-not">Not</div>
+      <div class="persona-opp">Elitist</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-word">Direct</div>
+      <div class="persona-not">Not</div>
+      <div class="persona-opp">Aggressive</div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-word">Premium</div>
+      <div class="persona-not">Not</div>
+      <div class="persona-opp">Pretentious</div>
+    </div>
+  </div>
+
+  <div class="voice-grid">
+    <div class="voice-col do">
+      <div class="voice-col-label">✦ Voice — We Do</div>
+      <div class="voice-item"><div class="vi-dot"></div>Speak with authority — you've earned it through IFBB Pro status and lived experience</div>
+      <div class="voice-item"><div class="vi-dot"></div>Simplify complex science without dumbing it down — explain the mechanism, then the practical application</div>
+      <div class="voice-item"><div class="vi-dot"></div>Sound like insider information the audience wasn't supposed to know</div>
+      <div class="voice-item"><div class="vi-dot"></div>Use specific data points, numbers, and mechanisms — they signal credibility</div>
+      <div class="voice-item"><div class="vi-dot"></div>Address the person's frustration first, then give them the solution</div>
+      <div class="voice-item"><div class="vi-dot"></div>Write conversationally — like a knowledgeable friend, not a textbook</div>
+      <div class="voice-item"><div class="vi-dot"></div>Acknowledge what's hard before offering what works</div>
+    </div>
+    <div class="voice-col dont">
+      <div class="voice-col-label">✗ Voice — We Don't</div>
+      <div class="voice-item"><div class="vi-dot"></div>Use cringe marketing language — "life-changing," "secret hack," "you won't believe"</div>
+      <div class="voice-item"><div class="vi-dot"></div>Sound robotic or overly clinical — nobody wants to read a pharmacology lecture</div>
+      <div class="voice-item"><div class="vi-dot"></div>Make medical claims or tell people what to do with their health — educate, don't prescribe</div>
+      <div class="voice-item"><div class="vi-dot"></div>Use fear-based shame tactics around body image or health decline</div>
+      <div class="voice-item"><div class="vi-dot"></div>Overuse jargon without explaining it — always follow a technical term with plain English</div>
+      <div class="voice-item"><div class="vi-dot"></div>Promise overnight results — the audience is smart enough to know that's not real</div>
+      <div class="voice-item"><div class="vi-dot"></div>Sound like every other supplement brand or fitness influencer</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     04. COLOR SYSTEM
+════════════════════════════ -->
+<section class="page" id="colors" style="background:var(--bg2);">
+  <div class="page-num">04 — Color System</div>
+  <div class="page-eye">Visual Identity</div>
+  <h2 class="page-heading">Color <span>System</span></h2>
+  <p class="page-intro">Teal stays the core brand energy. Backgrounds are a lifted navy-slate, never flat black, so pages feel premium without feeling heavy. Gold is the action color: it marks the one thing we want people to click. Four category colors add variety to tags and thumbnails only.</p>
+
+  <div class="color-sub">Core palette</div>
+  <div class="color-row" style="grid-template-columns:repeat(6,1fr);">
+    <div class="swatch" style="background:#0E1622;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);">
+      <div class="sw-role" style="color:#5B7385;">Primary BG</div>
+      <div class="sw-name" style="color:#A9BCC8;">Navy Slate</div>
+      <div class="sw-hex"  style="color:#5B7385;">#0E1622</div>
+    </div>
+    <div class="swatch" style="background:#152131;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);">
+      <div class="sw-role" style="color:#5B7385;">Surface</div>
+      <div class="sw-name" style="color:#A9BCC8;">Card Slate</div>
+      <div class="sw-hex"  style="color:#5B7385;">#152131</div>
+    </div>
+    <div class="swatch" style="background:#0E7490;">
+      <div class="sw-role" style="color:rgba(255,255,255,.5);">Deep Teal</div>
+      <div class="sw-name" style="color:rgba(255,255,255,.85);">Ocean</div>
+      <div class="sw-hex"  style="color:rgba(255,255,255,.5);">#0E7490</div>
+    </div>
+    <div class="swatch" style="background:#06B6D4;">
+      <div class="sw-role" style="color:rgba(0,0,0,.5);">Primary Brand</div>
+      <div class="sw-name" style="color:rgba(0,0,0,.78);">Cyan-Turquoise</div>
+      <div class="sw-hex"  style="color:rgba(0,0,0,.5);">#06B6D4</div>
+    </div>
+    <div class="swatch" style="background:#F5B544;">
+      <div class="sw-role" style="color:rgba(0,0,0,.5);">Action Color</div>
+      <div class="sw-name" style="color:rgba(0,0,0,.78);">DPRO Gold</div>
+      <div class="sw-hex"  style="color:rgba(0,0,0,.5);">#F5B544</div>
+    </div>
+    <div class="swatch" style="background:#EEF3F6;">
+      <div class="sw-role" style="color:#5B7385;">Light Band</div>
+      <div class="sw-name" style="color:#152131;">Warm White</div>
+      <div class="sw-hex"  style="color:#5B7385;">#EEF3F6</div>
+    </div>
+  </div>
+
+  <div class="color-sub">Category colors · tags &amp; thumbnails only</div>
+  <div class="cat-row">
+    <div class="cat-card"><div class="cat-thumb" style="background:linear-gradient(135deg,#22D3EE,transparent 120%);"></div><div class="cat-in"><div class="cat-tag" style="color:#22D3EE;">Fat Loss / Metabolic</div><div class="cat-hex">#22D3EE</div><div class="cat-use">GLP-1s, retatrutide, tirzepatide</div></div></div>
+    <div class="cat-card"><div class="cat-thumb" style="background:linear-gradient(135deg,#F5B544,transparent 120%);"></div><div class="cat-in"><div class="cat-tag" style="color:#F5B544;">Recovery / Healing</div><div class="cat-hex">#F5B544</div><div class="cat-use">BPC-157, TB-500, GHK-Cu</div></div></div>
+    <div class="cat-card"><div class="cat-thumb" style="background:linear-gradient(135deg,#A78BFA,transparent 120%);"></div><div class="cat-in"><div class="cat-tag" style="color:#A78BFA;">Longevity</div><div class="cat-hex">#A78BFA</div><div class="cat-use">Epitalon, NAD+, MOTS-c</div></div></div>
+    <div class="cat-card"><div class="cat-thumb" style="background:linear-gradient(135deg,#4ADE80,transparent 120%);"></div><div class="cat-in"><div class="cat-tag" style="color:#4ADE80;">Cognitive / Performance</div><div class="cat-hex">#4ADE80</div><div class="cat-use">Semax, Selank, GH secretagogues</div></div></div>
+  </div>
+
+  <div class="color-usage">
+    <div class="cu-card">
+      <div class="cu-label">Teal — Brand Identity</div>
+      <div class="cu-list">
+        <div class="cu-item"><div class="cu-swatch" style="background:#22D3EE;"></div>Headline accents, wordmark PRO, hover states</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#06B6D4;"></div>Secondary buttons (outlined), links, icons</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#0E7490;"></div>Gradient bands, background accents, rules</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#67E8F9;"></div>Labels, eyebrows, metadata on dark surfaces</div>
+      </div>
+    </div>
+    <div class="cu-card">
+      <div class="cu-label">Gold — Action</div>
+      <div class="cu-list">
+        <div class="cu-item"><div class="cu-swatch" style="background:#F5B544;"></div>Primary CTA buttons (dark text #1A1206 on gold)</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#F5B544;"></div>"New" badges and the one highlight per page</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#F5B544;"></div>Never for body text, headings, or large backgrounds</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#F5B544;"></div>One gold CTA per screen. If everything is gold, nothing is.</div>
+      </div>
+    </div>
+  </div>
+  <div class="color-rules">
+    <div class="cu-card">
+      <div class="cu-label">Surfaces + Text</div>
+      <div class="cu-list">
+        <div class="cu-item"><div class="cu-swatch" style="background:#0E1622;"></div>Page background — navy slate, never pure black</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#152131;"></div>Cards, panels, elevated surfaces</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#EEF3F6;"></div>Light band every few sections to break up dark pages</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#0F172A;"></div>Featured sections, mission block</div>
+      </div>
+    </div>
+    <div class="cu-card">
+      <div class="cu-label">Text Colors</div>
+      <div class="cu-list">
+        <div class="cu-item"><div class="cu-swatch" style="background:#F0F4F6;"></div>Headlines and primary text on dark</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#A9BCC8;"></div>Body copy, descriptions on dark</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#0B1220;"></div>Headlines on light bands</div>
+        <div class="cu-item"><div class="cu-swatch" style="background:#43566A;"></div>Body copy on light bands</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     05. TYPOGRAPHY
+════════════════════════════ -->
+<section class="page" id="typography">
+  <div class="page-num">05 — Typography</div>
+  <div class="page-eye">Visual Identity</div>
+  <h2 class="page-heading">Type <span>System</span></h2>
+  <p class="page-intro">Three typefaces with distinct roles. Archivo for authority and impact. Outfit for warmth and readability. Space Mono for data, labels, and technical precision.</p>
+
+  <div class="font-showcase">
+    <div class="font-card">
+      <div class="font-card-label">Display & Headlines</div>
+      <div class="font-name">Archivo</div>
+      <div class="font-meta">800 · 700 · 600 Weight</div>
+      <div class="font-use">Used for the wordmark, all headings H1–H3, and any text that needs to command attention. Always tight letter-spacing (–0.02em to –0.03em) at large sizes.</div>
+    </div>
+    <div class="font-card">
+      <div class="font-card-label">Body & UI</div>
+      <div class="font-name" style="font-family:'Outfit';font-weight:700;">Outfit</div>
+      <div class="font-meta">300 · 400 · 500 · 600</div>
+      <div class="font-use">All body copy, navigation links, button text, captions, and UI labels. Warm and legible — keeps content approachable without losing authority.</div>
+    </div>
+    <div class="font-card">
+      <div class="font-card-label">Data & Labels</div>
+      <div class="font-name" style="font-family:'Space Mono';font-size:22px;letter-spacing:-.01em;">Mono</div>
+      <div class="font-meta">Space Mono · 400 · 700</div>
+      <div class="font-use">Section labels, tags, dosage data, protocol specs, metadata, eyebrows. The technical voice of the brand — signals precision and credibility.</div>
+    </div>
+  </div>
+
+  <div class="type-scale" style="margin-top:2px;">
+    <div class="ts-row">
+      <div class="ts-label">Display · Archivo 800</div>
+      <div class="ts-sample" style="font-family:'Archivo';font-weight:800;font-size:52px;letter-spacing:-.03em;line-height:1;">DPRO Health</div>
+    </div>
+    <div class="ts-row">
+      <div class="ts-label">H1 · Archivo 800</div>
+      <div class="ts-sample" style="font-family:'Archivo';font-weight:800;font-size:36px;letter-spacing:-.025em;">From Research to Results.</div>
+    </div>
+    <div class="ts-row">
+      <div class="ts-label">H2 · Archivo 700</div>
+      <div class="ts-sample" style="font-family:'Archivo';font-weight:700;font-size:26px;letter-spacing:-.02em;">Peptide Protocol Breakdown</div>
+    </div>
+    <div class="ts-row">
+      <div class="ts-label">H3 · Archivo 600</div>
+      <div class="ts-sample" style="font-family:'Archivo';font-weight:600;font-size:20px;">BPC-157 Dosing Guide — Beginner</div>
+    </div>
+    <div class="ts-row">
+      <div class="ts-label">Body · Outfit 300</div>
+      <div class="ts-sample" style="font-family:'Outfit';font-weight:300;font-size:15px;color:var(--text);line-height:1.7;">Science-backed strategies for driven men and women who want to perform at their peak — at any age. No fluff. No shortcuts. Just what works.</div>
+    </div>
+    <div class="ts-row">
+      <div class="ts-label">Label · Space Mono</div>
+      <div class="ts-sample" style="font-family:'Space Mono';font-size:10px;color:var(--tq-bright);letter-spacing:.18em;text-transform:uppercase;">PROTOCOL — BPC-157 · DOSE — 250MCG · DAILY</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     06. LOGO SYSTEM
+════════════════════════════ -->
+<section class="page" id="logo" style="background:var(--bg2);">
+  <div class="page-num">06 — Logo System</div>
+  <div class="page-eye">Visual Identity</div>
+  <h2 class="page-heading">Logo <span>System</span></h2>
+  <p class="page-intro">Six approved logo variations for different contexts. The primary wordmark is always the default. Icon mark is used for social avatars, app icons, and small-format applications.</p>
+
+  <div class="logo-grid">
+    <div class="logo-box" style="background:var(--bg);">
+      <div style="text-align:center;">
+        <div style="font-family:'Archivo';font-weight:800;font-size:48px;letter-spacing:-.02em;line-height:1;color:var(--white);">D<span style="color:var(--tq-mid);">PRO</span></div>
+        <div style="font-family:'Outfit';font-weight:600;font-size:11px;letter-spacing:.22em;color:var(--text);text-transform:uppercase;margin-top:4px;">Health</div>
+      </div>
+      <div class="logo-box-label">Primary — Dark BG</div>
+    </div>
+    <div class="logo-box" style="background:var(--bg3);">
+      <div style="display:flex;align-items:center;gap:13px;">
+        <div class="icon-mark"><div style="font-family:'Archivo';font-weight:800;font-size:20px;color:var(--white);letter-spacing:-.02em;">DP</div></div>
+        <div>
+          <div style="font-family:'Archivo';font-weight:800;font-size:20px;color:var(--white);letter-spacing:-.02em;line-height:1;">DPRO</div>
+          <div style="font-family:'Outfit';font-size:9px;font-weight:600;letter-spacing:.22em;color:var(--text);text-transform:uppercase;">Health</div>
+        </div>
+      </div>
+      <div class="logo-box-label">Horizontal + Icon</div>
+    </div>
+    <div class="logo-box" style="background:var(--bg);">
+      <div class="icon-mark" style="width:68px;height:68px;">
+        <div style="font-family:'Archivo';font-weight:800;font-size:24px;color:var(--white);letter-spacing:-.02em;">DP</div>
+      </div>
+      <div class="logo-box-label">Icon Mark Only</div>
+    </div>
+    <div class="logo-box" style="background:var(--navy); border-color:rgba(6,182,212,.15);">
+      <div style="text-align:center;">
+        <div style="font-family:'Archivo';font-weight:800;font-size:48px;letter-spacing:-.02em;line-height:1;color:var(--white);">D<span style="color:var(--tq-bright);">PRO</span></div>
+        <div style="font-family:'Outfit';font-weight:600;font-size:11px;letter-spacing:.22em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-top:4px;">Health</div>
+      </div>
+      <div class="logo-box-label" style="color:rgba(103,232,249,.3);">On Navy</div>
+    </div>
+    <div class="logo-box" style="background:#06B6D4;">
+      <div style="text-align:center;">
+        <div style="font-family:'Archivo';font-weight:800;font-size:48px;letter-spacing:-.02em;line-height:1;color:var(--bg);">DPRO</div>
+        <div style="font-family:'Outfit';font-weight:600;font-size:11px;letter-spacing:.22em;color:rgba(0,0,0,.38);text-transform:uppercase;margin-top:4px;">Health</div>
+      </div>
+      <div class="logo-box-label" style="color:rgba(0,0,0,.3);">On Brand Color</div>
+    </div>
+    <div class="logo-box" style="background:#F0F4F6;">
+      <div style="text-align:center;">
+        <div style="font-family:'Archivo';font-weight:800;font-size:48px;letter-spacing:-.02em;line-height:1;color:#080A0C;">D<span style="color:#06B6D4;">PRO</span></div>
+        <div style="font-family:'Outfit';font-weight:600;font-size:11px;letter-spacing:.22em;color:#7A9AAA;text-transform:uppercase;margin-top:4px;">Health</div>
+      </div>
+      <div class="logo-box-label" style="color:#7A9AAA;">On White</div>
+    </div>
+  </div>
+
+  <div class="logo-rules" style="margin-top:2px;">
+    <div class="lr-card">
+      <div class="lr-label">Logo Do's</div>
+      <div class="lr-list">
+        <div class="lr-item"><div class="lr-dot"></div>Always maintain minimum clear space equal to the height of the "D" on all sides</div>
+        <div class="lr-item"><div class="lr-dot"></div>Use only the approved color variations shown above</div>
+        <div class="lr-item"><div class="lr-dot"></div>Use the icon mark for social avatars, favicons, and sub-40px applications</div>
+        <div class="lr-item"><div class="lr-dot"></div>Always write "DPRO Health" — two words, DPRO in caps, Health title case</div>
+      </div>
+    </div>
+    <div class="lr-card">
+      <div class="lr-label">Logo Don'ts</div>
+      <div class="lr-list">
+        <div class="lr-item"><div class="lr-dot"></div>Never distort, stretch, or rotate the wordmark</div>
+        <div class="lr-item"><div class="lr-dot"></div>Never use unapproved colors or gradients on the logo</div>
+        <div class="lr-item"><div class="lr-dot"></div>Never place the logo on a busy background without adequate contrast</div>
+        <div class="lr-item"><div class="lr-dot"></div>Never separate "DPRO" from "Health" — they are one unit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     07. BRAND ARCHITECTURE
+════════════════════════════ -->
+<section class="page" id="architecture">
+  <div class="page-num">07 — Brand Architecture</div>
+  <div class="page-eye">Strategy</div>
+  <h2 class="page-heading">Brand <span>Architecture</span></h2>
+  <p class="page-intro">DPRO Health operates as a multi-property brand across distinct platforms, each with a specific role in the audience journey — from discovery through conversion to community.</p>
+
+  <div class="arch-diagram">
+    <div class="arch-tier arch-tier-1">
+      <div class="arch-card tier-1">
+        <div class="arch-card-eye">Master Brand · Discovery Hub</div>
+        <div class="arch-card-name">DPRO Health</div>
+        <div class="arch-card-url">dprohealth.com — Built on Framer</div>
+        <div class="arch-card-desc">The authority hub. Homepage, about, blog, lead magnets, links to all properties. First impression for cold audiences from social.</div>
+      </div>
+    </div>
+
+    <div class="arch-connector">↓ Subdomain Network ↓</div>
+
+    <div class="arch-tier arch-tier-2">
+      <div class="arch-card tier-2">
+        <div class="arch-card-eye">Content Library</div>
+        <div class="arch-card-name">learn.dprohealth.com</div>
+        <div class="arch-card-url">Built on Base44 / Framer CMS</div>
+        <div class="arch-card-desc">Searchable video library, protocol guides, peptide education. The "Hunter Williams library" equivalent.</div>
+      </div>
+      <div class="arch-card tier-2">
+        <div class="arch-card-eye">Coaching & Funnels</div>
+        <div class="arch-card-name">coaching.dprohealth.com</div>
+        <div class="arch-card-url">Built on GoHighLevel</div>
+        <div class="arch-card-desc">1:1 coaching, consultation booking, custom peptide protocols, meal plans, checkout flows, email sequences.</div>
+      </div>
+    </div>
+
+    <div class="arch-connector">↓</div>
+
+    <div class="arch-tier arch-tier-3">
+      <div class="arch-card tier-3">
+        <div class="arch-card-eye">Tools</div>
+        <div class="arch-card-name">tools.dprohealth.com</div>
+        <div class="arch-card-url">Framer / Base44</div>
+        <div class="arch-card-desc">Peptide calculators, reconstitution tools, dosage guides.</div>
+      </div>
+      <div class="arch-card tier-3">
+        <div class="arch-card-eye">Shop</div>
+        <div class="arch-card-name">shop.dprohealth.com</div>
+        <div class="arch-card-url">Current Platform</div>
+        <div class="arch-card-desc">Peptide singles, blends, stacks, supplement products.</div>
+      </div>
+      <div class="arch-card tier-3">
+        <div class="arch-card-eye">Community</div>
+        <div class="arch-card-name">Optimized Living</div>
+        <div class="arch-card-url">Skool.com</div>
+        <div class="arch-card-desc">Free community. Upsell to paid tiers. Warm audience hub.</div>
+      </div>
+      <div class="arch-card tier-3">
+        <div class="arch-card-eye">Newsletter</div>
+        <div class="arch-card-name">Weekly Email</div>
+        <div class="arch-card-url">Via GoHighLevel</div>
+        <div class="arch-card-desc">Science-backed weekly strategies to 3,500+ subscribers.</div>
+      </div>
+      <div class="arch-card tier-3">
+        <div class="arch-card-eye">Social</div>
+        <div class="arch-card-name">@dprohealth</div>
+        <div class="arch-card-url">TikTok · IG · YT · FB</div>
+        <div class="arch-card-desc">Top-of-funnel content. 30–90 second short-form video.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     08. CONTENT PILLARS
+════════════════════════════ -->
+<section class="page" id="pillars" style="background:var(--bg2);">
+  <div class="page-num">08 — Content Pillars</div>
+  <div class="page-eye">Content Strategy</div>
+  <h2 class="page-heading">Content <span>Pillars</span></h2>
+  <p class="page-intro">Every piece of DPRO Health content maps to one of these six pillars. They define the topics we own, the conversations we lead, and the authority we build.</p>
+
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <div class="pillar-num">01</div>
+      <div class="pillar-name">Peptide Education</div>
+      <ul class="pillar-items">
+        <li>BPC-157, TB-500, Ipamorelin, CJC-1295</li>
+        <li>Tesamorelin, GHK-Cu, Epitalon, KPV</li>
+        <li>MOTS-c, SS-31, GLP-1 agonists</li>
+        <li>Dosing, cycling, reconstitution, sourcing</li>
+        <li>Before you try · Myth-busting · Protocol breakdowns</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">02</div>
+      <div class="pillar-name">Hormone Optimization</div>
+      <ul class="pillar-items">
+        <li>Testosterone — free vs. total, TRT, natural optimization</li>
+        <li>Estrogen dominance, SHBG, aromatase</li>
+        <li>Female hormones — perimenopause, progesterone</li>
+        <li>Cortisol, thyroid, DHEA, insulin</li>
+        <li>Lab interpretation, what to test, what it means</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">03</div>
+      <div class="pillar-name">Metabolic Health</div>
+      <ul class="pillar-items">
+        <li>Insulin resistance, visceral fat, blood sugar</li>
+        <li>GLP-1s — Semaglutide, Tirzepatide, Retatrutide</li>
+        <li>Fasting protocols, nutrient partitioning</li>
+        <li>Protein strategy, body recomposition</li>
+        <li>Berberine, metabolic tools, CGM insights</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">04</div>
+      <div class="pillar-name">Longevity & Biohacking</div>
+      <ul class="pillar-items">
+        <li>Mitochondrial health — NAD+, MOTS-c, SS-31</li>
+        <li>Biological age, epigenetic clocks, biomarkers</li>
+        <li>Autophagy, senescent cells, mTOR</li>
+        <li>Zone 2, VO2 max, sauna, cold therapy</li>
+        <li>Sleep optimization, recovery protocols</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">05</div>
+      <div class="pillar-name">Performance & Recovery</div>
+      <ul class="pillar-items">
+        <li>HRV, overtraining, recovery optimization</li>
+        <li>Inflammation management, injury healing</li>
+        <li>Creatine, omega-3s, evidence-based supplements</li>
+        <li>Sleep architecture, GH release protocols</li>
+        <li>Training strategy for 35–55 year olds</li>
+      </ul>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-num">06</div>
+      <div class="pillar-name">Mindset & Optimization</div>
+      <ul class="pillar-items">
+        <li>Dopamine, cognitive enhancement, brain fog</li>
+        <li>High achiever burnout — the physiology</li>
+        <li>Identity-based health behavior change</li>
+        <li>The confidence-hormone connection</li>
+        <li>Long-term vision — the centenarian framework</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     09. PLATFORM STRATEGY
+════════════════════════════ -->
+<section class="page" id="platforms">
+  <div class="page-num">09 — Platform Strategy</div>
+  <div class="page-eye">Distribution</div>
+  <h2 class="page-heading">Platform <span>Strategy</span></h2>
+  <p class="page-intro">Every platform has a specific role. Content is created with a primary platform in mind and distributed across others. Quality over quantity — every piece must meet the DPRO standard.</p>
+
+  <div class="platform-grid">
+    <div class="plat-card">
+      <div class="plat-name">TikTok</div>
+      <div class="plat-role">Primary Discovery</div>
+      <div class="plat-note">Widest reach. 30–90 second science education. Hook-first, curiosity-driven. Highest volume platform.</div>
+    </div>
+    <div class="plat-card">
+      <div class="plat-name">Instagram</div>
+      <div class="plat-role">Authority & Trust</div>
+      <div class="plat-note">Reels + static posts. More polished. Audience skews slightly older. Strong for coaching conversions.</div>
+    </div>
+    <div class="plat-card">
+      <div class="plat-name">YouTube</div>
+      <div class="plat-role">Long-Term SEO</div>
+      <div class="plat-note">Shorts for discovery, long-form for depth. Evergreen content that compounds over time. Highest trust platform.</div>
+    </div>
+    <div class="plat-card">
+      <div class="plat-name">Facebook</div>
+      <div class="plat-role">35–55 Audience</div>
+      <div class="plat-note">Reels repurposed from TikTok. Strong reach with the exact target demographic. Underrated for this niche.</div>
+    </div>
+    <div class="plat-card">
+      <div class="plat-name">Email</div>
+      <div class="plat-role">Owned Audience</div>
+      <div class="plat-note">3,500+ subscribers. Weekly science-backed strategies. Highest conversion channel. Always build the list.</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="ov-card" style="border-left:3px solid var(--tq-mid);">
+    <div class="ov-card-label">Content Format Strategy</div>
+    <div class="ov-card-text">
+      All short-form content (30–90 seconds) follows the DPRO formula: <em>Strong curiosity hook → mechanism or insight → practical application → implicit or explicit CTA.</em> Content should sound like insider information — science-backed without being clinical, confident without being arrogant. Sound like Andrew Huberman's clarity meets the relatability of a coach who's lived it.
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     10. OFFER STACK
+════════════════════════════ -->
+<section class="page" id="offers" style="background:var(--bg2);">
+  <div class="page-num">10 — Offer Stack</div>
+  <div class="page-eye">Business Model</div>
+  <h2 class="page-heading">Offer <span>Stack</span></h2>
+  <p class="page-intro">A clear, simple offer architecture. Every level of the funnel has a clear next step. Complexity kills conversion — this stack is designed to guide people naturally from free to high-value.</p>
+
+  <div class="offer-stack">
+    <div class="offer-tier free">
+      <div class="offer-tier-label">Free</div>
+      <div class="offer-content">
+        <div class="offer-name">Optimized Living Community + Content</div>
+        <div class="offer-desc">Free Skool community, short-form social content, free 64-page peptide guide, weekly email newsletter. Builds trust and warms the audience.</div>
+      </div>
+      <div class="offer-price">
+        <div class="offer-price-num">$0</div>
+        <div class="offer-price-note">Always Free</div>
+      </div>
+    </div>
+    <div class="offer-tier mid">
+      <div class="offer-tier-label">Mid</div>
+      <div class="offer-content">
+        <div class="offer-name">Protocol Guides & Digital Products</div>
+        <div class="offer-desc">Peptide protocol guides, hormone optimization frameworks, meal plans, workout plans, dosage calculators. Downloadable, self-serve.</div>
+      </div>
+      <div class="offer-price">
+        <div class="offer-price-num">$47–97</div>
+        <div class="offer-price-note">One-Time</div>
+      </div>
+    </div>
+    <div class="offer-tier mid" style="border-top:none;">
+      <div class="offer-tier-label" style="background:var(--navy-mid);">Community</div>
+      <div class="offer-content">
+        <div class="offer-name">Optimized Living — Paid Tier</div>
+        <div class="offer-desc">Monthly live Q&As with David, exclusive protocol library, direct access, priority support. The inner circle of the community.</div>
+      </div>
+      <div class="offer-price">
+        <div class="offer-price-num">$47–97</div>
+        <div class="offer-price-note">Per Month</div>
+      </div>
+    </div>
+    <div class="offer-tier high" style="border-top:none;">
+      <div class="offer-tier-label">High</div>
+      <div class="offer-content">
+        <div class="offer-name">1:1 Coaching — Work With David</div>
+        <div class="offer-desc">Fully custom peptide protocols, hormone optimization plans, training and nutrition, ongoing support. David's highest-touch offer. Limited spots.</div>
+      </div>
+      <div class="offer-price">
+        <div class="offer-price-num">$500+</div>
+        <div class="offer-price-note">Per Month</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ov-card" style="border-left:3px solid var(--tq-mid);">
+    <div class="ov-card-label">The Funnel Logic</div>
+    <div class="ov-card-text">
+      <em>Content finds them → dprohealth.com converts them → free community warms them → digital products qualify them → coaching closes them.</em> Every touchpoint is designed to add value first and convert second. The audience trusts DPRO Health because they've been educated by it before they've ever paid for it.
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div>
+    <div class="df-col-label">Brand</div>
+    <div class="df-col-content">
+      <strong>DPRO Health</strong><br>
+      Founded by David Prochaska<br>
+      IFBB Professional<br>
+      dprohealth.com
+    </div>
+  </div>
+  <div>
+    <div class="df-col-label">Community</div>
+    <div class="df-col-content">
+      <strong>Optimized Living</strong><br>
+      Skool.com/optimizedliving<br>
+      5,000+ Members<br>
+      Free · Growing to Paid
+    </div>
+  </div>
+  <div>
+    <div class="df-col-label">Document Info</div>
+    <div class="df-col-content">
+      Brand Guidelines v1.0<br>
+      Created 2025<br>
+      <strong>Internal use only</strong><br>
+      Share with designers & collaborators
+    </div>
+  </div>
+</footer>
+
+</div><!-- /main -->
+
+<script>
+// Cursor
+const cur  = document.getElementById('cur');
+const curR = document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx-3+'px';
+  cur.style.top =my-3+'px';
+});
+(function loop(){
+  rx+=(mx-rx-14)*.13; ry+=(my-ry-14)*.13;
+  curR.style.left=rx+'px'; curR.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('button,a,.ov-card,.pillar-card,.plat-card,.swatch,.logo-box,.persona-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ cur.style.transform='scale(2.5)'; curR.style.width='42px'; curR.style.height='42px'; });
+  el.addEventListener('mouseleave',()=>{ cur.style.transform='scale(1)'; curR.style.width='28px'; curR.style.height='28px'; });
+});
+
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('section[id], div[id]');
+const links = document.querySelectorAll('.sb-link');
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const active = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if(active) active.classList.add('active');
+    }
+  });
+},{threshold:.3});
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>

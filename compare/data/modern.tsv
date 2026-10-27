@@ -1,5 +1,6 @@
-# Modern Aminos — WooCommerce Store API via Chrome, captured 2026-10-08. 158 products → 216 rows; merch excluded. Modern sells no multi-vial kits.
+# Modern Aminos — WooCommerce Store API via built-in browser, captured 2026-10-23. 201 rows; merch excluded.
 # slug	variant	price_cents	in_stock
+lipo-clear		5800	1
 buy-ghk-cu-methylene-blue-tallow-matrix-blend		3100	1
 seltorexant		7700	1
 vip-vasoactive-intestinal-peptide		6000	1
@@ -16,21 +17,21 @@ cartalax-blend-research-matrix		14900	1
 vilon-20mg		5400	1
 pe-22-28-10mg		5400	1
 thymogen-thymagen		6900	1
-vesugen-20mg		5400	0
+vesugen-20mg		5400	1
 prostamax-20mg		5400	1
 ovagen-20mg		5400	1
 bronchogen-20mg		5400	1
 testagen-20mg		5400	1
 livagen-20mg		5400	1
 chonluten-20mg		5400	1
-cardiogen-20mg		5400	0
-gb-115		5400	1
+cardiogen-20mg		5400	1
+gb-115	2.5mg Capsules (60 units)	5400	1
 nortadalafil		4800	1
 nooglutyl		3800	1
 atx-304-o-304		13900	0
 melts-pro-cjc-1295-ipamorelin-dissolving-strips		17999	1
-melts-pro-tesofensine-5-amino-1mq-dissolving-strips		18999	1
 melts-pro-selank-semax		17499	1
+melts-passion-performance-dissolving-strips		9999	0
 melts-pro-melanotan-ii-dissolving-strips		9699	1
 melts-brain-fuel-dissolving-strips		3699	1
 melts-nad-dissolving-strips		5999	1
@@ -42,13 +43,13 @@ prl-8-53		3800	1
 cms-121		5800	1
 ipam-indolepropionamide		4400	1
 l-thp		3900	1
-tak-653		7800	0
+tak-653		7800	1
 sunifiram		6400	1
 ma-3rt-cagrilintide-8mg-2mg		11700	1
 cartalax-20mg		5400	1
-transdermal-pentadecapeptide		6700	1
+bpc-lipid-based-carrier		6700	1
 hexarelin-cjc-1295-no-dac		7900	1
-p-21		9800	0
+p-21		9800	1
 hexarelin-10mg		6800	1
 pinealon-20mg		6100	1
 semax-selank		7800	1
@@ -67,7 +68,7 @@ dada	250MG Dry-Fill	7400	1
 dada	300MG/ML 30ML	5300	1
 enclomiphene	6.25MG Dry-Fill	5800	1
 enclomiphene	12.5MG Dry-Fill	8400	1
-enclomiphene	25MG/ML (30ML)	6900	1
+enclomiphene	25MG/ML (30ML)	5865	1
 piracetam-powder		4400	0
 aminotadalafil	20MG/ML (30ML)	4800	1
 aminotadalafil	5MG Dry-Fill	4800	1
@@ -89,7 +90,7 @@ slu-pp-332	300MCG/ML - Liquid	4400	1
 slu-pp-332	250MCG -Dry-Fill	5000	1
 slu-pp-332	500MCG -Dry-Fill	8900	1
 slu-pp-332	10MG -Dry-Fill	13900	1
-pea-palmitoylethanolamide-400mg		3900	1
+pea-palmitoylethanolamide-400mg		3900	0
 s-acetyl-glutathione-200mg		4800	1
 compound-7p		5400	0
 aniracetam-400mg		3800	1
@@ -109,7 +110,7 @@ lgd-4033	Oil 50MG/ML (10ML)	7400	1
 mk-677	30MG/ML (30ML)	6800	1
 mk-677	25MG Dry-Fill	8900	1
 gw-0742-20mg-ml		6400	1
-ac-262	10MG - Dry-Fill	6400	1
+ac-262	10MG - Dry-Fill	6400	0
 ac-262	30MG/ML (30ML)	7200	1
 lgd-3033-10mg		7800	1
 mk-2866-ostarine	30MG/ML 30ML	5400	1
@@ -141,7 +142,7 @@ epithalon	Epithalon 10MG	4000	1
 epithalon	Epithalon 50MG	10900	1
 nad-20ml	200MG/ML (20ML)	6900	1
 nad-20ml	500MG (Lyophilized)	4900	1
-bpc-157tb-500-blend	5MG/5MG (Lyophilized)	5400	1
+bpc-157tb-500-blend	5MG/5MG (Lyophilized)	5900	1
 bpc-157tb-500-blend	10MG/10MG (Lyophilized)	8900	1
 bpc-157tb-500-blend	Powder (Dry-Fill)	9900	1
 cjc-1295-no-dac-ipamorelin	5MG/5MG	5500	1
@@ -158,18 +159,18 @@ vitamin-b12-20ml		4800	1
 pure-potion		6800	1
 sr-9009-oil-50mg-ml-10ml		6400	1
 ll-37-5mg		4700	1
-kpv	500mcg Dry-Fill	8900	1
-kpv	10MG Lyophilized	4600	1
-dsip-5mg		3500	1
+kpv	500mcg Dry-Fill	7900	1
+kpv	10MG Lyophilized	3900	1
+dsip-10mg		4900	1
 selank-10mg		4500	1
 hgh-frag-176-191-5mg		4400	1
 nad-carnitine-based-amino-blend-20ml		6400	1
 coq10-20ml		4800	1
 carnitinearginine-based-amino-blend-20ml		4400	1
-sermorelin-5mg	10MG	7400	1
 sermorelin-5mg	5MG	4600	1
+sermorelin-5mg	10MG	7400	1
 ghk-cu	100MG	6400	1
-ghk-cu	50MG	4200	1
+ghk-cu	50MG	3360	1
 aod-9604-5mg		3900	1
 semax-10mg	Semax 10MG	4200	1
 semax-10mg	NA-Semax	4200	1
@@ -197,6 +198,6 @@ reconstitution-solution	10ml	800	1
 reconstitution-solution	30ml	1899	1
 glutathione	600mg-lyophilized	5400	1
 glutathione	200mg-ml-20ml-reconstituted	6900	1
-pentadecapeptide	10mg-lyophilized	6800	1
-pentadecapeptide	5mg-lyophilized	3800	1
+pentadecapeptide	10mg-lyophilized	5400	1
+pentadecapeptide	5mg-lyophilized	3400	1
 l-carnitine-20ml		5100	1

@@ -145,7 +145,8 @@ MAP = [
    M("semax-selank","",20), G("semaxselank","",20,"semax-selank-blend-20mg-10-pack")]),
  ("PE-22-28", "cog", False, "", [M("pe-22-28-10mg","",10), P("pe-22-28-2","PE2228-10",10)]),
  ("DSIP", "sleep", False, "", [
-   M("dsip-5mg","",5), G("dsip-10","",10,"dsip-10mg-10-pack"), P("dsip-2","DSIP-10",10)]),
+   # M("dsip-5mg","",5),  # 2026-10-23: gone from Modern; only "dsip-10mg" listed now (size differs, not auto-mapped)
+   G("dsip-10","",10,"dsip-10mg-10-pack"), P("dsip-2","DSIP-10",10)]),
  # ---- Longevity
  ("Epithalon", "long", False, "", [
    M("epithalon","Epithalon 10MG",10), M("epithalon","Epithalon 50MG",50),

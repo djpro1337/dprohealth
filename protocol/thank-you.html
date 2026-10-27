@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+<meta name="theme-color" content="#0E1622">
+<title>Thank You &mdash; Your Protocol Is Underway | DPRO Health</title>
+<link rel="canonical" href="https://dprohealth.com/protocol/thank-you">
+<meta name="description" content="Your custom protocol order is confirmed.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/brand.css">
+<style>
+  /* ===== NAV DROPDOWNS (Peptides / Peptide Blends) ===== */
+  .nav-dd{position:relative;display:inline-block}
+  .nav-dd-btn{font:inherit;font-family:'Outfit',sans-serif;font-weight:500;font-size:15px;
+    color:var(--text,#C7D6DD);background:none;border:none;cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;gap:5px;letter-spacing:.01em;transition:color .18s}
+  .nav-dd:hover .nav-dd-btn,.nav-dd-btn:focus-visible{color:var(--tq-bright,#22D3EE)}
+  .dd-caret{font-size:10px;transition:transform .2s;opacity:.8}
+  .nav-dd:hover .dd-caret,.nav-dd.open .dd-caret{transform:rotate(180deg)}
+  .nav-dd-menu{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%) translateY(8px);
+    background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+    padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+    display:grid;grid-template-columns:repeat(3,minmax(140px,1fr));gap:2px 10px;
+    opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s,transform .2s,visibility .2s;
+    z-index:120;min-width:480px}
+  .nav-dd-menu::before{content:'';position:absolute;top:-14px;left:0;right:0;height:14px}
+  .nav-dd:hover .nav-dd-menu,.nav-dd.open .nav-dd-menu{opacity:1;visibility:visible;pointer-events:auto;
+    transform:translateX(-50%) translateY(0)}
+  .nav-dd-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+    font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;
+    transition:background .15s,color .15s}
+  .nav-dd-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+  /* Blends menu is smaller — single column */
+  .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+  .nav-dd.tools .nav-dd-menu{grid-template-columns:1fr;min-width:240px}
+
+  @media(max-width:860px){
+    .nav-dd{display:block;width:100%}
+    .nav-dd-btn{width:100%;justify-content:space-between;padding:6px 0;font-size:16px}
+    .nav-dd-menu{position:static;transform:none!important;opacity:1;visibility:visible;pointer-events:auto;
+      box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+      grid-template-columns:1fr 1fr;display:none}
+    .nav-dd.open .nav-dd-menu{display:grid}
+    .nav-dd-menu::before{display:none}
+    .nav-dd.blends .nav-dd-menu{grid-template-columns:1fr 1fr}
+  }
+
+
+/* ============ NESTED NAV ADD-ON CSS (works with existing .nav-dd system) ============ */
+/* Flyout submenu: a .nav-dd-menu item that itself contains a submenu */
+.nav-sub{position:relative}
+.nav-sub > a.nav-sub-btn,.nav-sub > .nav-sub-btn{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;font-weight:500;
+  font-size:14px;color:var(--text,#C7D6DD);cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub > .nav-sub-btn:hover,.nav-sub:hover > .nav-sub-btn{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+.nav-sub > .nav-sub-btn .fly-caret{font-size:10px;opacity:.7;transition:transform .2s}
+.nav-sub:hover > .nav-sub-btn .fly-caret{transform:rotate(-90deg)}
+.nav-sub-menu{position:absolute;top:-14px;left:calc(100% + 8px);
+  background:var(--navy,#0F172A);border:1px solid var(--tq-border,#14414C);border-radius:12px;
+  padding:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(6,182,212,.06);
+  display:grid;grid-template-columns:repeat(3,minmax(150px,1fr));gap:2px 10px;
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateX(8px);
+  transition:opacity .2s,transform .2s,visibility .2s;z-index:130;min-width:500px}
+.nav-sub-menu.blends-sub{grid-template-columns:1fr;min-width:240px}
+.nav-sub-menu::before{content:'';position:absolute;top:0;left:-12px;width:12px;height:100%}
+.nav-sub:hover > .nav-sub-menu{opacity:1;visibility:visible;pointer-events:auto;transform:translateX(0)}
+.nav-sub-menu a{display:block;padding:9px 12px;border-radius:7px;font-family:'Outfit',sans-serif;
+  font-weight:400;font-size:14px;color:var(--text,#C7D6DD);text-decoration:none;white-space:nowrap;transition:background .15s,color .15s}
+.nav-sub-menu a:hover{background:rgba(6,182,212,.12);color:var(--tq-bright,#22D3EE)}
+/* Coaching parent dd is single-column */
+.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr;min-width:250px}
+/* Peptides parent: now just two flyout rows, single column */
+.nav-dd.peptides-parent .nav-dd-menu{grid-template-columns:1fr;min-width:230px}
+
+@media(max-width:860px){
+  /* On mobile, flyouts become inline accordions */
+  .nav-sub{width:100%}
+  .nav-sub > .nav-sub-btn{width:100%;font-size:15px}
+  .nav-sub-menu{position:static;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;
+    box-shadow:none;border:none;background:transparent;padding:4px 0 8px 14px;min-width:0;
+    grid-template-columns:1fr 1fr;display:none}
+  .nav-sub.open > .nav-sub-menu{display:grid}
+  .nav-sub-menu.blends-sub{grid-template-columns:1fr 1fr}
+  .nav-dd.peptides-parent .nav-dd-menu,.nav-dd.coaching .nav-dd-menu,.nav-dd.resources .nav-dd-menu{grid-template-columns:1fr}
+}
+
+
+  /* ===== CUSTOM PROTOCOL PAGE ===== */
+  .pr-gold{color:var(--gold)}
+  .pr-hero{padding:96px 0 72px;position:relative}
+  .pr-hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+  .pr-h1{font-size:clamp(40px,5.6vw,70px)}
+  .pr-lead{margin-top:24px;font-size:clamp(16px,1.6vw,19px);color:var(--off-white);max-width:560px}
+  .pr-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .pr-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:22px;font-size:14px}
+  .pr-from{color:var(--white);font-weight:600}
+  .pr-launch{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-border);padding:5px 10px;border-radius:3px}
+  .pr-spots{color:var(--text)}
+  .pr-stats{display:flex;flex-wrap:wrap;gap:28px;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)}
+  .pr-stats b{display:block;font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.02em;color:var(--white)}
+  .pr-stats span{font-size:13px;color:var(--text)}
+
+  .pr-doc-wrap{max-width:480px;width:100%;margin:0 auto}
+  .pr-doc{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:0 30px 60px rgba(0,0,0,.35);transform:rotate(1.2deg)}
+  .pr-doc-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .pr-doc-eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--tq-light)}
+  .pr-doc-title{margin-top:6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:20px;letter-spacing:-.02em;color:var(--white)}
+  .pr-doc-wm{font-family:'Archivo',sans-serif;font-weight:900;font-size:14px;color:var(--white)}
+  .pr-doc-wm span{color:var(--tq-mid);font-size:9px;letter-spacing:.12em;margin-left:3px}
+  .pr-bar{display:block;height:9px;background:#2A3B51;border-radius:3px}
+  .pr-bar.dim{flex:1;height:7px;background:#223247}
+  .pr-doc-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:18px}
+  .pr-doc-stats div{background:var(--bg3);border-radius:8px;padding:10px}
+  .pr-doc-stats span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text);margin-bottom:6px}
+  .pr-doc-label{margin:18px 0 8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text)}
+  .pr-doc-row{display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:8px;padding:10px 12px;margin-bottom:8px}
+  .pr-doc-row b{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .pr-doc-row i.pr-bar{height:9px}
+  .pr-doc-row em{font-style:normal;font-family:'Space Mono',monospace;font-size:9px;color:var(--tq-light);white-space:nowrap}
+  .pr-doc-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center;font-size:10px;color:var(--text)}
+  .pr-doc-week b{display:block;width:10px;height:10px;border-radius:50%;margin:6px auto 0;background:#2A3B51}
+  .pr-doc-week b.on{background:var(--tq-mid)} .pr-doc-week b.gd{background:var(--gold)}
+  .pr-doc-phases{display:flex;gap:6px;margin-top:18px}
+  .pr-doc-phases span{flex:1;text-align:center;font-size:11px;padding:8px 4px;border-radius:6px}
+  .pr-doc-phases .p1{background:rgba(6,182,212,.14);border:1px solid rgba(6,182,212,.4);color:var(--tq-light)}
+  .pr-doc-phases .p2{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold)}
+  .pr-doc-phases .p3{background:rgba(167,139,250,.14);border:1px solid rgba(167,139,250,.4);color:#C4B5FD}
+  .pr-doc-cap{margin-top:14px;text-align:center;font-size:13px;color:var(--text)}
+
+  .pr-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:36px}
+  .pr-step{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px}
+  .pr-num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--gold);margin-bottom:12px}
+  .pr-step p{margin-top:8px;font-size:15px;line-height:1.6}
+
+  .pr-inside{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:40px}
+  .pr-in{border:1px solid rgba(11,18,32,.08);border-radius:12px;padding:22px}
+  .pr-in h3{margin:8px 0 6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.02em;color:var(--light-head)}
+  .pr-in p{font-size:14.5px;line-height:1.55}
+
+  .pr-tiers{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:900px;margin:44px auto 0}
+  .pr-tier{position:relative;display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px}
+  .pr-tier.featured{border:2px solid var(--gold)}
+  .pr-badge{position:absolute;top:-13px;left:32px;background:var(--gold);color:var(--gold-ink);font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:4px}
+  .pr-tier-sub{margin-top:6px;font-size:14px;color:var(--text)}
+  .pr-price{display:flex;align-items:baseline;gap:10px;margin-top:20px}
+  .pr-price b{font-family:'Archivo',sans-serif;font-weight:900;font-size:52px;letter-spacing:-.03em;color:var(--white)}
+  .pr-price span{font-size:14px;color:var(--text)}
+  .pr-list{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:11px;flex-grow:1;font-size:15px}
+  .pr-list li{position:relative;padding-left:24px}
+  .pr-list li::before{content:'\2713';position:absolute;left:0;color:var(--tq-mid)}
+  .pr-list.gold li::before{color:var(--gold)}
+  .pr-list b{color:var(--white)}
+  .pr-tier-btn{margin-top:28px;justify-content:center}
+  .pr-note{margin-top:18px;text-align:center;font-size:13px;color:var(--text)}
+
+  .pr-fit{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .pr-fit-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:30px}
+  .pr-fit-card ul{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:9px;font-size:15px}
+  .pr-fit-card a{color:var(--tq-light)}
+
+  .pr-about{display:flex;flex-wrap:wrap;gap:36px;align-items:center;background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border);border-radius:18px;padding:34px}
+  .pr-about img{width:200px;height:240px;object-fit:cover;border-radius:12px;flex-shrink:0}
+  .pr-about>div{flex:1 1 380px;min-width:0}
+
+  .pr-form{margin-top:34px;background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px 20px;min-height:400px}
+  .pr-form iframe{display:block;border:0;width:100%}
+
+  .pr-faq details{border-top:1px solid var(--border);padding:18px 0}
+  .pr-faq details:last-child{border-bottom:1px solid var(--border)}
+  .pr-faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:'Archivo',sans-serif;font-weight:700;font-size:18px;color:var(--white)}
+  .pr-faq summary::-webkit-details-marker{display:none}
+  .pr-faq summary span{color:var(--gold);font-size:24px;line-height:1;transition:transform .2s}
+  .pr-faq details[open] summary span{transform:rotate(45deg)}
+  .pr-faq p{margin-top:10px;font-size:15.5px;line-height:1.65;max-width:680px}
+  .pr-faq a{color:var(--tq-light)}
+
+  .pr-final{text-align:center;background:var(--bg2);border:1px solid var(--gold-border);border-radius:18px;padding:52px 28px}
+
+  @media(max-width:960px){
+    .pr-hero-grid{grid-template-columns:1fr;gap:44px}
+    .pr-inside{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:760px){
+    .pr-steps,.pr-tiers,.pr-fit{grid-template-columns:1fr}
+    .pr-hero{padding:64px 0 52px}
+    .pr-doc{transform:none}
+  }
+  @media(max-width:520px){
+    .pr-inside{grid-template-columns:1fr}
+    .pr-about img{width:100%;height:280px}
+  }
+  @media(prefers-reduced-motion:reduce){.pr-faq summary span{transition:none}}
+
+  .ty-check{width:64px;height:64px;margin:0 auto;border-radius:50%;background:var(--gold-dim);border:2px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center}
+  .ty-steps{list-style:none;margin:0;padding:0;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+  .ty-steps li{display:flex;gap:20px;padding:22px 26px;border-bottom:1px solid var(--border)}
+  .ty-steps li:last-child{border-bottom:none}
+  .ty-steps li[hidden]{display:none}
+  .ty-when{flex:0 0 110px;font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--tq-light);padding-top:3px}
+  .ty-when.gold{color:var(--gold)} .ty-when.violet{color:#C4B5FD}
+  .ty-steps b{font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;color:var(--white)}
+  .ty-steps p{margin-top:4px;font-size:15px}
+  .ty-card{text-decoration:none;color:inherit;transition:border-color .2s,transform .2s}
+  .ty-card:hover{border-color:var(--tq-border);transform:translateY(-2px)}
+  .ty-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tq-light);margin-bottom:10px}
+  @media(max-width:560px){.ty-steps li{flex-direction:column;gap:6px}.ty-when{flex:none}}
+
+</style>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J45G6SKDKE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-J45G6SKDKE');
+</script>
+<script defer src="/js/affiliate-track.js"></script>
+</head>
+<body>
+<div class="atmos"><div class="slash"></div><div class="glow"></div></div>
+
+
+  <header class="nav">
+    <div class="nav-inner">
+      <a href="/" class="wordmark"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+      <button class="nav-toggle" aria-label="Menu" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+      <nav class="nav-links" id="navlinks">
+        <div class="nav-dd peptides-parent">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Peptides <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/peptides" class="nav-all">All peptides →</a>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptides <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu" role="menu">
+          <a href="/peptides/ara290">ARA-290</a>
+          <a href="/peptides/bpc157">BPC-157</a>
+          <a href="/peptides/ghk-cu">GHK-Cu</a>
+          <a href="/peptides/kpv">KPV</a>
+          <a href="/peptides/tb500">TB-500</a>
+          <a href="/peptides/aod9604">AOD-9604</a>
+          <a href="/peptides/cagrilintide">Cagrilintide</a>
+          <a href="/peptides/cjc1295">CJC-1295 (No DAC)</a>
+          <a href="/peptides/ipamorelin">Ipamorelin</a>
+          <a href="/peptides/mots-c">MOTS-c</a>
+          <a href="/peptides/tesamorelin">Tesamorelin</a>
+          <a href="/peptides/epitalon">Epitalon</a>
+          <a href="/peptides/foxo4-dri">FOXO4-DRI</a>
+          <a href="/peptides/nad">NAD+</a>
+          <a href="/peptides/selank">Selank</a>
+          <a href="/peptides/semax">Semax</a>
+          <a href="/peptides/ss31">SS-31</a>
+          <a href="/peptides/thymalin">Thymalin</a>
+          <a href="/peptides/dsip">DSIP</a>
+          <a href="/peptides/kisspeptin">Kisspeptin</a>
+          <a href="/peptides/oxytocin">Oxytocin</a>
+          <a href="/peptides/pt141">PT-141</a>
+          <a href="/peptides/ll37">LL-37</a>
+          <a href="/peptides/thymosin-alpha1">Thymosin Alpha-1</a>
+          <a href="/peptides/vip">VIP</a>
+          <a href="/peptides/5-amino-1mq">5-Amino-1MQ</a>
+          <a href="/peptides/follistatin344">Follistatin-344</a>
+          <a href="/peptides/igf1-lr3">IGF-1 LR3</a>
+          <a href="/peptides/melanotan1">Melanotan 1</a>
+          <a href="/peptides/bioregulators">Bioregulators</a>
+          <a href="/peptides/retatrutide">Retatrutide</a>
+          <a href="/peptides/semaglutide">Semaglutide</a>
+          <a href="/peptides/tirzepatide">Tirzepatide</a>
+              </div>
+            </div>
+            <div class="nav-sub">
+              <div class="nav-sub-btn">Peptide Blends <span class="fly-caret">▸</span></div>
+              <div class="nav-sub-menu blends-sub" role="menu">
+          <a href="/peptides/blend-bpc-tb500">BPC-157 / TB-500</a>
+          <a href="/peptides/blend-glow">GLOW Blend</a>
+          <a href="/peptides/blend-ipa-cjc">Ipamorelin / CJC-1295</a>
+          <a href="/peptides/blend-klow">KLOW Blend</a>
+          <a href="/peptides/blend-tesa-ipa">Tesamorelin / Ipamorelin</a>
+          <a href="/peptides/blend-triple-threat">Triple Threat</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="nav-dd tools">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Tools <span class="dd-caret">▾</span></button>
+          <div class="nav-dd-menu" role="menu">
+          <a href="/peptide-calculator">Peptide Calculator</a>
+          <a href="/tdee-calculator">TDEE / Macro Calculator</a>
+          <a href="/glp1-titration">GLP-1 Titration Schedule</a>
+          <a href="/half-life">Half-Life Visualizer</a>
+          <a href="/cycle-planner">Cycle Planner</a>
+          <a href="/bloodwork">Bloodwork Analyzer</a>
+          </div>
+        </div>
+        <div class="nav-dd catalogs">
+          <button class="nav-dd-btn" aria-haspopup="true" aria-expanded="false">Catalogs <span class="dd-caret">&#9662;</span></button>
+          <div class="nav-dd-menu" role="menu">
+            <a href="/catalogs" class="nav-all">All catalogs &#8594;</a>
+            <a href="/catalogs/modern-aminos">Modern Aminos</a>
+            <a href="/catalogs/glacier-aminos">Glacier Aminos</a>
+            <a href="/catalogs/peptira">Peptira</a>
+            <a href="/compare" class="nav-all">Compare prices &#8594;</a>
+          </div>
+        </div>
+        <a href="/vendors">Vendors</a>
+        <a href="/resources">Resources</a>
+        <a href="/#about">About</a>
+        <a href="/compare" class="nav-cta cta-glow">Peptide Price Comparison</a>
+      </nav>
+    </div>
+  </header>
+  <section class="pr-hero" style="padding-bottom:40px">
+    <div class="narrow" style="text-align:center">
+      <div class="ty-check" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></div>
+      <div class="eyebrow center" style="margin-top:22px">Payment confirmed<span id="ty-option"></span></div>
+      <h1 class="display pr-h1">You're in. I've got it from here.</h1>
+      <p class="lead" style="margin:18px auto 0">Your intake is with me. Here's exactly what happens next.</p>
+    </div>
+  </section>
+
+  <section class="section" style="border-top:none;padding-top:0">
+    <div class="narrow">
+      <ol class="ty-steps">
+        <li><span class="ty-when gold">Right now</span><div><b>Receipt in your inbox</b><p>Stripe sends your receipt. Your intake and any labs are already with me.</p></div></li>
+        <li><span class="ty-when">Day 1</span><div><b>I review your intake</b><p>If anything needs clarifying, I'll reach out by your preferred contact.</p></div></li>
+        <li><span class="ty-when">Day 2&ndash;3</span><div><b>Your protocol lands</b><p>A branded PDF by email, and a text or email from me letting you know it's sent.</p></div></li>
+        <li id="ty-review" hidden><span class="ty-when violet">Day 30</span><div><b>Your check-in</b><p>We review how you're responding, and I send you one revised version of your protocol.</p></div></li>
+      </ol>
+      <p class="pr-note">Don't see the receipt? Check spam, or reply to any DPRO Health email.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="heading" style="text-align:center">While you wait</h2>
+      <div class="pr-steps">
+        <a class="pr-step ty-card" href="/peptide-calculator"><div class="ty-tag">Tool</div><h3 class="sub">Peptide Calculator</h3><p>Learn reconstitution math before your protocol arrives.</p></a>
+        <a class="pr-step ty-card" href="/vendors"><div class="ty-tag">Vendors</div><h3 class="sub">Where I buy &middot; code DPRO</h3><p>Modern, Glacier and Peptira, plus live price comparison.</p></a>
+        <a class="pr-step ty-card" href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener"><div class="ty-tag">Community</div><h3 class="sub">Join Optimized Living</h3><p>Free Skool community with 5K+ members on the same path.</p></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="/" class="wordmark" style="margin-bottom:16px"><span class="wm-d">D</span><span class="wm-pro">PRO</span><span class="wm-h">Health</span></a>
+          <p class="foot-text" style="max-width:300px">Elite knowledge, made accessible. Science-backed health optimization for driven men and women.</p>
+        </div>
+        <div>
+          <div class="foot-label">Explore</div>
+          <p class="foot-text">
+            <a href="/">Home</a>
+            <a href="/peptides">All Peptides</a>
+            <a href="/peptide-calculator">Calculator</a>
+            <a href="/tdee-calculator">TDEE / Macro Calculator</a>
+            <a href="/glp1-titration">GLP-1 Titration Schedule</a>
+            <a href="/half-life">Half-Life Visualizer</a>
+            <a href="/cycle-planner">Cycle Planner</a>
+            <a href="/vendors">Trusted Vendors</a>
+            <a href="/resources">Resources</a>
+            <a href="/protocol">Custom Protocol</a>
+            <a href="https://davidpifbbpro.gumroad.com/l/retatrutide" target="_blank" rel="noopener">Free Handbook</a>
+            <a href="/suggestions">Suggestions</a>
+          </p>
+        </div>
+        <div>
+          <div class="foot-label">Connect</div>
+          <p class="foot-text">
+            <a href="https://www.skool.com/optimizedliving" target="_blank" rel="noopener">Optimized Living</a>
+            <a href="https://www.youtube.com/@davidp_ifbbpro" target="_blank" rel="noopener">YouTube</a>
+            <a href="https://www.instagram.com/dprohealth_/" target="_blank" rel="noopener">Instagram</a>
+            <a href="https://www.tiktok.com/@dprohealth" target="_blank" rel="noopener">TikTok</a>
+            <a href="https://x.com/dprohealth_" target="_blank" rel="noopener">X</a>
+          </p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <p class="foot-disclaimer">DPRO Health provides educational and informational content only and does not constitute medical advice. Always consult a qualified healthcare professional before beginning any protocol. Peptides and related compounds may be subject to legal and regulatory restrictions in your region.</p>
+        <p class="foot-copy">© 2026 DPRO HEALTH</p>
+      </div>
+    </div>
+  </footer>
+<script>
+  // mobile nav
+  document.querySelectorAll('#navlinks a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navlinks').classList.remove('open')));
+  document.querySelectorAll('.nav-dd-btn').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.preventDefault();e.stopPropagation();
+      const dd=btn.closest('.nav-dd');
+      const wasOpen=dd.classList.contains('open');
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+      if(!wasOpen){dd.classList.add('open');btn.setAttribute('aria-expanded','true');}
+    });
+  });
+  document.addEventListener('click',(e)=>{
+    if(!e.target.closest('.nav-dd')){
+      document.querySelectorAll('.nav-dd').forEach(d=>{d.classList.remove('open');d.querySelector('.nav-dd-btn').setAttribute('aria-expanded','false');});
+    }
+  });
+  document.querySelectorAll('.nav-sub-btn').forEach(function(b){
+    b.addEventListener('click',function(e){
+      if(window.matchMedia('(max-width:860px)').matches){
+        e.preventDefault();e.stopPropagation();
+        b.closest('.nav-sub').classList.toggle('open');
+      }
+    });
+  });
+</script>
+<script>
+  (function(){
+    var p=new URLSearchParams(location.search);
+    var opt=p.get('option')||'', up=p.get('upsell')||'';
+    var review = opt==='Protocol + Review' || /^yes/i.test(up);
+    if(opt){ document.getElementById('ty-option').textContent=' \u00b7 '+(review?'Protocol + Review':opt); }
+    if(review){ document.getElementById('ty-review').hidden=false; }
+    if(typeof gtag==='function'){ gtag('event','protocol_purchase',{option: review?'Protocol + Review':(opt||'unknown'), value: review?297:197, currency:'USD'}); }
+  })();
+</script>
+</body>
+</html>
