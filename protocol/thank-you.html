@@ -142,6 +142,7 @@
   .pr-num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--gold);margin-bottom:12px}
   .pr-step p{margin-top:8px;font-size:15px;line-height:1.6}
 
+  .pr-get{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:28px}
   .pr-inside{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:40px}
   .pr-in{border:1px solid rgba(11,18,32,.08);border-radius:12px;padding:22px}
   .pr-in h3{margin:8px 0 6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.02em;color:var(--light-head)}
@@ -191,7 +192,7 @@
     .pr-inside{grid-template-columns:1fr 1fr}
   }
   @media(max-width:760px){
-    .pr-steps,.pr-tiers,.pr-fit{grid-template-columns:1fr}
+    .pr-get,.pr-steps,.pr-tiers,.pr-fit{grid-template-columns:1fr}
     .pr-hero{padding:64px 0 52px}
     .pr-doc{transform:none}
   }
@@ -333,7 +334,7 @@
       <ol class="ty-steps">
         <li><span class="ty-when gold">Right now</span><div><b>Receipt in your inbox</b><p>Stripe sends your receipt. Your intake and any labs are already with me.</p></div></li>
         <li><span class="ty-when">Day 1</span><div><b>I review your intake</b><p>If anything needs clarifying, I'll reach out by your preferred contact.</p></div></li>
-        <li><span class="ty-when">Day 2&ndash;3</span><div><b>Your protocol lands</b><p>A branded PDF by email, and a text or email from me letting you know it's sent.</p></div></li>
+        <li><span class="ty-when">Day 2&ndash;3</span><div><b>Your protocol lands</b><p>Your protocol PDF, reconstitution guide and cheat sheet by email, and a text or email from me letting you know they're sent.</p></div></li>
         <li id="ty-review" hidden><span class="ty-when violet">Day 30</span><div><b>Your check-in</b><p>We review how you're responding, and I send you one revised version of your protocol.</p></div></li>
       </ol>
       <p class="pr-note">Don't see the receipt? Check spam, or reply to any DPRO Health email.</p>

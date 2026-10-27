@@ -141,6 +141,7 @@
   .pr-num{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--gold);margin-bottom:12px}
   .pr-step p{margin-top:8px;font-size:15px;line-height:1.6}
 
+  .pr-get{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:28px}
   .pr-inside{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:40px}
   .pr-in{border:1px solid rgba(11,18,32,.08);border-radius:12px;padding:22px}
   .pr-in h3{margin:8px 0 6px;font-family:'Archivo',sans-serif;font-weight:800;font-size:18px;letter-spacing:-.02em;color:var(--light-head)}
@@ -190,7 +191,7 @@
     .pr-inside{grid-template-columns:1fr 1fr}
   }
   @media(max-width:760px){
-    .pr-steps,.pr-tiers,.pr-fit{grid-template-columns:1fr}
+    .pr-get,.pr-steps,.pr-tiers,.pr-fit{grid-template-columns:1fr}
     .pr-hero{padding:64px 0 52px}
     .pr-doc{transform:none}
   }
@@ -310,7 +311,7 @@
       <div>
         <div class="eyebrow">1:1 Custom Peptide Protocol</div>
         <h1 class="display pr-h1">Built around your body. <span class="pr-gold">Not a template.</span></h1>
-        <p class="lead pr-lead">Tell me your goals, history and labs. I'll build your written research protocol &mdash; compounds, dosing structure, timing, phases and what to track &mdash; and send it to your inbox in 2&ndash;3 business days.</p>
+        <p class="lead pr-lead">Tell me your goals, history and labs. I'll build your written research protocol &mdash; compounds, dosing structure, timing, phases and what to track &mdash; plus a reconstitution guide and cheat sheet, in your inbox in 2&ndash;3 business days.</p>
         <div class="pr-ctas">
           <a href="#intake" class="btn btn-primary">Start my intake <span class="arrow">&rarr;</span></a>
           <a href="#inside" class="btn btn-ghost">See what's inside</a>
@@ -366,7 +367,7 @@
       <div class="pr-steps">
         <div class="pr-step"><div class="pr-num">01</div><h3 class="sub">Complete the intake</h3><p>About 8 minutes. Goals, stats, training, health history &mdash; and your bloodwork if you have it.</p></div>
         <div class="pr-step"><div class="pr-num">02</div><h3 class="sub">I build it</h3><p>I personally read every intake and every lab panel you upload, then build your protocol from scratch.</p></div>
-        <div class="pr-step"><div class="pr-num">03</div><h3 class="sub">It lands in your inbox</h3><p>A branded PDF within 2&ndash;3 business days. I'll message you by email or text when it's sent.</p></div>
+        <div class="pr-step"><div class="pr-num">03</div><h3 class="sub">It lands in your inbox</h3><p>Your protocol PDF, reconstitution guide and cheat sheet within 2&ndash;3 business days. I'll message you by email or text when they're sent.</p></div>
       </div>
     </div>
   </section>
@@ -374,7 +375,14 @@
   <!-- ===== WHAT'S INSIDE (light band) ===== -->
   <section class="section light" id="inside">
     <div class="wrap">
-      <div class="eyebrow">What's inside your protocol</div>
+      <div class="eyebrow">What you get</div>
+      <h2 class="heading">Three files, built for you.</h2>
+      <div class="pr-get">
+        <div class="card pr-in"><div class="card-label">PDF</div><h3>Custom Protocol</h3><p>Your full written plan &mdash; everything listed below.</p></div>
+        <div class="card pr-in"><div class="card-label">Guide</div><h3>Reconstitution Guide</h3><p>How to mix each compound in your stack, step by step, with the math done for you.</p></div>
+        <div class="card pr-in"><div class="card-label">1 page</div><h3>Cheat Sheet</h3><p>Your stack at a glance &mdash; doses, timing and schedule on one page.</p></div>
+      </div>
+      <div class="eyebrow" style="margin-top:56px">What's inside your protocol</div>
       <h2 class="heading">Everything you need to run it &mdash; and know if it's working.</h2>
       <div class="pr-inside">
         <div class="card pr-in"><div class="card-label">01</div><h3>Goal map</h3><p>Your goals and stats turned into the targets the protocol is built to hit.</p></div>
@@ -405,6 +413,7 @@
           <ul class="pr-list">
             <li>Full intake review</li>
             <li>Custom protocol PDF &mdash; stack, schedule, phases</li>
+            <li>Reconstitution guide and one-page cheat sheet</li>
             <li>Monitoring checklist and budget breakdown</li>
             <li>Delivered in 2&ndash;3 business days</li>
           </ul>
